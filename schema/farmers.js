@@ -177,15 +177,8 @@ const farmerSchema = mongoose.Schema({
   },
   farm_information: {
     number_of_acres: {
-      acres: {
-        type: Number,
-        enum: ['One', 'Two', 'Three', 'Four', 'Five', 'Others'],
-        required: true
-      },
-      others: {
-        type: Number,
-        required: false
-      }
+      type: Number,
+      required: true
     },
     location_of_farm: {
       type: String,
@@ -196,27 +189,13 @@ const farmerSchema = mongoose.Schema({
       required: true
     },
     crops_cultivated: {
-      crop: {
-        type: String,
-        enum: ['Maize', 'Rice', 'Sorghum', 'Millet', 'Groundnuts', 'Beans', 'Soybeans', 'Yam', 'Guinea Corn', 'Others'],
-        required: true
-      },
-      others: {
-        type: String,
-        required: false
-      }
+      type: Array,
+      required: true
     },
     animals_or_birds: {
-      animals: {
-        type: String,
-        enum: ['Goat', 'Cow', 'Sheep', 'Pig', 'Donkey', 'Fowls', 'Guinea Fowls', 'Turkey', 'Guinea Corn', 'Others'],
-        required: true
-      },
-      others: {
-        type: String,
-        required: false
-      }
-    },
+      type: Array,
+      required: true
+    }
   }
 });
 
