@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node start.js",
     "dev": "NODE_ENV=development nodemon start.js",
-    "test": "mocha --timeout 10000 --exit"
+    "test": "mocha --timeout 10000 tests/*.js --exit"
   },
   "repository": {
     "type": "git",
