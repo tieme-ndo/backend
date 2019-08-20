@@ -10,7 +10,7 @@ class UserController {
       return res.status(201).json({ result });
     } catch (err) {
       if (err.code === 11000) {
-        return res.status(409).json({ message: 'Email exists already' });
+        return res.status(409).json({ message: 'username exists already' });
       }
       return res.status(500).json({ err });
     }

@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const UserController = require('../controllers/UserController');
-const UserValidation = require('../middlewares/Validations/Users');
+const UserController = require('../controllers/userController');
+const UserValidation = require('../middlewares/validations/users');
 
 router.post(
   '/staff/create',

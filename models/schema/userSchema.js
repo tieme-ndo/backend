@@ -18,5 +18,4 @@ const schema = mongoose.Schema({
 });
 
 
-
 module.exports = schema;

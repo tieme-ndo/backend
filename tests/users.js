@@ -2,13 +2,61 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../index');
-const {conn, User, drop} = require('../models')
+const { User } = require('../models');
 
 chai.should();
 
 chai.use(chaiHttp);
 
+before(async () => {
+  try {
+    await User.deleteMany({});
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-before(() => {
-      
+describe('POST /staff/create', () => {
+  const newUser = {
+    username: 'Rexy',
+    password: '1234567'
+  };
+  it('it should add new user account', done => {
+    chai
+      .request(server)
+      .post('/api/v1/staff/create')
+      .send(newUser)
+      .end((err, res) => {
+        res.should.have.status(201);
+        done(err);
+      });
   });
+  it('it should return 409 ', done => {
+    const newUser = {
+      username: 'Rexy',
+      password: '1234567'
+    };
+    chai
+      .request(server)
+      .post('/api/v1/staff/create')
+      .send(newUser)
+      .end((err, res) => {
+        res.should.have.status(409);
+        done(err);
+      });
+  });
+  it('it should return 422 ', done => {
+    const newUser = {
+      username: '',
+      password: '1234567'
+    };
+    chai
+      .request(server)
+      .post('/api/v1/staff/create')
+      .send(newUser)
+      .end((err, res) => {
+        res.should.have.status(422);
+        done(err);
+      });
+  });
+});
