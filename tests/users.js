@@ -2,7 +2,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../index');
-const { User } = require('../models');
+const { models, connectDB } = require('../models');
 
 chai.should();
 
@@ -10,7 +10,12 @@ chai.use(chaiHttp);
 
 before(async () => {
   try {
-    await User.deleteMany({});
+    connectDB().then(async () => {
+      await Promise.all([
+        models.User.deleteMany({}),
+        models.Farmer.deleteMany({})
+      ]);
+    });
   } catch (error) {
     console.log(error);
   }

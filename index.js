@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const route = require('./routes');
+const { connectDB } = require('./models');
 
 const app = express();
 
 app.use(express.json());
+connectDB();
 
 app.get('/', (req, res) => {
   res.status(200).json('Server is live');

@@ -1,12 +1,12 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const schema = require('./schema/userSchema');
+const User = require('./user');
+const Farmer = require('./farmer');
 
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true }, err => {
-  if (err) return err;
-  return console.log('Successfully connected');
-});
+mongoose.set('useCreateIndex', true);
 
-const User = mongoose.model('Users', schema);
+const connectDB = () => mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true });
 
-module.exports = { User };
+const models = { User, Farmer };
+
+module.exports = { connectDB, models };

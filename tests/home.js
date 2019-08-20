@@ -23,10 +23,11 @@ describe('Invalid route', () => {
   it('It should return invalid route', done => {
     chai
       .request(server)
-      .get('/auth/signup')
+      .get('/auth//signup')
       .end((err, res) => {
         res.should.have.status(404);
         done(err);
       });
   });
 });
+

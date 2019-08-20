@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { models } = require('../models');
 const { hashPassword } = require('../helpers');
 
 class UserController {
@@ -6,7 +6,7 @@ class UserController {
     try {
       const password = await hashPassword(req.body.password);
       req.body.password = password;
-      const result = await User.create(req.body);
+      const result = await models.User.create(req.body);
       return res.status(201).json({ result });
     } catch (err) {
       if (err.code === 11000) {
