@@ -25,7 +25,7 @@ db.on('error', (err) => {
 const app = express();
 
 // Farmer Model
-const Farmer = require('./models/farmers.js');
+const Farmer = require('./schema/farmers.js.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
