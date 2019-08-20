@@ -3,14 +3,29 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
+mongoose.connect('mongodb://localhost/tiemeNdo',
+  { useNewUrlParser: true });
+const db = mongoose.connection;
+
+// Check Connection
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
+
+// Check or DB errors
+db.on('error', (err) => {
+  console.log(err);
+});
+
 const app = express();
+
+// Farmer Model
+const Farmer = require('./models/farmers.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,12 +41,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -39,6 +54,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+  next();
 });
+
+app.listen(7777, () => {
+  console.log('Magic happening on port 7777')
+})
 
 module.exports = app;
