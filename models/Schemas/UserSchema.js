@@ -3,17 +3,7 @@ const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
 
 const schema = mongoose.Schema({
-  firstname: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  lastname: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  email: {
+  username: {
     type: String,
     required: true,
     unique: true,
