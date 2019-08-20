@@ -1,5 +1,4 @@
 const app = require('./index');
-const config = require('./config/config');
 
 const PORT = process.env.PORT || 9000;
 

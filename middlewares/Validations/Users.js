@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
 class UserValidation {
   static addValidation(req, res, next) {
