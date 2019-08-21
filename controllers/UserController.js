@@ -14,7 +14,7 @@ class UserController {
    * @param {*} res for response object
    * @returns
    * @memberof UserController
-   * @description create new user (staff and staff)
+   * @description create new user (staff and admin)
    */
   static async createUser(req, res) {
     try {
