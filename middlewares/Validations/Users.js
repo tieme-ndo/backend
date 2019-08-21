@@ -20,7 +20,6 @@ class UserValidation {
         .min(3)
         .max(20)
         .trim()
-        .regex(/^\S+$/)
         .required(),
       password: Joi.string()
         .min(6)
@@ -39,6 +38,7 @@ class UserValidation {
           message
         });
       } else {
+        req.body.username = req.body.username.replace(/\s+/g, '');
         next();
       }
     });
