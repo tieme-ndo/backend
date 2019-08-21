@@ -1,7 +1,21 @@
 const { models } = require('../models');
 const { hashPassword } = require('../helpers');
-
+/**
+ *
+ *
+ * @class UserController
+ */
 class UserController {
+  /**
+   *
+   *
+   * @static
+   * @param {*} req for request object
+   * @param {*} res for response object
+   * @returns
+   * @memberof UserController
+   * @description create new user (staff)
+   */
   static async createUser(req, res) {
     try {
       const password = await hashPassword(req.body.password);

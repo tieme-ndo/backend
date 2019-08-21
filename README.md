@@ -34,8 +34,7 @@ To get the server running locally:
 
 | Method | Endpoint        | Access Control | Description                       |
 | ------ | --------------- | -------------- | --------------------------------- |
-| POST   | `/staff/create` | admin          | Create a new user account (staff) |
-| POST   | `/admin/create` | admin          | Create a new user account (admin) |
+| POST   | `/api/v1/staff/create` | admin          | Create a new user account (staff and admin) |
 
 # Data Model
 
