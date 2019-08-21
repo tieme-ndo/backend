@@ -35,7 +35,7 @@ const farmerSchema = mongoose.Schema({
       required: true
     },
     date_of_birth: {
-      type: new Date('<YYYY-mm-dd>'),
+      type: Date,
       required: true
     },
     id_type: {
