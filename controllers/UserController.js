@@ -14,14 +14,16 @@ class UserController {
    * @param {*} res for response object
    * @returns
    * @memberof UserController
-   * @description create new user (staff)
+   * @description create new user (staff and admin)
    */
   static async createUser(req, res) {
     try {
       const password = await hashPassword(req.body.password);
       req.body.password = password;
       const result = await models.User.create(req.body);
-      return res.status(201).json({ result });
+      return res.status(201).json({
+        result
+      });
     } catch (err) {
       if (err.message.includes('duplicate key')) {
         return res.status(409).json({ message: 'username exists already' });

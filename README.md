@@ -32,9 +32,11 @@ To get the server running locally:
 
 #### User Routes
 
-| Method | Endpoint        | Access Control | Description                       |
-| ------ | --------------- | -------------- | --------------------------------- |
-| POST   | `/api/v1/staff/create` | admin          | Create a new user account (staff and admin) |
+**All routes expect login route will need token in Authorization header**
+
+| Method | Endpoint        | Access Control | Description                       | Token in Authorization header |
+| ------ | --------------- | -------------- | --------------------------------- | ----------------------------- |
+| POST   | `/api/v1/staff/create` | admin          | Create a new user account (staff and admin) | True |
 
 # Data Model
 
