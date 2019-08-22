@@ -201,8 +201,6 @@ const personalInfo = {
   guarantor
 };
 
-console.log(personalInfo);
-
 const farmerSchema = new mongoose.Schema({
   personalInfo
 });

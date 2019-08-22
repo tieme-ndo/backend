@@ -29,10 +29,10 @@ class UserValidation {
       isAdmin: Joi.boolean()
     });
 
-    Joi.validate(req.body, schema, error => {
+    Joi.validate(req.body, schema, (error) => {
       if (error) {
         const { details } = error;
-        const message = details.map(detail => detail.message).join(',');
+        const message = details.map((detail) => detail.message).join(',');
         res.status(422).json({
           status: 422,
           message
