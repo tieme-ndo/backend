@@ -1,14 +1,13 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const hashPassword = (password) => {
-  const salt = bcrypt.genSaltSync(10);
-  const hashed = bcrypt.hashSync(password, salt);
-  return hashed;
-};
-
-const createToken = async (user) => {
+/**
+ * @description Generate token
+ *
+ * @param {*} user
+ */
+const generateToken = async (user) => {
   const { username, isAdmin } = user;
+
   try {
     const token = await jwt.sign(
       { username, isAdmin },
@@ -17,10 +16,11 @@ const createToken = async (user) => {
         expiresIn: '24h'
       }
     );
+
     return token;
   } catch (error) {
     return error;
   }
 };
 
-module.exports = { hashPassword, createToken };
+module.exports = generateToken;
