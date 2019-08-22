@@ -8,7 +8,7 @@ const {
 } = require('../../helpers/error');
 
 /**
- * @description Create new user
+ * @description Login user
  *
  * @param {object} req
  * @param {object} res

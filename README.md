@@ -37,6 +37,7 @@ To get the server running locally:
 | Method | Endpoint              | Access Control | Description                                 | Token in Authorization header |
 | ------ | --------------------- | -------------- | ------------------------------------------- | ----------------------------- |
 | POST   | `/api/v1/user/signup` | admin          | Create a new user account (staff and admin) | True                          |
+| POST   | `/api/v1/user/login` | admin && staff        | Login user (staff and admin) | False                          |
 
 # Data Model
 
@@ -79,6 +80,14 @@ Create new user account (Admin)
  username: STRING,
  password: STRING,
  isAdmin: BOOLEAN
+}
+```
+Login user (Admin && Staff)
+
+```
+{
+ username: STRING,
+ password: STRING,
 }
 ```
 

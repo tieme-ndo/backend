@@ -75,7 +75,7 @@ describe('Users route', () => {
           done(err);
         });
     });
-    it('it should return 422 ', done => {
+    it('it should return 400 ', done => {
       const incompleteUserDetails = {
         username: '',
         password: '1234567'
