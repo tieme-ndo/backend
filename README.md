@@ -34,9 +34,9 @@ To get the server running locally:
 
 **All routes expect login route will need token in Authorization header**
 
-| Method | Endpoint        | Access Control | Description                       | Token in Authorization header |
-| ------ | --------------- | -------------- | --------------------------------- | ----------------------------- |
-| POST   | `/api/v1/staff/create` | admin          | Create a new user account (staff and admin) | True |
+| Method | Endpoint              | Access Control | Description                                 | Token in Authorization header |
+| ------ | --------------------- | -------------- | ------------------------------------------- | ----------------------------- |
+| POST   | `/api/v1/user/signup` | admin          | Create a new user account (staff and admin) | True                          |
 
 # Data Model
 
@@ -115,11 +115,12 @@ In order for the app to function correctly, the user must set up their own envir
 create a .env file that includes the following:
 
 🚫 These are just examples, replace them with the specifics for your app
-  
- _ DB_CONNECTION - for MongoDB connection string
-_ NODE_ENV - set to "development" until ready for "production"
-_ JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;_(-_=+)') for i in range(50)])
-_ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
+
+_ DB_CONNECTION - for MongoDB connection string
+_ NODE\*ENV - set to "development" until ready for "production"
+
+- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
+  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
 
 ## Contributing
 
