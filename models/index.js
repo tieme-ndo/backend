@@ -2,10 +2,12 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('./user');
 const Farmer = require('./farmer');
+const connectionString = require('../config/config');
 
 mongoose.set('useCreateIndex', true);
 
-const connectDB = () => mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true });
+
+const connectDB = () => mongoose.connect(connectionString, { useNewUrlParser: true });
 
 const models = { User, Farmer };
 
