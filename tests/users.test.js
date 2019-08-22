@@ -20,44 +20,44 @@ before(async () => {
   }
 });
 
-describe('POST /staff/create', () => {
-  const newUser = {
+describe('POST /user', () => {
+  const validUserDetails = {
     username: 'Rexy',
     password: '1234567'
   };
-  it('it should add new user account', done => {
+  it('it should add new user account', (done) => {
     chai
       .request(server)
-      .post('/api/v1/staff/create')
-      .send(newUser)
+      .post('/api/v1/user')
+      .send(validUserDetails)
       .end((err, res) => {
         res.should.have.status(201);
         done(err);
       });
   });
-  it('it should return 409 ', done => {
-    const newUser = {
+  it('it should return 409 ', (done) => {
+    const alreadyExistUser = {
       username: 'Rexy',
       password: '1234567'
     };
     chai
       .request(server)
       .post('/api/v1/staff/create')
-      .send(newUser)
+      .send(alreadyExistUser)
       .end((err, res) => {
         res.should.have.status(409);
         done(err);
       });
   });
-  it('it should return 422 ', done => {
-    const newUser = {
+  it('it should return 422 ', (done) => {
+    const incompleteUserDetails = {
       username: '',
       password: '1234567'
     };
     chai
       .request(server)
       .post('/api/v1/staff/create')
-      .send(newUser)
+      .send(incompleteUserDetails)
       .end((err, res) => {
         res.should.have.status(422);
         done(err);
