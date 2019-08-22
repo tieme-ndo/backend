@@ -6,7 +6,14 @@ const isAuthorized = require('../middlewares/isAuthorized');
 
 const userRouter = express.Router();
 
-userRouter.post('/user/signup', verifyToken, isAuthorized, validate.createUser, userController.register);
+userRouter.post(
+  '/user/signup',
+  verifyToken,
+  isAuthorized,
+  validate.createUser,
+  userController.register
+);
+userRouter.post('/user/login', validate.createUser, userController.login);
 
 userRouter.put('/user/update', verifyToken, isAuthorized, validate.createUser, userController.updateUser);
 
