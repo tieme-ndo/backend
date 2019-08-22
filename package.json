@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node start.js",
     "dev": "cross-env NODE_ENV=development nodemon start.js",
-    "test": "cross-env NODE_ENV=test mocha --timeout 10000 tests/*.js --exit"
+    "test": "cross-env NODE_ENV=test mocha --timeout 10000 tests/*.js --exit",
+    "lint": "eslint"
   },
   "repository": {
     "type": "git",
