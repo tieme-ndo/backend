@@ -7,7 +7,7 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('GET /', () => {
-  it('it should get homepage', done => {
+  it('it should get homepage', (done) => {
     chai
       .request(server)
       .get('/')
@@ -19,7 +19,7 @@ describe('GET /', () => {
 });
 
 describe('Invalid route', () => {
-  it('It should return invalid route', done => {
+  it('It should return invalid route', (done) => {
     chai
       .request(server)
       .get('/auth//signup')
@@ -29,4 +29,3 @@ describe('Invalid route', () => {
       });
   });
 });
-
