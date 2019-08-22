@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 const bcrypt = require('bcrypt');
 const { models } = require('../../models');
-const { createError, GENERIC_ERROR } = require('../../helpers/error');
+const {
+  createError, GENERIC_ERROR, CONFLICT, UNAUTHORIZED
+} = require('../../helpers/error');
 
 /**
  * Update user details
@@ -14,18 +16,32 @@ const updateUser = async (req, res, next) => {
   try {
     const newUserDetails = req.body;
 
+    const userNameExist = await models.User.findOne({ username: newUserDetails.username });
+
+    if (userNameExist) {
+      return next(createError({
+        message: 'username already exist, choose another one',
+        status: CONFLICT
+      }));
+    }
+
     const salt = bcrypt.genSaltSync(10);
 
     newUserDetails.password = bcrypt.hashSync(newUserDetails.password, salt);
 
-    const user = await models.User.findOneAndUpdate({ username: newUserDetails.username }, newUserDetails);
+    const user = await models.User.findOneAndUpdate({ username: req.user.username }, newUserDetails).select(['-password']);
 
-    delete user.password;
+    if (!user) {
+      return next(createError({
+        message: 'Please login, to reset password',
+        status: UNAUTHORIZED
+      }));
+    }
 
     return res.status(200).json({
       success: true,
       message: 'User details updated',
-      user
+      user,
     });
   } catch (error) {
     return next(createError({

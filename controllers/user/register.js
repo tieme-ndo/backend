@@ -17,9 +17,9 @@ const register = async (req, res, next) => {
 
     userDetails.password = bcrypt.hashSync(userDetails.password, salt);
 
-    const user = await models.User.create(userDetails);
+    await models.User.create(userDetails);
 
-    user.password = null;
+    const user = await models.User.findOne().select(['-password']);
 
     return res.status(201).json({
       success: true,
