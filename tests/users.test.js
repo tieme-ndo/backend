@@ -28,7 +28,7 @@ describe('POST /user', () => {
   it('it should add new user account', (done) => {
     chai
       .request(server)
-      .post('/api/v1/user')
+      .post('/api/v1/user/signup')
       .send(validUserDetails)
       .end((err, res) => {
         res.should.have.status(201);
@@ -42,7 +42,7 @@ describe('POST /user', () => {
     };
     chai
       .request(server)
-      .post('/api/v1/staff/create')
+      .post('/api/v1/user/signup')
       .send(alreadyExistUser)
       .end((err, res) => {
         res.should.have.status(409);
@@ -56,7 +56,7 @@ describe('POST /user', () => {
     };
     chai
       .request(server)
-      .post('/api/v1/staff/create')
+      .post('/api/v1/user/signup')
       .send(incompleteUserDetails)
       .end((err, res) => {
         res.should.have.status(422);
