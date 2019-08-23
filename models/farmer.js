@@ -1,11 +1,5 @@
 const mongoose = require('mongoose');
 
-const farmInput = {
-  name: {
-    type: String
-  }
-};
-
 const personalInfo = {
   title: {
     type: String,
@@ -140,7 +134,7 @@ const guarantor = {
   grt_title: {
     type: String,
     enum: ['Miss', 'Mrs', 'Mr', 'Chief'],
-    required: false
+    required: true
   },
   grt_surname: {
     type: String,
