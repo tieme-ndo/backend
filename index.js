@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const allErrorHandler = require('./middlewares/errors');
 const { NOT_FOUND } = require('./helpers/error');
-const userRouter = require('./routes/userRouter');
+const userRouter = require('./routes');
 const { connectDB } = require('./models');
 
 const app = express();
