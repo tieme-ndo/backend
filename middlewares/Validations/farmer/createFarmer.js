@@ -23,7 +23,7 @@ const personalInfo = Joi.object().keys({
   marital_status: validateEnums('Single', 'Married', 'Widowed', 'Divorced'),
   gender: validateEnums('Male', 'Female', 'Others'),
   place_of_birth: validateString(50),
-  date_of_birth: '1995-10-22',
+  date_of_birth: Joi.date().required(),
   id_type: validateEnums('Voters Card', 'NHIS', 'National ID', 'Others'),
   id_number: validateNumber(),
   district: validateString(),
