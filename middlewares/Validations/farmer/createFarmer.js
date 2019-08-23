@@ -101,7 +101,7 @@ const farmerSchema = Joi.object().keys({
 /**
  * Validate user body against defined schema
  */
-const createUser = (req, res, next) =>
+const createFarmer = (req, res, next) =>
   joiValidate(req, res, next, farmerSchema);
 
-module.exports = createUser;
+module.exports = createFarmer;
