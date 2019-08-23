@@ -206,11 +206,17 @@ const farmInfo = {
   }
 };
 
+const staff = {
+  type: String,
+  required: true
+};
+
 const farmerSchema = mongoose.Schema({
   personalInfo,
   farmInfo,
   familyInfo,
-  guarantor
+  guarantor,
+  staff
 });
 
 const Farmer = mongoose.model('Farmer', farmerSchema);

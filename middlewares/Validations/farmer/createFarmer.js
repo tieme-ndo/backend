@@ -91,11 +91,14 @@ const farmInfo = Joi.object().keys({
   animals_or_birds: Joi.array().required()
 });
 
+const staff = validateString();
+
 const farmerSchema = Joi.object().keys({
   personalInfo,
   familyInfo,
   farmInfo,
-  guarantor
+  guarantor,
+  staff
 });
 
 /**
