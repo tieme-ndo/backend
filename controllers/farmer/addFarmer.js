@@ -11,9 +11,11 @@ const { createError, GENERIC_ERROR } = require('../../helpers/error');
 const addFarmer = async (req, res, next) => {
   try {
     const farmerDetails = req.body;
+    const { username } = req.user;
+
+    farmerDetails.staff = username;
 
     const farmer = await models.Farmer.create(farmerDetails);
-
 
     return res.status(201).json({
       success: true,
