@@ -1,5 +1,5 @@
 const register = require('./register');
 const login = require('./login');
-const updateUser = require('./updateUser');
+const resetPassword = require('./resetPassword');
 
-module.exports = { register, updateUser, login };
+module.exports = { register, resetPassword, login };

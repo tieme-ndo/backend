@@ -6,30 +6,28 @@ const {
 } = require('../../helpers/error');
 
 /**
- * Update user details
+ * Reset user password
  *
  * @param {*} req
  * @param {*} res
  * @param {*} next
  */
-const updateUser = async (req, res, next) => {
+const resetPassword = async (req, res, next) => {
   try {
-    const newUserDetails = req.body;
+    const userExist = await models.User.findOne({ username: req.user.username });
 
-    const userNameExist = await models.User.findOne({ username: newUserDetails.username });
-
-    if (userNameExist) {
+    if (!userExist) {
       return next(createError({
-        message: 'username already exist, choose another one',
+        message: 'User does not exist',
         status: CONFLICT
       }));
     }
 
     const salt = bcrypt.genSaltSync(10);
 
-    newUserDetails.password = bcrypt.hashSync(newUserDetails.password, salt);
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
 
-    const user = await models.User.findOneAndUpdate({ username: req.user.username }, newUserDetails).select(['-password']);
+    const user = await models.User.findOneAndUpdate({ username: req.user.username }, req.body).select(['-password']);
 
     if (!user) {
       return next(createError({
@@ -40,15 +38,14 @@ const updateUser = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message: 'User details updated',
-      user,
+      message: 'Password reset successfully',
     });
   } catch (error) {
     return next(createError({
-      message: 'Could not update user details',
+      message: 'Could not reset password',
       status: GENERIC_ERROR,
     }));
   }
 };
 
-module.exports = updateUser;
+module.exports = resetPassword;
