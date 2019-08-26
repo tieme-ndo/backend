@@ -77,4 +77,17 @@ describe('Farmer route', () => {
         });
     });
   });
+  it('It update farmer details', done => {
+    farmerInput.personalInfo.title = 'Miss';
+    chai
+      .request(server)
+      .post('/api/v1/farmers/create')
+      .set('Authorization', token)
+      .send(farmerInput)
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.body.farmer.personalInfo.title.should.equal('Miss');
+        done(err);
+      });
+  });
 });
