@@ -34,9 +34,11 @@ To get the server running locally:
 
 **All routes expect login route will need token in Authorization header**
 
-| Method | Endpoint              | Access Control | Description                                 | Token in Authorization header |
-| ------ | --------------------- | -------------- | ------------------------------------------- | ----------------------------- |
-| POST   | `/api/v1/user/signup` | admin          | Create a new user account (staff and admin) | True                          |
+| Method | Endpoint                 | Access Control | Description                                 | Token in Authorization header |
+| ------ | ------------------------ | -------------- | ------------------------------------------- | ----------------------------- |
+| POST   | `/api/v1/user/signup`    | admin          | Create a new user account (staff and admin) | True                          |
+| POST   | `/api/v1/user/login`     | admin && staff | Login user (staff and admin)                | False                         |
+| POST   | `/api/v1/farmers/create` | admin && staff | Create new farmer                           | True                          |
 
 # Data Model
 
@@ -82,6 +84,74 @@ Create new user account (Admin)
 }
 ```
 
+Login user (Admin && Staff)
+
+```
+{
+ username: STRING,
+ password: STRING,
+}
+```
+
+Create new farmer
+
+```
+{
+	personalInfo: {
+  title: STRING,
+	surname: STRING,
+	first_name: STRING,
+	middle_name: STRING,
+	marital_status: STRING,
+	gender: STRING,
+	place_of_birth: STRING,
+	date_of_birth: DATE,
+	id_type: STRING,
+	id_number: NUMBER,
+	district: STRING,
+	region: Kumasi STRING,
+	community_name: STRING,
+	house_name: STRING,
+	house_number: NUMBER,
+	nearest_landmark: STRING,
+	Phone_1: NUMBER,
+	Phone_2: NUMBER,
+	education_level: STRING,
+	occupation: STRING,
+	expected_income_per_month: STRING,
+	major_source_of_income.name: STRING,
+	major_source_of_income.amount: NUMBER,
+  minor_source_of_income.name: STRING,
+	minor_source_of_income.amount: NUMBER
+  },
+	familyInfo: {
+			family_size: NUMBER,
+		number_of_dependant: NUIMBER,
+		highest_level_of_dependent: STRING,
+		family_income_per_month: STRING
+	},
+	guarantor:{
+		grt_title: STRING,
+		grt_surname: STRING,
+		grt_first_name: STRING,
+		grt_gender: STRING,
+		grt_relations: STRING,
+		grt_residential_address: STRING,
+		grt_occupation: STRING,
+		grt_phone: NUMBER,
+		grt_district: STRING,
+		grt_region: STRING
+    },
+		farmInfo:{
+		number_of_acres: NUMBER,
+		location_of_farm: STRING,
+		farm_nearest_landmark: STRING,
+			crops_cultivated: ARRAY,
+			animals_or_birds: ARRAY
+		}
+}
+```
+
 ## 2️⃣ Actions
 
 🚫 This is an example, replace this with the actions that pertain to your backend
@@ -114,13 +184,14 @@ In order for the app to function correctly, the user must set up their own envir
 
 create a .env file that includes the following:
 
-🚫 These are just examples, replace them with the specifics for your app
-
-_ DB_CONNECTION - for MongoDB connection string
-_ NODE\*ENV - set to "development" until ready for "production"
+_ DB_CONNECTION - for MongoDB connection string for production or development
+_ DB*CONNECTION_TEST - for MongoDB connection string for testing
+* NODE\*ENV - set to "development" until ready for "production"
 
 - JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
+  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard.
+
+_You can also check .env.example to know all environment variables_
 
 ## Contributing
 
