@@ -6,6 +6,7 @@ const connectionString = require('../config/config');
 
 mongoose.set('useCreateIndex', true);
 
+console.log(connectionString);
 
 const connectDB = () => mongoose.connect(connectionString, { useNewUrlParser: true });
 
