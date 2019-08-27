@@ -26,7 +26,7 @@ before(async () => {
 
 describe('Farmer route', () => {
   let token = '';
-  it('Login user', done => {
+  it('Login user', (done) => {
     const userLogin = {
       username: 'James',
       password: '123456'
@@ -42,7 +42,7 @@ describe('Farmer route', () => {
       });
   });
   describe('Add new farmer', () => {
-    it('It should return 201', done => {
+    it('It should return 201', (done) => {
       chai
         .request(server)
         .post('/api/v1/farmers/create')
@@ -53,7 +53,7 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('It should return 400', done => {
+    it('It should return 400', (done) => {
       farmerInput.personalInfo.title = 'Mrzz';
       chai
         .request(server)
@@ -65,7 +65,7 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('It should return 401', done => {
+    it('It should return 401', (done) => {
       chai
         .request(server)
         .post('/api/v1/farmers/create')
