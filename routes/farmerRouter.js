@@ -1,5 +1,5 @@
 const express = require('express');
-const FarmerController = require('../controllers/farmer');
+const farmerController = require('../controllers/farmer');
 const verifyToken = require('../middlewares/verifyToken');
 const validate = require('../middlewares/Validations/farmer');
 
@@ -9,7 +9,10 @@ farmerRouter.post(
   '/farmers/create',
   verifyToken,
   validate.createFarmer,
-  FarmerController.addFarmer
+  farmerController.addFarmer
 );
+
+farmerRouter.get('/farmers', verifyToken, farmerController.getAllFarmers);
+farmerRouter.get('/farmers/:id', verifyToken, farmerController.getFarmerById);
 
 module.exports = farmerRouter;
