@@ -1,94 +1,5 @@
 const mongoose = require('mongoose');
 
-const familyInfo = {
-  family_size: {
-    type: Number,
-    required: true
-  },
-  number_of_dependant: {
-    type: Number,
-    required: true
-  },
-  highest_level_of_dependent: {
-    type: String,
-    enum: ['Tertiary', 'SHS', 'JHS', 'Primary', 'Not Educated'],
-    required: true
-  },
-  family_income_per_month: {
-    type: String,
-    enum: ['Less than GHC 500', '501 to GHC 1,000', 'JHS', 'More than GHC 1,000'],
-    required: true
-  },
-};
-
-const guarantor = {
-  title1: {
-    type: String,
-    enum: ['Miss', 'Mrs', 'Mr', 'Chief'],
-    required: false
-  },
-  surname1: {
-    type: String,
-    required: true
-  },
-  first_name1: {
-    type: String,
-    required: true
-  },
-  gender1: {
-    type: String,
-    enum: ['Male', 'Female', 'Others'],
-    required: true
-  },
-  relations: {
-    type: String,
-    required: true
-  },
-  residential_address: {
-    type: String,
-    required: true
-  },
-  occupation1: {
-    type: String,
-    required: true
-  },
-  phone: {
-    type: Number,
-    required: true
-  },
-  district1: {
-    type: String,
-    required: true
-  },
-  region1: {
-    type: String,
-    required: true
-  }
-};
-
-const farmInfo = {
-  number_of_acres: {
-    type: Number,
-    required: true
-  },
-  location_of_farm: {
-    type: String,
-    required: true
-  },
-  nearest_landmark1: {
-    type: String,
-    required: true
-  },
-  crops_cultivated: {
-    type: Array,
-    required: false
-  },
-  animals_or_birds: {
-    type: Array,
-    required: false
-  }
-};
-
 const personalInfo = {
   title: {
     type: String,
@@ -127,7 +38,7 @@ const personalInfo = {
   },
   id_type: {
     type: String,
-    enum: ['Voter\'s Card', 'NHIS', 'National ID', 'Others'],
+    enum: ['Voters Card', 'NHIS', 'National ID', 'Others'],
     required: true
   },
   id_number: {
@@ -177,7 +88,7 @@ const personalInfo = {
   },
   expected_income_per_month: {
     type: String,
-    enum: ['Less than GHC 500', '501 to GHC 1,000', 'JHS', 'More than GHC 1,000'],
+    enum: ['Less than GHC 500', '501 to GHC 1,000', 'More than GHC 1,000'],
     required: true
   },
   major_source_of_income: {
@@ -195,14 +106,117 @@ const personalInfo = {
     amount: {
       type: Number
     }
-  },
-  farmInfo,
-  familyInfo,
-  guarantor
+  }
 };
 
-const farmerSchema = new mongoose.Schema({
-  personalInfo
+const familyInfo = {
+  family_size: {
+    type: Number,
+    required: true
+  },
+  number_of_dependant: {
+    type: Number,
+    required: true
+  },
+  highest_level_of_dependent: {
+    type: String,
+    enum: ['Tertiary', 'SHS', 'JHS', 'Primary', 'Not Educated'],
+    required: true
+  },
+  family_income_per_month: {
+    type: String,
+    enum: ['Less than GHC 500', '501 to GHC 1,000', 'More than GHC 1,000'],
+    required: true
+  }
+};
+
+const guarantor = {
+  grt_title: {
+    type: String,
+    enum: ['Miss', 'Mrs', 'Mr', 'Chief'],
+    required: true
+  },
+  grt_surname: {
+    type: String,
+    required: true
+  },
+  grt_first_name: {
+    type: String,
+    required: true
+  },
+  grt_gender: {
+    type: String,
+    enum: ['Male', 'Female', 'Others'],
+    required: true
+  },
+  grt_relations: {
+    type: String,
+    required: true
+  },
+  grt_residential_address: {
+    type: String,
+    required: true
+  },
+  grt_occupation: {
+    type: String,
+    required: true
+  },
+  grt_phone: {
+    type: Number,
+    required: true
+  },
+  grt_district: {
+    type: String,
+    required: true
+  },
+  grt_region: {
+    type: String,
+    required: true
+  }
+};
+
+const farmInfo = {
+  number_of_acres: {
+    type: Number,
+    required: true
+  },
+  location_of_farm: {
+    type: String,
+    required: true
+  },
+  farm_nearest_landmark: {
+    type: String,
+    required: true
+  },
+  crops_cultivated: {
+    type: [
+      {
+        type: String
+      }
+    ],
+    required: true
+  },
+  animals_or_birds: {
+    type: [
+      {
+        type: String
+      }
+    ],
+    required: true
+  }
+};
+
+const staff = {
+  type: String,
+  required: true
+};
+
+const farmerSchema = mongoose.Schema({
+  personalInfo,
+  farmInfo,
+  familyInfo,
+  guarantor,
+  staff
 });
 
 const Farmer = mongoose.model('Farmer', farmerSchema);

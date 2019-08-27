@@ -4,6 +4,7 @@ const User = require('./user');
 const Farmer = require('./farmer');
 const connectionString = require('../config/config');
 
+mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 

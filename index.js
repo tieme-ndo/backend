@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const allErrorHandler = require('./middlewares/errors');
 const { NOT_FOUND } = require('./helpers/error');
-const userRouter = require('./routes/userRouter');
+const router = require('./routes');
 const { connectDB } = require('./models');
 
 const app = express();
@@ -21,7 +21,7 @@ app.get('/', (req, res) => res.status(200).json({
   message: 'API is alive...',
 }));
 
-app.use('/api/v1', userRouter);
+app.use('/api/v1', router);
 
 // Handle invalid request
 app.all('*', (req, res) => res.status(NOT_FOUND).json({
