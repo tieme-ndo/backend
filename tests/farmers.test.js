@@ -77,4 +77,18 @@ describe('Farmer route', () => {
         });
     });
   });
+  describe('/Get all farmers', () => {
+    it('It should return 200', (done) => {
+      chai
+        .request(server)
+        .get('/api/v1/farmers')
+        .set('Authorization', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('array');
+          res.body.should.be.eql(1);
+          done(err);
+        });
+    });
+  });
 });
