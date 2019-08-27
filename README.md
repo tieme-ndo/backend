@@ -1,34 +1,52 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+**You can view the deployed (Heroku) backend here:**
 
-## 1️⃣ Getting started
+**[Production Deployment](https://tieme-ndo-backend-production.herokuapp.com/)**
+**[Staging Deployment 1](https://tieme-ndo-backend-staging1.herokuapp.com/)**
+**[Staging Deployment 2](https://tieme-ndo-backend-staging2.herokuapp.com/)**
 
-To get the server running locally:
 
-🚫 adjust these scripts to match your project
+## Getting started
 
-- Clone this repo
-- **npm install** to install all required dependencies
-- **npm run dev** to start the local server
-- **npm test** to start server using testing environment
+To get this project up and running locally:
 
-### Backend framework goes here
+1. Clone this repo
+1. Run `npm install` to install all of the required dependencies.
+1. Install **MongoDB Community Edition** on you local machine. Instructions can be found [here](https://docs.mongodb.com/manual/installation/).
+1. Create a db called `tiemendo` & `tiemendo_test`
+```bash
+> use tiemendo
+> db.testCollection.insertOne({ x: 1 });
+```
+```bash
+> use tiemendo_test
+> db.testCollection.insertOne({ x: 1 });
+```
+5. Create a `.env` file in the root of the project with the following environment variables:
+```
+DB_CONNECTION=mongodb://localhost:27017/tiemendo
+DB_CONNECTION_TEST=mongodb://localhost:27017/tiemendo_test
+JWT_SECRET=<generated string>
+```
+- You can generate a token secret using python:
+	```python
+	>>> import random
+	>>> ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
+	```
 
-🚫 Why did you choose this framework?
+6. `npm run dev` to start the local server
+7. `npm test` to start server using testing environment
 
-- Point One
-- Point Two
-- Point Three
-- Point Four
+### Backend Frameworks
 
-## 2️⃣ Endpoints
+- Express
+- NodeJS
+- MongoDB
+- Mongoose
+
+
+## Endpoints
 
 #### User Routes
 
@@ -42,13 +60,9 @@ To get the server running locally:
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
+#### Organizaions
 
-#### 2️⃣ ORGANIZATIONS
-
----
-
-```
+```js
 {
   id: UUID
   name: STRING
@@ -59,34 +73,32 @@ To get the server running locally:
 }
 ```
 
-#### USERS
-
----
+#### Users
 
 Create new user account (Staff)
 
-```
+```js
 {
-  id: UUID
- username: STRING,
- password: STRING
+  _id: UUID
+  username: STRING,
+  password: STRING
 }
 ```
 
 Create new user account (Admin)
 
-```
+```js
 {
-  id: UUID
- username: STRING,
- password: STRING,
- isAdmin: BOOLEAN
+  _id: UUID
+  username: STRING,
+  password: STRING,
+  isAdmin: BOOLEAN
 }
 ```
 
 Login user (Admin && Staff)
 
-```
+```js
 {
  username: STRING,
  password: STRING,
@@ -95,7 +107,7 @@ Login user (Admin && Staff)
 
 Create new farmer
 
-```
+```js
 {
 	personalInfo: {
   title: STRING,
@@ -152,52 +164,29 @@ Create new farmer
 }
 ```
 
-## 2️⃣ Actions
+## Actions
+[db actions]
 
-🚫 This is an example, replace this with the actions that pertain to your backend
-
-`getOrgs()` -> Returns all organizations
-
-`getOrg(orgId)` -> Returns a single organization by ID
-
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
-
-`getUser(userId)` -> Returns a single user by user ID
-
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
-
-## 3️⃣ Environment Variables
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
-create a .env file that includes the following:
+Create a `.env` file that includes the following:
 
-_ DB_CONNECTION - for MongoDB connection string for production or development
-_ DB*CONNECTION_TEST - for MongoDB connection string for testing
-* NODE\*ENV - set to "development" until ready for "production"
+- **DB_CONNECTION** - for MongoDB connection string for production or development
+- **DB_CONNECTION_TEST** - for MongoDB connection string for testing
+* **NODE_ENV** - set to "development" until ready for "production"
 
-- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard.
+- **JWT_SECRET** - you can generate this by using a python shell and running:
+```python
+import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
+```
 
-_You can also check .env.example to know all environment variables_
+_You can also check [.env.example](./.env.example) to know all required environment variables._
 
 ## Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
-
-Please note we have a [code of conduct](./code_of_conduct.md). Please follow it in all your interactions with the project.
+[Instructions]
 
 ### Issue/Bug Request
 
@@ -232,5 +221,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [Frontend Documentation](https://github.com/tieme-ndo/frontend/blob/master/README.md) for details on the fronend of our project.
