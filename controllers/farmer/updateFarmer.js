@@ -16,7 +16,7 @@ const updateFarmer = async (req, res, next) => {
   try {
     const farmerId = req.params.id;
     const farmerDetails = req.body;
-    const { username } = req.user;
+    const { username, isAdmin } = req.user;
 
     const farmerExist = await models.Farmer.findOne({ _id: farmerId });
     if (!farmerExist) {
@@ -27,28 +27,27 @@ const updateFarmer = async (req, res, next) => {
         })
       );
     }
-    if (farmerExist.staff !== username) {
-      return next(
-        createError({
-          message: 'Not authorized to update farmer details',
-          status: NOT_FOUND
-        })
+    if (farmerExist.staff === username || isAdmin) {
+      farmerDetails.staff = username || farmerDetails.staff;
+
+      const farmer = await models.Farmer.findOneAndUpdate(
+        { _id: farmerId },
+        farmerDetails,
+        { new: true }
       );
+
+      return res.status(201).json({
+        success: true,
+        message: 'Farmer details updated successfully',
+        farmer
+      });
     }
-
-    farmerDetails.staff = username;
-
-    const farmer = await models.Farmer.findOneAndUpdate(
-      { _id: farmerId },
-      farmerDetails,
-      { new: true }
+    return next(
+      createError({
+        message: 'Not authorized to update farmer details',
+        status: NOT_FOUND
+      })
     );
-
-    return res.status(201).json({
-      success: true,
-      message: 'Farmer details updated successfully',
-      farmer
-    });
   } catch (err) {
     return next(
       createError({

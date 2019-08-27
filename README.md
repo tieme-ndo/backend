@@ -39,7 +39,7 @@ To get the server running locally:
 | POST   | `/api/v1/user/signup`        | admin          | Create a new user account (staff and admin) | True                          |
 | POST   | `/api/v1/user/login`         | admin && staff | Login user (staff and admin)                | False                         |
 | POST   | `/api/v1/farmers/create`     | admin && staff | Create new farmer                           | True                          |
-| PUT    | `/api/v1/farmers/:id/update` | staff          | Update farmer details                       | True                          |
+| PUT    | `/api/v1/farmers/:id/update` | admin && staff | Update farmer details                       | True                          |
 
 # Data Model
 
