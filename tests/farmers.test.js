@@ -37,6 +37,7 @@ describe('Farmer route', () => {
       .post('/api/v1/user/login')
       .send(userLogin)
       .end((err, res) => {
+        console.log(res.body);
         token = res.body.token;
         res.should.have.status(200);
         done(err);
@@ -50,12 +51,13 @@ describe('Farmer route', () => {
         .set('Authorization', token)
         .send(farmerInput)
         .end((err, res) => {
+          console.log(res.body);
           res.should.have.status(201);
           id = res.body.farmer._id;
           done(err);
         });
     });
-    it('It update farmer details', done => {
+    it('It update farmer details', (done) => {
       farmerInput.personalInfo.title = 'Miss';
       chai
         .request(server)
@@ -69,7 +71,7 @@ describe('Farmer route', () => {
         });
     });
 
-    it('t should return 400 bad request', done => {
+    it('t should return 400 bad request', (done) => {
       chai
         .request(server)
         .put('/api/v1/farmers/hui89ewhee/update')
