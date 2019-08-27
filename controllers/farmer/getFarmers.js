@@ -13,7 +13,7 @@ const getAllFarmers = async (req, res, next) => {
   try {
     const farmers = await models.Farmer.find({});
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: 'Farmers records found',
       farmers
@@ -32,7 +32,7 @@ const getFarmerById = async (req, res, next) => {
   try {
     const farmer = await models.Farmer.findById(req.params.id);
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: 'Farmer record found',
       farmer
