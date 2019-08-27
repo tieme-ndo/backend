@@ -26,6 +26,7 @@ before(async () => {
 
 describe('Farmer route', () => {
   let token = '';
+  let id = '';
   it('Login user', (done) => {
     const userLogin = {
       username: 'James',
@@ -50,6 +51,34 @@ describe('Farmer route', () => {
         .send(farmerInput)
         .end((err, res) => {
           res.should.have.status(201);
+          id = res.body.farmer._id;
+          done(err);
+        });
+    });
+    it('It update farmer details', done => {
+      farmerInput.personalInfo.title = 'Miss';
+      chai
+        .request(server)
+        .put(`/api/v1/farmers/${id}/update`)
+        .set('Authorization', token)
+        .send(farmerInput)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.farmer.personalInfo.title.should.equal('Miss');
+          done(err);
+        });
+    });
+
+    it('t should return 400 bad request', done => {
+      chai
+        .request(server)
+        .put('/api/v1/farmers/hui89ewhee/update')
+        .set('Authorization', token)
+        .send(farmerInput)
+        .end((err, res) => {
+          console.log(res.body.errors);
+          res.should.have.status(400);
+          res.body.errors.message.should.equal('Not a valid ID');
           done(err);
         });
     });

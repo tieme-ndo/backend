@@ -14,5 +14,12 @@ farmerRouter.post(
 
 farmerRouter.get('/farmers', verifyToken, farmerController.getAllFarmers);
 farmerRouter.get('/farmers/:id', verifyToken, farmerController.getFarmerById);
+farmerRouter.put(
+  '/farmers/:id/update',
+  verifyToken,
+  validate.validateId,
+  validate.createFarmer,
+  farmerController.updateFarmer
+);
 
 module.exports = farmerRouter;

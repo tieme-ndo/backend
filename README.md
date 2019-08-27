@@ -39,9 +39,10 @@ To get the server running locally:
 | POST   | `/api/v1/user/signup`    | admin          | Create a new user account (staff and admin) | True                          |
 | POST   | `/api/v1/user/login`     | admin && staff | Login user (staff and admin)                | False                         |
 | POST   | `/api/v1/farmers/create` | admin && staff | Create new farmer                           | True                          |
+| PUT    | `/api/v1/farmers/:id/update` | admin && staff | Update farmer details                       | True                          |
+
 | GET    | `/api/v1/farmers` 				| admin && staff | Get All Farmers	                           | True                          |
 | GET    | `/api/v1/id`			 				| admin && staff | Get Farmer By Id	                           | True                          |
-
 
 
 # Data Model
@@ -189,10 +190,11 @@ In order for the app to function correctly, the user must set up their own envir
 create a .env file that includes the following:
 
 _ DB_CONNECTION - for MongoDB connection string for production or development
-_ DB*CONNECTION_TEST - for MongoDB connection string for testing
-* NODE\*ENV - set to "development" until ready for "production"
+_ DB\*CONNECTION_TEST - for MongoDB connection string for testing
 
-- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
+- NODE\*ENV - set to "development" until ready for "production"
+
+* JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
   _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard.
 
 _You can also check .env.example to know all environment variables_
