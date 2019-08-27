@@ -1,12 +1,8 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend delpoyed at [Heroku](https://tieme-ndo-backend-staging1.herokuapp.com) <br>
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/33ef6c2d77e9c6d73e36)
 
 ## 1️⃣ Getting started
 
@@ -21,12 +17,7 @@ To get the server running locally:
 
 ### Backend framework goes here
 
-🚫 Why did you choose this framework?
-
-- Point One
-- Point Two
-- Point Three
-- Point Four
+- NodeJS x Express
 
 ## 2️⃣ Endpoints
 
@@ -34,31 +25,15 @@ To get the server running locally:
 
 **All routes expect login route will need token in Authorization header**
 
-| Method | Endpoint                     | Access Control | Description                                 | Token in Authorization header |
-| ------ | ---------------------------- | -------------- | ------------------------------------------- | ----------------------------- |
-| POST   | `/api/v1/user/signup`        | admin          | Create a new user account (staff and admin) | True                          |
-| POST   | `/api/v1/user/login`         | admin && staff | Login user (staff and admin)                | False                         |
-| POST   | `/api/v1/farmers/create`     | admin && staff | Create new farmer                           | True                          |
-| PUT    | `/api/v1/farmers/:id/update` | admin && staff | Update farmer details                       | True                          |
+| Method | Endpoint                      | Access Control | Description                                 | Token in Authorization header |
+| ------ | ----------------------------- | -------------- | ------------------------------------------- | ----------------------------- |
+| POST   | `/api/v1/user/signup`         | admin          | Create a new user account (staff and admin) | True                          |
+| POST   | `/api/v1/user/login`          | admin && staff | Login user (staff and admin)                | False                         |
+| PUT    | `/api/v1/user/reset-password` | admin && staff | Reset password                              | True                          |
+| POST   | `/api/v1/farmers/create`      | admin && staff | Create new farmer                           | True                          |
+| PUT    | `/api/v1/farmers/:id/update`  | admin && staff | Update farmer details                       | True                          |
 
 # Data Model
-
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
-
----
-
-```
-{
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
-}
-```
 
 #### USERS
 
@@ -94,7 +69,7 @@ Login user (Admin && Staff)
 }
 ```
 
-Create new farmer
+Create new farmer and update farmer
 
 ```
 {
@@ -153,33 +128,7 @@ Create new farmer
 }
 ```
 
-## 2️⃣ Actions
-
-🚫 This is an example, replace this with the actions that pertain to your backend
-
-`getOrgs()` -> Returns all organizations
-
-`getOrg(orgId)` -> Returns a single organization by ID
-
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
-
-`getUser(userId)` -> Returns a single user by user ID
-
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
-
-## 3️⃣ Environment Variables
+## 2⃣ Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
@@ -231,8 +180,3 @@ Remember that this project is licensed under the MIT license, and by submitting 
 ### Attribution
 
 These contribution guidelines have been adapted from [this good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
-
-## Documentation
-
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
