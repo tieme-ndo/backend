@@ -39,6 +39,10 @@ To get the server running locally:
 | POST   | `/api/v1/user/signup`    | admin          | Create a new user account (staff and admin) | True                          |
 | POST   | `/api/v1/user/login`     | admin && staff | Login user (staff and admin)                | False                         |
 | POST   | `/api/v1/farmers/create` | admin && staff | Create new farmer                           | True                          |
+| GET    | `/api/v1/farmers` 				| admin && staff | Get All Farmers	                           | True                          |
+| GET    | `/api/v1/id`			 				| admin && staff | Get Farmer By Id	                           | True                          |
+
+
 
 # Data Model
 
@@ -142,13 +146,13 @@ Create new farmer
 		grt_district: STRING,
 		grt_region: STRING
     },
-		farmInfo:{
+	farmInfo:{
 		number_of_acres: NUMBER,
 		location_of_farm: STRING,
 		farm_nearest_landmark: STRING,
 			crops_cultivated: ARRAY,
 			animals_or_birds: ARRAY
-		}
+	}
 }
 ```
 
