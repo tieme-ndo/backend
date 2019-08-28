@@ -42,7 +42,7 @@ To get the server running locally:
 | PUT    | `/api/v1/farmers/:id/update` | admin && staff | Update farmer details                       | True                          |
 
 | GET    | `/api/v1/farmers` 				| admin && staff | Get All Farmers	                           | True                          |
-| GET    | `/api/v1/id`			 				| admin && staff | Get Farmer By Id	                           | True                          |
+| GET    | `/api/v1/farmer/:id`			 				| admin && staff | Get Farmer By Id	                           | True                          |
 
 
 # Data Model
