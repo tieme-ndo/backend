@@ -34,12 +34,13 @@ To get the server running locally:
 
 **All routes expect login route will need token in Authorization header**
 
-| Method | Endpoint                 | Access Control | Description                                 | Token in Authorization header |
-| ------ | ------------------------ | -------------- | ------------------------------------------- | ----------------------------- |
-| POST   | `/api/v1/user/signup`    | admin          | Create a new user account (staff and admin) | True                          |
-| POST   | `/api/v1/user/login`     | admin && staff | Login user (staff and admin)                | False                         |
-| POST   | `/api/v1/farmers/create` | admin && staff | Create new farmer                           | True                          |
-| PUT    | `/api/v1/farmers/:id/update` | admin && staff | Update farmer details                       | True                          |
+| Method | Endpoint                     | Access Control | Description                                 | Token in Authorization header |
+| ------ | ---------------------------- | -------------- | ------------------------------------------- | ----------------------------- |
+| POST   | `/api/v1/user/signup`        | admin          | Create a new user account (staff and admin) | True                          |
+| POST   | `/api/v1/user/login`         | admin && staff | Login user (staff and admin)                | False                         |
+| POST   | `/api/v1/farmers/create`     | admin && staff | Create new farmer                           | True                          |
+| PUT    | `/api/v1/farmers/:id/update` | admin && staff | Update farmer record                       | True                          |
+| DELETE    | `/api/v1/farmers/:id/delete` | admin | Delete farmer record                       | True                          |
 
 | GET    | `/api/v1/farmers` 				| admin && staff | Get All Farmers	                           | True                          |
 | GET    | `/api/v1/farmers/:id`			 				| admin && staff | Get Farmer By Id	                           | True                          |
