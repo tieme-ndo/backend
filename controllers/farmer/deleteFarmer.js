@@ -29,10 +29,7 @@ const deleteFarmer = async (req, res, next) => {
     if (isAdmin) {
       await models.Farmer.findOneAndUpdate(
         { _id: farmerId },
-        { archived: true },
-        {
-          new: true
-        }
+        { archived: true }
       );
 
       return res.status(200).json({
