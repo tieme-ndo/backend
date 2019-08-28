@@ -13,7 +13,6 @@ const validateString = (maxVal = 20) => Joi.string()
 
 const validateEnums = (...enums) => Joi.string().valid(enums);
 const validateNumber = () => Joi.number().required();
-const validateObject = () => Joi.object().keys().required();
 
 const personalInfo = Joi.object().keys({
   title: validateEnums('Miss', 'Mrs', 'Mr', 'Chief'),
@@ -47,14 +46,10 @@ const personalInfo = Joi.object().keys({
     '501 to GHC 1,000',
     'More than GHC 1,000'
   ),
-  major_source_of_income: validateObject({
-    name: validateString(),
-    amount: validateNumber()
-  }),
-  minor_source_of_income: validateObject({
-    name: validateString(),
-    amount: validateNumber()
-  }),
+  'major_source_of_income.name': validateString(),
+  'major_source_of_income.amount': validateNumber(),
+  'minor_source_of_income.name': validateString(),
+  'minor_source_of_income.amount': validateNumber()
 });
 
 const familyInfo = Joi.object().keys({
@@ -95,14 +90,12 @@ const farmInfo = Joi.object().keys({
   animals_or_birds: Joi.array().required()
 });
 
-const staff = validateString();
 
 const farmerSchema = Joi.object().keys({
   personalInfo,
   familyInfo,
   farmInfo,
-  guarantor,
-  staff
+  guarantor
 });
 
 /**
