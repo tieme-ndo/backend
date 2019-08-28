@@ -12,7 +12,12 @@ const { createError, NOT_FOUND } = require('../../helpers/error.js');
 const getAllFarmers = async (req, res, next) => {
   try {
     const farmers = await models.Farmer.find({});
-
+    if (farmers === {}) {
+      return res.status(404).json({
+        succes: false,
+        message: 'Could not find any farmer in the record'
+      });
+    }
     return res.status(200).json({
       success: true,
       message: 'Farmers records found',
@@ -30,12 +35,18 @@ const getAllFarmers = async (req, res, next) => {
 
 const getFarmerById = async (req, res, next) => {
   try {
+    const { id } = req.params.id;
     const farmer = await models.Farmer.findById(req.params.id);
-
-    return res.status(200).json({
-      success: true,
-      message: 'Farmer record found',
-      farmer
+    if (id) {
+      return res.status(200).json({
+        success: true,
+        message: 'Farmer record found',
+        farmer
+      });
+    }
+    return res.status(404).json({
+      succes: false,
+      message: `Cannot find farmer with ${id}`
     });
   } catch (err) {
     return next(
