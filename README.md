@@ -38,12 +38,23 @@ JWT_SECRET=<generated string>
 6. `npm run dev` to start the local server
 7. `npm test` to start server using testing environment
 
-### Backend Frameworks
+## Backend Frameworks
 
-- Express
-- NodeJS
-- MongoDB
-- Mongoose
+**Our rationale in choosing the frameworks we used:**
+
+### Express
+- We agreed to use Express as it is a familiar web server framework to what we knew that is extremely easy to use.
+- It is modular and has great authentication, cookies, and sessions libraries.
+
+### NodeJS
+- Excellent third-party library support through NPM
+- It has a large and robust open-source community and great support on Stack Overflow and other platforms for trouble-shooting.
+
+### MongoDB
+- Would give greater exposure to the NoSQL database paradigm - perfectly complementing our SQL background during our Lambda School curriculum. 
+- Greater freedom in schema design during prototyping and ideation. Also a greater familiarity with JSON-like object
+- Greater scalability with sharding and load-balancing with future product cycles and user growth.
+- First-party, pre-installed servers available for free through MongoDB.
 
 
 ## Endpoints
@@ -60,11 +71,11 @@ JWT_SECRET=<generated string>
 
 # Data Model
 
-#### Organizaions
+#### Organizations
 
 ```js
 {
-  id: UUID
+  _id: UUID
   name: STRING
   industry: STRING
   paid: BOOLEAN
