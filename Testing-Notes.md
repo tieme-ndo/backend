@@ -34,8 +34,9 @@ Currently, the database query for getting the user as part of register is:
 - `id_number` should be of type `String` as it could include alphabetical characters.
 - String `enums` should not be case sentitive. They should all be lowercase. Can use `lowercase: true` in Mongoose schema.
 - Should be `number_of_dependents` not `number_of_dependant`.
-- Should `animals_or_birds` be an `enum` or a `Boolean`?
-- `major_source_of_income` & `minor_source_of_income` should accept nested properties `name` and `amount`, instead they require keys of `major_source_of_income.name`, `major_source_of_income.amount`, `minor_source_of_income.name` & `minor_source_of_income.amount`
+- _Should `animals_or_birds` be an `enum` or a `Boolean`?_
+- `major_source_of_income` & `minor_source_of_income` should accept nested properties `name` and `amount`, instead they require keys of `major_source_of_income.name`, `major_source_of_income.amount`, `minor_source_of_income.name` & `minor_source_of_income.amount`.
+- Database currently accepts identical farmer objects. Should return an error?
 
 ## Authentication & Token Validation
 - `Bearer <token>` is the JWT standard format for passing token on the Authorization Header. Currently the authorization header is set to accept a token in the format `<token>` (without the "Bearer" identifier).
