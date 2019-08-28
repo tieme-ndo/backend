@@ -17,7 +17,8 @@ before(async () => {
     await models.Farmer.deleteMany({});
     await models.User.create({
       username: 'James',
-      password
+      password,
+      isAdmin: true
     });
   } catch (error) {
     return error;
@@ -37,13 +38,12 @@ describe('Farmer route', () => {
       .post('/api/v1/user/login')
       .send(userLogin)
       .end((err, res) => {
-        console.log(res.body);
         token = res.body.token;
         res.should.have.status(200);
         done(err);
       });
   });
-  describe('Add new farmer', () => {
+  describe('Farmers', () => {
     it('It should return 201', (done) => {
       chai
         .request(server)
@@ -51,13 +51,12 @@ describe('Farmer route', () => {
         .set('Authorization', token)
         .send(farmerInput)
         .end((err, res) => {
-          console.log(res.body);
           res.should.have.status(201);
           id = res.body.farmer._id;
           done(err);
         });
     });
-    it('It update farmer details', (done) => {
+    it('It updates farmer details', (done) => {
       farmerInput.personalInfo.title = 'Miss';
       chai
         .request(server)
@@ -70,15 +69,49 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-
-    it('t should return 400 bad request', (done) => {
+    it('It should return an array of farmers', (done) => {
+      chai
+        .request(server)
+        .get('/api/v1/farmers')
+        .set('Authorization', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.message.should.equal('Farmers records found');
+          done(err);
+        });
+    });
+    it('It should return an array of farmers', (done) => {
+      chai
+        .request(server)
+        .get(`/api/v1/farmers/${id}`)
+        .set('Authorization', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.message.should.equal('Farmer record found');
+          done(err);
+        });
+    });
+    it('It deletes farmer details', (done) => {
+      chai
+        .request(server)
+        .delete(`/api/v1/farmers/${id}/delete`)
+        .set('Authorization', token)
+        .send(farmerInput)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.message.should.equal('Farmer details deleted successfully');
+          done(err);
+        });
+    });
+    it('It should return 400 bad request', (done) => {
       chai
         .request(server)
         .put('/api/v1/farmers/hui89ewhee/update')
         .set('Authorization', token)
         .send(farmerInput)
         .end((err, res) => {
-          console.log(res.body.errors);
           res.should.have.status(400);
           res.body.errors.message.should.equal('Not a valid ID');
           done(err);
@@ -104,20 +137,6 @@ describe('Farmer route', () => {
         .end((err, res) => {
           token = res.body.token;
           res.should.have.status(401);
-          done(err);
-        });
-    });
-  });
-  describe('/Get all farmers', () => {
-    it('It should return 200', (done) => {
-      chai
-        .request(server)
-        .get('/api/v1/farmers')
-        .set('Authorization', token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.should.be.eql(1);
           done(err);
         });
     });
