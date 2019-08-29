@@ -2,9 +2,9 @@
 
 **You can view the deployed (Heroku) backend here:**
 
-**[Production Deployment](https://tieme-ndo-backend-production.herokuapp.com/)**
-**[Staging Deployment 1](https://tieme-ndo-backend-staging1.herokuapp.com/)**
-**[Staging Deployment 2](https://tieme-ndo-backend-staging2.herokuapp.com/)**
+**[Production Deployment](https://t-ndo.herokuapp.com)**
+**[Staging Deployment 1](https://tndo-temp-staging.herokuapp.com/)**
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/33ef6c2d77e9c6d73e36)
 
 
 ## Getting started
@@ -32,7 +32,7 @@ JWT_SECRET=<generated string>
 - You can generate a token secret using python:
 	```python
 	>>> import random
-	>>> ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
+	>>> ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)]);
 	```
 
 6. `npm run dev` to start the local server
@@ -59,15 +59,7 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-#### User Routes
-
-**All routes expect login route will need token in Authorization header**
-
-| Method | Endpoint                 | Access Control | Description                                 | Token in Authorization header |
-| ------ | ------------------------ | -------------- | ------------------------------------------- | ----------------------------- |
-| POST   | `/api/v1/user/signup`    | admin          | Create a new user account (staff and admin) | True                          |
-| POST   | `/api/v1/user/login`     | admin && staff | Login user (staff and admin)                | False                         |
-| POST   | `/api/v1/farmers/create` | admin && staff | Create new farmer                           | True                          |
+**[View API Reference Here](https://documenter.getpostman.com/view/6785535/SVfQRowD?version=latest#intro)**
 
 # Data Model
 
@@ -184,11 +176,11 @@ In order for the app to function correctly, the user must set up their own envir
 
 Create a `.env` file that includes the following:
 
-- **DB_CONNECTION** - for MongoDB connection string for production or development
-- **DB_CONNECTION_TEST** - for MongoDB connection string for testing
-* **NODE_ENV** - set to "development" until ready for "production"
+- **DB_CONNECTION** - URL for MongoDB connection string in a development/production environment.
+- **DB_CONNECTION_TEST** - URL for MongoDB connection string in a testing environment.
+* **NODE_ENV** - for setting application environment. Set to `development` by default. Should be set to `production` when in a staging or production environment.
 
-- **JWT_SECRET** - you can generate this by using a python shell and running:
+- **JWT_SECRET** - for signing JSON web tokens. You can generate this by using a python shell and running:
 ```python
 import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
 ```
