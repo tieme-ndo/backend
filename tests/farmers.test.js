@@ -81,7 +81,7 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('It should return an array of farmers', (done) => {
+    it('It should return a single farmer', (done) => {
       chai
         .request(server)
         .get(`/api/v1/farmers/${id}`)
