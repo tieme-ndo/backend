@@ -28,7 +28,7 @@ before(async () => {
 describe('Farmer route', () => {
   let token = '';
   let id = '';
-  it('Login user', done => {
+  it('Login user', (done) => {
     const userLogin = {
       username: 'James',
       password: '123456'
@@ -44,7 +44,7 @@ describe('Farmer route', () => {
       });
   });
   describe('Farmers', () => {
-    it('It should return 201', done => {
+    it('It should return 201', (done) => {
       chai
         .request(server)
         .post('/api/v1/farmers/create')
@@ -56,7 +56,7 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('It updates farmer details', done => {
+    it('It updates farmer details', (done) => {
       farmerInput.personalInfo.title = 'Miss';
       chai
         .request(server)
@@ -69,7 +69,31 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('It deletes farmer details', done => {
+    it('It should return an array of farmers', (done) => {
+      chai
+        .request(server)
+        .get('/api/v1/farmers')
+        .set('Authorization', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.message.should.equal('Farmers records found');
+          done(err);
+        });
+    });
+    it('It should return a single farmer', (done) => {
+      chai
+        .request(server)
+        .get(`/api/v1/farmers/${id}`)
+        .set('Authorization', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.message.should.equal('Farmer record found');
+          done(err);
+        });
+    });
+    it('It deletes farmer details', (done) => {
       chai
         .request(server)
         .delete(`/api/v1/farmers/${id}/delete`)
@@ -81,7 +105,7 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('t should return 400 bad request', done => {
+    it('It should return 400 bad request', (done) => {
       chai
         .request(server)
         .put('/api/v1/farmers/hui89ewhee/update')
@@ -93,7 +117,7 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('It should return 400', done => {
+    it('It should return 400', (done) => {
       farmerInput.personalInfo.title = 'Mrzz';
       chai
         .request(server)
@@ -105,7 +129,7 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('It should return 401', done => {
+    it('It should return 401', (done) => {
       chai
         .request(server)
         .post('/api/v1/farmers/create')
