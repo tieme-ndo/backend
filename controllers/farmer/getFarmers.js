@@ -21,6 +21,7 @@ const getAllFarmers = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: 'Farmers records found',
+      totalNumberOfFarmers: farmers.length,
       farmers
     });
   } catch (err) {
