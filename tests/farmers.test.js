@@ -17,7 +17,8 @@ before(async () => {
     await models.Farmer.deleteMany({});
     await models.User.create({
       username: 'James',
-      password
+      password,
+      isAdmin: true
     });
   } catch (error) {
     return error;
@@ -26,6 +27,7 @@ before(async () => {
 
 describe('Farmer route', () => {
   let token = '';
+  let id = '';
   it('Login user', done => {
     const userLogin = {
       username: 'James',
@@ -41,7 +43,7 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  describe('Add new farmer', () => {
+  describe('Farmers', () => {
     it('It should return 201', done => {
       chai
         .request(server)
@@ -50,6 +52,44 @@ describe('Farmer route', () => {
         .send(farmerInput)
         .end((err, res) => {
           res.should.have.status(201);
+          id = res.body.farmer._id;
+          done(err);
+        });
+    });
+    it('It updates farmer details', done => {
+      farmerInput.personalInfo.title = 'Miss';
+      chai
+        .request(server)
+        .put(`/api/v1/farmers/${id}/update`)
+        .set('Authorization', token)
+        .send(farmerInput)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.farmer.personalInfo.title.should.equal('Miss');
+          done(err);
+        });
+    });
+    it('It deletes farmer details', done => {
+      chai
+        .request(server)
+        .delete(`/api/v1/farmers/${id}/delete`)
+        .set('Authorization', token)
+        .send(farmerInput)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.message.should.equal('Farmer details deleted successfully');
+          done(err);
+        });
+    });
+    it('t should return 400 bad request', done => {
+      chai
+        .request(server)
+        .put('/api/v1/farmers/hui89ewhee/update')
+        .set('Authorization', token)
+        .send(farmerInput)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.errors.message.should.equal('Not a valid ID');
           done(err);
         });
     });

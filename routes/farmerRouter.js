@@ -12,4 +12,19 @@ farmerRouter.post(
   FarmerController.addFarmer
 );
 
+farmerRouter.put(
+  '/farmers/:id/update',
+  verifyToken,
+  validate.validateId,
+  validate.createFarmer,
+  FarmerController.updateFarmer
+);
+
+farmerRouter.delete(
+  '/farmers/:id/delete',
+  verifyToken,
+  validate.validateId,
+  FarmerController.deleteFarmer
+);
+
 module.exports = farmerRouter;

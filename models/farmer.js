@@ -211,12 +211,18 @@ const staff = {
   required: true
 };
 
+const archived = {
+  type: Boolean,
+  default: false
+};
+
 const farmerSchema = mongoose.Schema({
   personalInfo,
   farmInfo,
   familyInfo,
   guarantor,
-  staff
+  staff,
+  archived
 });
 
 const Farmer = mongoose.model('Farmer', farmerSchema);
