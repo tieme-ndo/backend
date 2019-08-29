@@ -4,8 +4,8 @@
 
 **[Production Deployment](https://t-ndo.herokuapp.com)**
 **[Staging Deployment 1](https://tndo-temp-staging.herokuapp.com/)**
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/33ef6c2d77e9c6d73e36)
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6d10e011b0f2b557f0f7)
 
 ## Getting started
 
@@ -15,25 +15,27 @@ To get this project up and running locally:
 1. Run `npm install` to install all of the required dependencies.
 1. Install **MongoDB Community Edition** on you local machine. Instructions can be found [here](https://docs.mongodb.com/manual/installation/).
 1. Create a db called `tiemendo` & `tiemendo_test`
+
 ```bash
 > use tiemendo
 > db.testCollection.insertOne({ x: 1 });
 ```
+
 ```bash
 > use tiemendo_test
 > db.testCollection.insertOne({ x: 1 });
 ```
+
 5. Create a `.env` file in the root of the project with the following environment variables:
+
 ```
 DB_CONNECTION=mongodb://localhost:27017/tiemendo
 DB_CONNECTION_TEST=mongodb://localhost:27017/tiemendo_test
 JWT_SECRET=<generated string>
 ```
+
 - You can generate a token secret using python:
-	```python
-	>>> import random
-	>>> ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)]);
-	```
+  `python >>> import random >>> ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)]);`
 
 6. `npm run dev` to start the local server
 7. `npm test` to start server using testing environment
@@ -43,27 +45,28 @@ JWT_SECRET=<generated string>
 **Our rationale in choosing the frameworks we used:**
 
 ### Express
+
 - We agreed to use Express as it is a familiar web server framework to what we knew that is extremely easy to use.
 - It is modular and has great authentication, cookies, and sessions libraries.
 
 ### NodeJS
+
 - Excellent third-party library support through NPM
 - It has a large and robust open-source community and great support on Stack Overflow and other platforms for trouble-shooting.
 
 ### MongoDB
-- Would give greater exposure to the NoSQL database paradigm - perfectly complementing our SQL background during our Lambda School curriculum. 
+
+- Would give greater exposure to the NoSQL database paradigm - perfectly complementing our SQL background during our Lambda School curriculum.
 - Greater freedom in schema design during prototyping and ideation. Also a greater familiarity with JSON-like object
 - Greater scalability with sharding and load-balancing with future product cycles and user growth.
 - First-party, pre-installed servers available for free through MongoDB.
 
-
 ## Endpoints
 
-**[View API Reference Here](https://documenter.getpostman.com/view/6785535/SVfQRowD?version=latest#intro)**
+**[View API Reference Here](https://documenter.getpostman.com/view/6785535/SVfQRowD?version=latest#4c65b07a-22c5-43b1-b630-479b2f114618)**
 
-| GET    | `/api/v1/farmers` 				| admin && staff | Get All Farmers	                           | True                          |
-| GET    | `/api/v1/farmers/:id`			 				| admin && staff | Get Farmer By Id	                           | True                          |
-
+| GET | `/api/v1/farmers` | admin && staff | Get All Farmers | True |
+| GET | `/api/v1/farmers/:id` | admin && staff | Get Farmer By Id | True |
 
 # Data Model
 
@@ -71,12 +74,12 @@ JWT_SECRET=<generated string>
 
 ```js
 {
-  _id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  _id: UUID;
+  name: STRING;
+  industry: STRING;
+  paid: BOOLEAN;
+  customer_id: STRING;
+  subscription_id: STRING;
 }
 ```
 
@@ -172,6 +175,7 @@ Create new farmer
 ```
 
 ## Actions
+
 [db actions]
 
 ## Environment Variables
@@ -182,9 +186,11 @@ Create a `.env` file that includes the following:
 
 - **DB_CONNECTION** - URL for MongoDB connection string in a development/production environment.
 - **DB_CONNECTION_TEST** - URL for MongoDB connection string in a testing environment.
+
 * **NODE_ENV** - for setting application environment. Set to `development` by default. Should be set to `production` when in a staging or production environment.
 
 - **JWT_SECRET** - for signing JSON web tokens. You can generate this by using a python shell and running:
+
 ```python
 import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
 ```
