@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node start.js",
     "dev": "cross-env NODE_ENV=development nodemon start.js",
-    "test": "cross-env NODE_ENV=test mocha --timeout 10000 tests/*test.js --exit"
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout 10000 tests/*.js --exit",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "coverage": "DB_ENV=testing nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
+    "coveralls": "^3.0.6",
     "cross-env": "^5.2.0",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
@@ -32,7 +35,8 @@
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.2.0",
     "mongoose": "^5.6.9",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "nyc": "^14.1.1"
   },
   "devDependencies": {
     "eslint": "^6.2.0",
