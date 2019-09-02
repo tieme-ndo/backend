@@ -5,6 +5,10 @@ const joiValidate = require('../../../helpers/joiValidate');
  * Create user validation schema
  */
 
+/**
+ * Set Validation rules for backend
+ */
+
 const validateString = (maxVal = 20) => Joi.string()
   .min(3)
   .max(maxVal)
