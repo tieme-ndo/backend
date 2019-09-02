@@ -5,12 +5,11 @@ const joiValidate = require('../../../helpers/joiValidate');
  * Create user validation schema
  */
 
-const validateString = (maxVal = 20) =>
-  Joi.string()
-    .min(3)
-    .max(maxVal)
-    .trim()
-    .required();
+const validateString = (maxVal = 20) => Joi.string()
+  .min(3)
+  .max(maxVal)
+  .trim()
+  .required();
 
 const validateEnums = (...enums) => Joi.string().valid(enums);
 const validateNumber = () => Joi.number().required();
@@ -91,6 +90,7 @@ const farmInfo = Joi.object().keys({
   animals_or_birds: Joi.array().required()
 });
 
+
 const farmerSchema = Joi.object().keys({
   personalInfo,
   familyInfo,
@@ -101,7 +101,6 @@ const farmerSchema = Joi.object().keys({
 /**
  * Validate user body against defined schema
  */
-const createFarmer = (req, res, next) =>
-  joiValidate(req, res, next, farmerSchema);
+const createFarmer = (req, res, next) => joiValidate(req, res, next, farmerSchema);
 
 module.exports = createFarmer;

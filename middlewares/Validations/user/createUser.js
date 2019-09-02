@@ -9,7 +9,19 @@ const userSchema = Joi.object().keys({
     .min(3)
     .max(20)
     .trim()
-    .required(),
+    .regex(/^\S+$/)
+    .required()
+    .error((errors) => {
+      if (errors[0].type === 'string.regex.base') {
+        return {
+          message: 'username should not have space in between'
+        };
+      }
+      return {
+        message:
+          'username is required, it must not be less than 3 and greater than 20'
+      };
+    }),
   password: Joi.string()
     .min(6)
     .max(40)

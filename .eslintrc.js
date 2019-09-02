@@ -15,6 +15,8 @@ module.exports = {
   },
   rules: {
     'comma-dangle': 0,
-    'no-console': 0
+    'no-console': 1,
+    'consistent-return': 0,
+    'no-underscore-dangle': 0
   }
 };

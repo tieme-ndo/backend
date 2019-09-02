@@ -4,9 +4,8 @@ const bcrypt = require('bcrypt');
 const server = require('../index');
 const { models, connectDB } = require('../models');
 
-chai.should();
-
 chai.use(chaiHttp);
+let token = '';
 
 before(async () => {
   try {
@@ -27,13 +26,13 @@ before(async () => {
   }
 });
 
-describe('Users route', () => {
-  let token = '';
-  it('Login user', done => {
+describe('Users route [/user/login]', () => {
+  it('should log in user', (done) => {
     const userLogin = {
       username: 'Moses',
       password: '123456'
     };
+
     chai
       .request(server)
       .post('/api/v1/user/login')
@@ -44,54 +43,107 @@ describe('Users route', () => {
         done(err);
       });
   });
-  describe('POST /user', () => {
+
+  it('should reset user password', (done) => {
+    const newPassword = {
+      password: '1234567'
+    };
+
+    chai
+      .request(server)
+      .put('/api/v1/user/reset-password')
+      .set('authorization', token)
+      .send(newPassword)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done(err);
+      });
+  });
+
+  it('should return no token provided', (done) => {
+    const newPassword = {
+      password: '1234567'
+    };
+
+    chai
+      .request(server)
+      .put('/api/v1/user/reset-password')
+      .set('authorization', '')
+      .send(newPassword)
+      .end((err, res) => {
+        res.should.have.status(401);
+        done(err);
+      });
+  });
+
+  it('should return 400 bad request', (done) => {
+    const newPassword = {
+      password: ''
+    };
+
+    chai
+      .request(server)
+      .put('/api/v1/user/reset-password')
+      .set('authorization', token)
+      .send(newPassword)
+      .end((err, res) => {
+        res.should.have.status(400);
+        done(err);
+      });
+  });
+});
+
+describe('Users route [user/signup]', () => {
+  it('should add new user', (done) => {
     const validUserDetails = {
       username: 'Rexy',
       password: '1234567'
     };
-    it('it should add new user account', done => {
-      chai
-        .request(server)
-        .post('/api/v1/user/signup')
-        .set('authorization', token)
-        .send(validUserDetails)
-        .end((err, res) => {
-          res.should.have.status(201);
-          done(err);
-        });
-    });
-    it('it should return 409 ', done => {
-      const alreadyExistUser = {
-        username: 'Rexy',
-        password: '1234567'
-      };
-      chai
-        .request(server)
-        .post('/api/v1/user/signup')
-        .set('authorization', token)
-        .send(alreadyExistUser)
-        .end((err, res) => {
-          res.should.have.status(409);
-          done(err);
-        });
-    });
-    it('it should return 400 ', done => {
-      const incompleteUserDetails = {
-        username: '',
-        password: '1234567'
-      };
-      chai
-        .request(server)
-        .post('/api/v1/user/signup')
-        .set('authorization', token)
-        .send(incompleteUserDetails)
-        .end((err, res) => {
-          res.should.have.status(400);
-          done(err);
-        });
-    });
+
+    chai
+      .request(server)
+      .post('/api/v1/user/signup')
+      .set('authorization', token)
+      .send(validUserDetails)
+      .end((err, res) => {
+        res.should.have.status(201);
+        done(err);
+      });
   });
-  it('it should return 401 ', done => {
+
+  it('should return 409 ', (done) => {
+    const alreadyExistUser = {
+      username: 'Rexy',
+      password: '1234567'
+    };
+    chai
+      .request(server)
+      .post('/api/v1/user/signup')
+      .set('authorization', token)
+      .send(alreadyExistUser)
+      .end((err, res) => {
+        res.should.have.status(409);
+        done(err);
+      });
+  });
+
+  it('should return 400 ', (done) => {
+    const incompleteUserDetails = {
+      username: '',
+      password: '1234567'
+    };
+    chai
+      .request(server)
+      .post('/api/v1/user/signup')
+      .set('authorization', token)
+      .send(incompleteUserDetails)
+      .end((err, res) => {
+        res.should.have.status(400);
+        done(err);
+      });
+  });
+
+  it('should return 401 ', (done) => {
     const newUser = {
       username: 'Pavol',
       password: '1234567'

@@ -17,12 +17,17 @@ const {
 const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const user = await models.User.findOne({ username });
 
-    if (user) {
-      const compare = bcrypt.compareSync(password, user.password);
+    const userExist = await models.User.findOne({ username });
+
+    if (userExist) {
+      const compare = bcrypt.compareSync(password, userExist.password);
+
+      const user = await models.User.findOne({ username }).select(['-password']);
+
       if (compare) {
-        const token = await generateToken(user);
+        const token = await generateToken(userExist);
+
         return res.status(200).json({
           success: true,
           message: 'User is logged in',
