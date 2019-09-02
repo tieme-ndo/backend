@@ -1,4 +1,7 @@
 [![Build Status](https://travis-ci.org/tieme-ndo/backend.svg?branch=master)](https://travis-ci.org/tieme-ndo/backend)
+[![Coverage Status](https://coveralls.io/repos/github/tieme-ndo/backend/badge.svg?branch=master)](https://coveralls.io/github/tieme-ndo/backend?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0edf303caf362fe0b656/maintainability)](https://codeclimate.com/github/tieme-ndo/backend/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/0edf303caf362fe0b656/test_coverage)](https://codeclimate.com/github/tieme-ndo/backend/test_coverage)
 
 # API Documentation
 

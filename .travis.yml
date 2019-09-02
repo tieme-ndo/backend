@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - '10.13'
+env:
+  global:
+    - CC_TEST_REPORTER_ID=3c185c43a92d448df2cdaade234ab3792c88ba2b57f3316d465201f44cbbcaf5
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -19,4 +22,4 @@ after_success:
   - npm run coveralls
 
 notifications:
-  email: false
+  email: true

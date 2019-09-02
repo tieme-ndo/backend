@@ -98,7 +98,6 @@ describe('Farmer route', () => {
         .get('/api/v1/farmers')
         .set('Authorization', token)
         .end((err, res) => {
-          console.log(res.body);
           res.should.have.status(404);
           done(err);
         });
@@ -121,7 +120,6 @@ describe('Farmer route', () => {
         .get('/api/v1/farmers')
         .set('Authorization', token)
         .end((err, res) => {
-          console.log(res.body);
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.message.should.equal('Farmers records found');
