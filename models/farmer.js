@@ -41,7 +41,7 @@ const personalInfo = {
   },
   id_type: {
     type: String,
-    enum: ['Voters Card', 'NHIS', 'National ID', 'Others'],
+    enum: ['voters card', 'NHIS', 'National ID', 'others'],
     required: true
   },
   id_number: {

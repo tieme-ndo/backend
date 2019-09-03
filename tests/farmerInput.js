@@ -17,8 +17,8 @@ const farmerInput = {
     house_name: 'Ikee',
     house_number: 12,
     nearest_landmark: 'Bustop',
-    Phone_1: '8765456789',
-    Phone_2: '678976546',
+    phone_1: '8765456789',
+    phone_2: '678976546',
     education_level: 'Tertiary',
     occupation: 'Farmer',
     expected_income_per_month: '501 to GHC 1,000',
@@ -30,7 +30,7 @@ const farmerInput = {
   familyInfo: {
     family_size: 3,
     number_of_dependants: 2,
-    highest_level_of_dependent: 'Tertiary',
+    highest_level_of_dependants: 'Tertiary',
     family_income_per_month: '501 to GHC 1,000'
   },
   guarantor: {
