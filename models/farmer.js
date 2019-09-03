@@ -6,6 +6,10 @@ const personalInfo = {
     enum: ['Miss', 'Mrs', 'Mr', 'Chief'],
     required: false
   },
+  image_url: {
+    type: String,
+    required: true
+  },
   surname: {
     type: String,
     required: true
