@@ -165,7 +165,7 @@ const guarantor = {
     required: true
   },
   grt_phone: {
-    type: Number,
+    type: String,
     required: true
   },
   grt_district: {

@@ -5,7 +5,7 @@ const joiValidate = require('../../../helpers/joiValidate');
  * Create user validation schema
  */
 
-const validateString = (maxVal = 20) => Joi.string()
+const validateString = (maxVal = 25) => Joi.string()
   .min(3)
   .max(maxVal)
   .trim()
@@ -78,7 +78,7 @@ const guarantor = Joi.object().keys({
   grt_relations: validateString(),
   grt_residential_address: validateString(100),
   grt_occupation: validateString(),
-  grt_phone: validateNumber(),
+  grt_phone: validateString(),
   grt_district: validateString(),
   grt_region: validateString()
 });
