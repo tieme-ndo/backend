@@ -3,6 +3,7 @@ const farmerInput = {
     title: 'Mrs',
     surname: 'Majaja',
     first_name: 'Moses',
+    image_url: 'https:cloudinary.com/78ytgn98iugjn90otit9',
     middle_name: 'John',
     marital_status: 'Single',
     gender: 'Male',
