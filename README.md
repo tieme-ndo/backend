@@ -10,7 +10,7 @@
 **[Production Deployment](https://t-ndo.herokuapp.com)**
 **[Staging Deployment 1](https://tndo-temp-staging.herokuapp.com/)**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6d10e011b0f2b557f0f7)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/33ef6c2d77e9c6d73e36)
 
 ## Getting started
 
@@ -68,7 +68,7 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-**[View API Reference Here](https://documenter.getpostman.com/view/6785535/SVfQRowD?version=latest#4c65b07a-22c5-43b1-b630-479b2f114618)**
+**[View API Reference Here](https://documenter.getpostman.com/view/5770396/SVfTPnCF)**
 
 | GET | `/api/v1/farmers` | admin && staff | Get All Farmers | True |
 | GET | `/api/v1/farmers/:id` | admin && staff | Get Farmer By Id | True |

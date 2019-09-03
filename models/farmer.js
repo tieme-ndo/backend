@@ -7,12 +7,10 @@ const personalInfo = {
     required: false
   },
   image_url: {
-    type: String,
-    required: true
+    type: String
   },
   surname: {
-    type: String,
-    required: true
+    type: String
   },
   first_name: {
     type: String,
