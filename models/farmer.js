@@ -4,13 +4,14 @@ const personalInfo = {
   title: {
     type: String,
     enum: ['Miss', 'Mrs', 'Mr', 'Chief'],
-    required: false
+    required: true
   },
   image_url: {
     type: String
   },
   surname: {
-    type: String
+    type: String,
+    required: true
   },
   first_name: {
     type: String,
@@ -22,12 +23,12 @@ const personalInfo = {
   },
   marital_status: {
     type: String,
-    enum: ['Single', 'Married', 'Widowed', 'Divorced'],
+    enum: ['single', 'married', 'widowed', 'divorced'],
     required: true
   },
   gender: {
     type: String,
-    enum: ['Male', 'Female', 'Others'],
+    enum: ['male', 'female', 'others'],
     required: true
   },
   place_of_birth: {
@@ -44,7 +45,7 @@ const personalInfo = {
     required: true
   },
   id_number: {
-    type: Number,
+    type: String,
     required: true
   },
   district: {
@@ -71,13 +72,13 @@ const personalInfo = {
     type: String,
     required: true
   },
-  Phone_1: {
-    type: Number,
+  phone_1: {
+    type: String,
     required: true
   },
-  Phone_2: {
-    type: Number,
-    required: true
+  phone_2: {
+    type: String,
+    required: false
   },
   education_level: {
     type: String,
@@ -90,25 +91,25 @@ const personalInfo = {
   },
   expected_income_per_month: {
     type: String,
-    enum: ['Less than GHC 500', '501 to GHC 1,000', 'More than GHC 1,000'],
+    enum: ['less than GHC 500', '501 to GHC 1,000', 'more than GHC 1,000'],
     required: true
   },
-  major_source_of_income: {
-    name: {
-      type: String
-    },
-    amount: {
-      type: Number
-    }
+  major_source_of_income_name: {
+    type: String,
+    required: true
   },
-  minor_source_of_income: {
-    name: {
-      type: String
-    },
-    amount: {
-      type: Number
-    }
-  }
+  major_source_of_income_amount: {
+    type: Number,
+    required: true
+  },
+  minor_source_of_income_name: {
+    type: String,
+    required: true
+  },
+  minor_source_of_income_amount: {
+    type: Number,
+    required: true
+  },
 };
 
 const familyInfo = {
@@ -127,7 +128,7 @@ const familyInfo = {
   },
   family_income_per_month: {
     type: String,
-    enum: ['Less than GHC 500', '501 to GHC 1,000', 'More than GHC 1,000'],
+    enum: ['less than GHC 500', '501 to GHC 1,000', 'more than GHC 1,000'],
     required: true
   }
 };
@@ -148,7 +149,7 @@ const guarantor = {
   },
   grt_gender: {
     type: String,
-    enum: ['Male', 'Female', 'Others'],
+    enum: ['male', 'female', 'others'],
     required: true
   },
   grt_relations: {
