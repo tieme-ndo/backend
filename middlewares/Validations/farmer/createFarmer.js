@@ -18,6 +18,7 @@ const personalInfo = Joi.object().keys({
   title: validateEnums('Miss', 'Mrs', 'Mr', 'Chief'),
   surname: validateString(),
   first_name: validateString(),
+  image_url: Joi.string(),
   middle_name: validateString(),
   marital_status: validateEnums('Single', 'Married', 'Widowed', 'Divorced'),
   gender: validateEnums('Male', 'Female', 'Others'),

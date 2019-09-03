@@ -10,7 +10,7 @@
 **[Production Deployment](https://t-ndo.herokuapp.com)**
 **[Staging Deployment 1](https://tndo-temp-staging.herokuapp.com/)**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6d10e011b0f2b557f0f7)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/33ef6c2d77e9c6d73e36)
 
 ## Getting started
 
@@ -68,7 +68,7 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-**[View API Reference Here](https://documenter.getpostman.com/view/6785535/SVfQRowD?version=latest#4c65b07a-22c5-43b1-b630-479b2f114618)**
+**[View API Reference Here](https://documenter.getpostman.com/view/5770396/SVfTPnCF)**
 
 | GET | `/api/v1/farmers` | admin && staff | Get All Farmers | True |
 | GET | `/api/v1/farmers/:id` | admin && staff | Get Farmer By Id | True |
@@ -124,11 +124,12 @@ Create new farmer
 
 ```js
 {
-	personalInfo: {
-  title: STRING,
+personalInfo: {
+    title: STRING,
 	surname: STRING,
 	first_name: STRING,
 	middle_name: STRING,
+	image_url: STRING,
 	marital_status: STRING,
 	gender: STRING,
 	place_of_birth: STRING,
@@ -136,7 +137,7 @@ Create new farmer
 	id_type: STRING,
 	id_number: NUMBER,
 	district: STRING,
-	region: Kumasi STRING,
+	region: STRING,
 	community_name: STRING,
 	house_name: STRING,
 	house_number: NUMBER,
@@ -148,12 +149,12 @@ Create new farmer
 	expected_income_per_month: STRING,
 	major_source_of_income.name: STRING,
 	major_source_of_income.amount: NUMBER,
-  minor_source_of_income.name: STRING,
+    minor_source_of_income.name: STRING,
 	minor_source_of_income.amount: NUMBER
   },
 	familyInfo: {
-			family_size: NUMBER,
-		number_of_dependant: NUIMBER,
+		family_size: NUMBER,
+		number_of_dependant: NUMBER,
 		highest_level_of_dependent: STRING,
 		family_income_per_month: STRING
 	},
@@ -173,8 +174,8 @@ Create new farmer
 		number_of_acres: NUMBER,
 		location_of_farm: STRING,
 		farm_nearest_landmark: STRING,
-			crops_cultivated: ARRAY,
-			animals_or_birds: ARRAY
+		crops_cultivated: ARRAY,
+		animals_or_birds: ARRAY
 	}
 }
 ```
