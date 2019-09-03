@@ -117,11 +117,11 @@ const familyInfo = {
     type: Number,
     required: true
   },
-  number_of_dependant: {
+  number_of_dependants: {
     type: Number,
     required: true
   },
-  highest_level_of_dependent: {
+  highest_level_of_dependants: {
     type: String,
     enum: ['Tertiary', 'SHS', 'JHS', 'Primary', 'Not Educated'],
     required: true

@@ -20,20 +20,20 @@ const personalInfo = Joi.object().keys({
   first_name: validateString(),
   image_url: Joi.string(),
   middle_name: validateString(),
-  marital_status: validateEnums('Single', 'Married', 'Widowed', 'Divorced'),
-  gender: validateEnums('Male', 'Female', 'Others'),
+  marital_status: validateEnums('single', 'married', 'widowed', 'divorced'),
+  gender: validateEnums('male', 'female', 'others'),
   place_of_birth: validateString(50),
   date_of_birth: Joi.date().required(),
-  id_type: validateEnums('Voters Card', 'NHIS', 'National ID', 'Others'),
-  id_number: validateNumber(),
+  id_type: validateEnums('voters card', 'NHIS', 'National ID', 'others'),
+  id_number: validateString(),
   district: validateString(),
   region: validateString(),
   community_name: validateString(),
   house_name: validateString(),
   house_number: validateNumber(),
   nearest_landmark: validateString(),
-  Phone_1: validateNumber(),
-  Phone_2: validateNumber(),
+  phone_1: validateString(),
+  phone_2: validateString(),
   education_level: validateEnums(
     'Tertiary',
     'SHS',
@@ -43,20 +43,20 @@ const personalInfo = Joi.object().keys({
   ),
   occupation: validateString(),
   expected_income_per_month: validateEnums(
-    'Less than GHC 500',
+    'less than GHC 500',
     '501 to GHC 1,000',
-    'More than GHC 1,000'
+    'more than GHC 1,000'
   ),
-  'major_source_of_income.name': validateString(),
-  'major_source_of_income.amount': validateNumber(),
-  'minor_source_of_income.name': validateString(),
-  'minor_source_of_income.amount': validateNumber()
+  major_source_of_income_name: validateString(),
+  major_source_of_income_amount: validateNumber(),
+  minor_source_of_income_name: validateString(),
+  minor_source_of_income_amount: validateNumber()
 });
 
 const familyInfo = Joi.object().keys({
   family_size: validateNumber(),
-  number_of_dependant: validateNumber(),
-  highest_level_of_dependent: validateEnums(
+  number_of_dependants: validateNumber(),
+  highest_level_of_dependants: validateEnums(
     'Tertiary',
     'SHS',
     'JHS',
@@ -64,9 +64,9 @@ const familyInfo = Joi.object().keys({
     'Not Educated'
   ),
   family_income_per_month: validateEnums(
-    'Less than GHC 500',
+    'less than GHC 500',
     '501 to GHC 1,000',
-    'More than GHC 1,000'
+    'more than GHC 1,000'
   )
 });
 
@@ -74,7 +74,7 @@ const guarantor = Joi.object().keys({
   grt_title: validateEnums('Miss', 'Mrs', 'Mr', 'Chief'),
   grt_surname: validateString(),
   grt_first_name: validateString(),
-  grt_gender: validateEnums('Male', 'Female', 'Others'),
+  grt_gender: validateEnums('male', 'female', 'others'),
   grt_relations: validateString(),
   grt_residential_address: validateString(100),
   grt_occupation: validateString(),
