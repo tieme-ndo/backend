@@ -15,7 +15,7 @@ before(async () => {
         models.User.deleteMany({}),
         models.Farmer.deleteMany({}),
         models.User.create({
-          username: 'moses',
+          username: 'Moses',
           isAdmin: true,
           password
         })
@@ -29,7 +29,7 @@ before(async () => {
 describe('Users route [/user/login]', () => {
   it('should log in user', (done) => {
     const userLogin = {
-      username: 'moses',
+      username: 'Moses',
       password: '123456'
     };
 
