@@ -93,22 +93,10 @@ const personalInfo = {
     enum: ['Less than GHC 500', '501 to GHC 1,000', 'More than GHC 1,000'],
     required: true
   },
-  major_source_of_income: {
-    name: {
-      type: String
-    },
-    amount: {
-      type: Number
-    }
-  },
-  minor_source_of_income: {
-    name: {
-      type: String
-    },
-    amount: {
-      type: Number
-    }
-  }
+  major_source_of_income_name: String,
+  major_source_of_income_amount: Number,
+  minor_source_of_income_name: String,
+  minor_source_of_income_amount: Number
 };
 
 const familyInfo = {
