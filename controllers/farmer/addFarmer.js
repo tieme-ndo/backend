@@ -21,7 +21,8 @@ const addFarmer = async (req, res, next) => {
     const farmerExists = await models.Farmer.findOne({
       'personalInfo.first_name': first_name,
       'personalInfo.middle_name': middle_name,
-      'personalInfo.surname': surname
+      'personalInfo.surname': surname,
+      archived: false
     });
 
     if (farmerExists) {

@@ -81,17 +81,17 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-    it('It deletes farmer details', (done) => {
-      chai
-        .request(server)
-        .delete(`/api/v1/farmers/${id}/delete`)
-        .set('Authorization', token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.message.should.equal('Farmer details deleted successfully');
-          done(err);
-        });
-    });
+    // it('It deletes farmer details', (done) => {
+    //   chai
+    //     .request(server)
+    //     .delete(`/api/v1/farmers/${id}/delete`)
+    //     .set('Authorization', token)
+    //     .end((err, res) => {
+    //       res.should.have.status(200);
+    //       res.body.message.should.equal('Farmer details deleted successfully');
+    //       done(err);
+    //     });
+    // });
     it('It should return an array of farmers', (done) => {
       chai
         .request(server)
@@ -126,7 +126,17 @@ describe('Farmer route', () => {
           done(err);
         });
     });
-
+    it('It should return 409', (done) => {
+      chai
+        .request(server)
+        .post('/api/v1/farmers/create')
+        .set('Authorization', token)
+        .send(farmerInput)
+        .end((err, res) => {
+          res.should.have.status(409);
+          done(err);
+        });
+    });
     it('It should return 400 bad request', (done) => {
       chai
         .request(server)
