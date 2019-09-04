@@ -15,6 +15,12 @@ const addFarmer = async (req, res, next) => {
 
     farmerDetails.staff = username;
 
+    const farmerExists = await models.Farmer.findOne({
+      firstname: farmerDetails.firstname,
+      lastname: farmerDetails.lastname,
+      surname: farmerDetails.surname
+    });
+
     const farmer = await models.Farmer.create(farmerDetails);
 
     return res.status(201).json({
