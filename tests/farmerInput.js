@@ -22,10 +22,10 @@ const farmerInput = {
     education_level: 'Tertiary',
     occupation: 'Farmer',
     expected_income_per_month: '501 to GHC 1,000',
-    'major_source_of_income.name': 'Crops',
-    'major_source_of_income.amount': 500,
-    'minor_source_of_income.name': 'Crops',
-    'minor_source_of_income.amount': 50
+    major_source_of_income_name: 'Crops',
+    major_source_of_income_amount: 500,
+    minor_source_of_income_name: 'Crops',
+    minor_source_of_income_amount: 50
   },
   familyInfo: {
     family_size: 3,

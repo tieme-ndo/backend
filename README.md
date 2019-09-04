@@ -147,10 +147,10 @@ personalInfo: {
 	education_level: STRING,
 	occupation: STRING,
 	expected_income_per_month: STRING,
-	major_source_of_income.name: STRING,
-	major_source_of_income.amount: NUMBER,
-    minor_source_of_income.name: STRING,
-	minor_source_of_income.amount: NUMBER
+	major_source_of_income_name: STRING,
+	major_source_of_income_amount: NUMBER,
+    minor_source_of_income_name: STRING,
+	minor_source_of_income_amount: NUMBER
   },
 	familyInfo: {
 		family_size: NUMBER,
