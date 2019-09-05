@@ -10,7 +10,7 @@
 **[Production Deployment](https://t-ndo.herokuapp.com)** <br/>
 **[Staging Deployment](https://tndo-temp-staging.herokuapp.com/)**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/33ef6c2d77e9c6d73e36)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6d10e011b0f2b557f0f7)
 
 ## Getting started
 
@@ -68,7 +68,7 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-**[View API Reference Here](https://documenter.getpostman.com/view/5770396/SVfTPnCF)**
+**[View API Reference Here](https://documenter.getpostman.com/view/6785535/SVfQRowD)**
 
 # Data Model
 
@@ -183,8 +183,6 @@ import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz01
 _You can also check [.env.example](./.env.example) to know all required environment variables._
 
 ## Contributing
-
-[Instructions]
 
 ### Issue/Bug Request
 
