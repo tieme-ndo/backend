@@ -7,10 +7,10 @@
 
 **You can view the deployed (Heroku) backend here:**
 
-**[Production Deployment](https://t-ndo.herokuapp.com)**
-**[Staging Deployment 1](https://tndo-temp-staging.herokuapp.com/)**
+**[Production Deployment](https://t-ndo.herokuapp.com)** <br/>
+**[Staging Deployment](https://tndo-temp-staging.herokuapp.com/)**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/33ef6c2d77e9c6d73e36)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6d10e011b0f2b557f0f7)
 
 ## Getting started
 
@@ -68,14 +68,11 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-**[View API Reference Here](https://documenter.getpostman.com/view/5770396/SVfTPnCF)**
-
-| GET | `/api/v1/farmers` | admin && staff | Get All Farmers | True |
-| GET | `/api/v1/farmers/:id` | admin && staff | Get Farmer By Id | True |
+**[View API Reference Here](https://documenter.getpostman.com/view/6785535/SVfQRowD)**
 
 # Data Model
 
-#### Organizations
+<!-- #### Organizations
 
 ```js
 {
@@ -86,73 +83,55 @@ JWT_SECRET=<generated string>
   customer_id: STRING;
   subscription_id: STRING;
 }
-```
+``` -->
 
 #### Users
 
-Create new user account (Staff)
-
-```js
-{
-  _id: UUID
-  username: STRING,
-  password: STRING
-}
-```
-
-Create new user account (Admin)
+User types (Staff/Admin)
 
 ```js
 {
   _id: UUID
   username: STRING,
   password: STRING,
-  isAdmin: BOOLEAN
+  isAdmin: BOOLEAN,
+  date: DATE
 }
 ```
 
-Login user (Admin && Staff)
+#### Farmers
 
 ```js
 {
- username: STRING,
- password: STRING,
-}
-```
-
-Create new farmer
-
-```js
-{
-personalInfo: {
-    title: STRING,
-	surname: STRING,
-	first_name: STRING,
-	middle_name: STRING,
-	image_url: STRING,
-	marital_status: STRING,
-	gender: STRING,
-	place_of_birth: STRING,
-	date_of_birth: DATE,
-	id_type: STRING,
-	id_number: NUMBER,
-	district: STRING,
-	region: STRING,
-	community_name: STRING,
-	house_name: STRING,
-	house_number: NUMBER,
-	nearest_landmark: STRING,
-	Phone_1: NUMBER,
-	Phone_2: NUMBER,
-	education_level: STRING,
-	occupation: STRING,
-	expected_income_per_month: STRING,
-	major_source_of_income.name: STRING,
-	major_source_of_income.amount: NUMBER,
-    minor_source_of_income.name: STRING,
-	minor_source_of_income.amount: NUMBER
-  },
-	familyInfo: {
+    personalInfo: {
+        title: STRING,
+        surname: STRING,
+        first_name: STRING,
+        middle_name: STRING,
+        image_url: STRING,
+        marital_status: STRING,
+        gender: STRING,
+        place_of_birth: STRING,
+        date_of_birth: DATE,
+        id_type: STRING,
+        id_number: NUMBER,
+        district: STRING,
+        region: STRING,
+        community_name: STRING,
+        house_name: STRING,
+        house_number: NUMBER,
+        nearest_landmark: STRING,
+        Phone_1: NUMBER,
+        Phone_2: NUMBER,
+        education_level: STRING,
+        occupation: STRING,
+        expected_income_per_month: STRING,
+        major_source_of_income_name: STRING,
+        major_source_of_income_amount: NUMBER,
+        minor_source_of_income_name: STRING,
+        minor_source_of_income_amount: NUMBER
+    },
+    familyInfo: {
 		family_size: NUMBER,
 		number_of_dependant: NUMBER,
 		highest_level_of_dependent: STRING,
@@ -174,15 +153,15 @@ personalInfo: {
 		number_of_acres: NUMBER,
 		location_of_farm: STRING,
 		farm_nearest_landmark: STRING,
-		crops_cultivated: ARRAY,
-		animals_or_birds: ARRAY
+		crops_cultivated: ARRAY[STRING],
+		animals_or_birds: ARRAY[STRING]
 	}
 }
 ```
 
 ## Actions
 
-[db actions]
+**[View DB Actions Here](https://mongoosejs.com/docs/api/model.html)**
 
 ## Environment Variables
 
@@ -204,8 +183,6 @@ import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz01
 _You can also check [.env.example](./.env.example) to know all required environment variables._
 
 ## Contributing
-
-[Instructions]
 
 ### Issue/Bug Request
 
