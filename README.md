@@ -7,8 +7,8 @@
 
 **You can view the deployed (Heroku) backend here:**
 
-**[Production Deployment](https://t-ndo.herokuapp.com)**
-**[Staging Deployment 1](https://tndo-temp-staging.herokuapp.com/)**
+**[Production Deployment](https://t-ndo.herokuapp.com)** <br/>
+**[Staging Deployment](https://tndo-temp-staging.herokuapp.com/)**
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/33ef6c2d77e9c6d73e36)
 
@@ -69,9 +69,6 @@ JWT_SECRET=<generated string>
 ## Endpoints
 
 **[View API Reference Here](https://documenter.getpostman.com/view/5770396/SVfTPnCF)**
-
-| GET | `/api/v1/farmers` | admin && staff | Get All Farmers | True |
-| GET | `/api/v1/farmers/:id` | admin && staff | Get Farmer By Id | True |
 
 # Data Model
 
@@ -182,7 +179,7 @@ personalInfo: {
 
 ## Actions
 
-[db actions]
+**[View DB Actions Here](https://mongoosejs.com/docs/api/model.html)**
 
 ## Environment Variables
 
