@@ -17,9 +17,10 @@ const register = async (req, res, next) => {
 
     userDetails.password = bcrypt.hashSync(userDetails.password, salt);
 
-    await models.User.create(userDetails);
-
-    const user = await models.User.findOne().select(['-password']);
+    const newUser = await models.User.create(userDetails);
+    // convert Mongoose model to plain JS object to remove pw
+    const user = newUser.toObject();
+    delete user.password;
 
     return res.status(201).json({
       success: true,
@@ -28,15 +29,19 @@ const register = async (req, res, next) => {
     });
   } catch (err) {
     if (err.message.includes('duplicate key')) {
-      return next(createError({
-        message: 'username already exists',
-        status: CONFLICT,
-      }));
+      return next(
+        createError({
+          message: 'username already exists',
+          status: CONFLICT
+        })
+      );
     }
-    return next(createError({
-      message: 'Could not create new user',
-      status: GENERIC_ERROR,
-    }));
+    return next(
+      createError({
+        message: 'Could not create new user',
+        status: GENERIC_ERROR
+      })
+    );
   }
 };
 
