@@ -72,7 +72,7 @@ JWT_SECRET=<generated string>
 
 # Data Model
 
-#### Organizations
+<!-- #### Organizations
 
 ```js
 {
@@ -83,73 +83,55 @@ JWT_SECRET=<generated string>
   customer_id: STRING;
   subscription_id: STRING;
 }
-```
+``` -->
 
 #### Users
 
-Create new user account (Staff)
-
-```js
-{
-  _id: UUID
-  username: STRING,
-  password: STRING
-}
-```
-
-Create new user account (Admin)
+User types (Staff/Admin)
 
 ```js
 {
   _id: UUID
   username: STRING,
   password: STRING,
-  isAdmin: BOOLEAN
+  isAdmin: BOOLEAN,
+  date: DATE
 }
 ```
 
-Login user (Admin && Staff)
+#### Farmers
 
 ```js
 {
- username: STRING,
- password: STRING,
-}
-```
-
-Create new farmer
-
-```js
-{
-personalInfo: {
-    title: STRING,
-	surname: STRING,
-	first_name: STRING,
-	middle_name: STRING,
-	image_url: STRING,
-	marital_status: STRING,
-	gender: STRING,
-	place_of_birth: STRING,
-	date_of_birth: DATE,
-	id_type: STRING,
-	id_number: NUMBER,
-	district: STRING,
-	region: STRING,
-	community_name: STRING,
-	house_name: STRING,
-	house_number: NUMBER,
-	nearest_landmark: STRING,
-	Phone_1: NUMBER,
-	Phone_2: NUMBER,
-	education_level: STRING,
-	occupation: STRING,
-	expected_income_per_month: STRING,
-	major_source_of_income_name: STRING,
-	major_source_of_income_amount: NUMBER,
-    minor_source_of_income_name: STRING,
-	minor_source_of_income_amount: NUMBER
-  },
-	familyInfo: {
+    personalInfo: {
+        title: STRING,
+        surname: STRING,
+        first_name: STRING,
+        middle_name: STRING,
+        image_url: STRING,
+        marital_status: STRING,
+        gender: STRING,
+        place_of_birth: STRING,
+        date_of_birth: DATE,
+        id_type: STRING,
+        id_number: NUMBER,
+        district: STRING,
+        region: STRING,
+        community_name: STRING,
+        house_name: STRING,
+        house_number: NUMBER,
+        nearest_landmark: STRING,
+        Phone_1: NUMBER,
+        Phone_2: NUMBER,
+        education_level: STRING,
+        occupation: STRING,
+        expected_income_per_month: STRING,
+        major_source_of_income_name: STRING,
+        major_source_of_income_amount: NUMBER,
+        minor_source_of_income_name: STRING,
+        minor_source_of_income_amount: NUMBER
+    },
+    familyInfo: {
 		family_size: NUMBER,
 		number_of_dependant: NUMBER,
 		highest_level_of_dependent: STRING,
@@ -171,8 +153,8 @@ personalInfo: {
 		number_of_acres: NUMBER,
 		location_of_farm: STRING,
 		farm_nearest_landmark: STRING,
-		crops_cultivated: ARRAY,
-		animals_or_birds: ARRAY
+		crops_cultivated: ARRAY[STRING],
+		animals_or_birds: ARRAY[STRING]
 	}
 }
 ```
