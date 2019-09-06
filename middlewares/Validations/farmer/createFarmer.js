@@ -34,7 +34,11 @@ const personalInfo = Joi.object().keys({
   region: validateString(),
   community_name: validateString(60),
   house_name: validateString(),
-  house_number: validateString(),
+  house_number: Joi.string()
+    .min(1)
+    .max(20)
+    .trim()
+    .required(),
   nearest_landmark: validateString(),
   Phone_1: validateString(),
   Phone_2: validateString(),
