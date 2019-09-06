@@ -44,7 +44,7 @@ const personalInfo = {
     required: true
   },
   id_number: {
-    type: Number,
+    type: String,
     required: true
   },
   district: {
@@ -64,7 +64,7 @@ const personalInfo = {
     required: true
   },
   house_number: {
-    type: Number,
+    type: String,
     required: true
   },
   nearest_landmark: {
@@ -72,11 +72,11 @@ const personalInfo = {
     required: true
   },
   Phone_1: {
-    type: Number,
+    type: String,
     required: true
   },
   Phone_2: {
-    type: Number,
+    type: String,
     required: true
   },
   education_level: {
@@ -164,7 +164,7 @@ const guarantor = {
     required: true
   },
   grt_phone: {
-    type: Number,
+    type: String,
     required: true
   },
   grt_district: {

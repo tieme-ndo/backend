@@ -5,7 +5,7 @@ const joiValidate = require('../../../helpers/joiValidate');
  * Create user validation schema
  */
 
-const validateString = (maxVal = 20) =>
+const validateString = (maxVal = 30) =>
   Joi.string()
     .min(3)
     .max(maxVal)
@@ -20,21 +20,24 @@ const personalInfo = Joi.object().keys({
   surname: validateString(),
   first_name: validateString(),
   image_url: Joi.string(),
-  middle_name: validateString(),
+  middle_name: Joi.string()
+    .min(3)
+    .max(30)
+    .trim(),
   marital_status: validateEnums('Single', 'Married', 'Widowed', 'Divorced'),
   gender: validateEnums('Male', 'Female', 'Others'),
   place_of_birth: validateString(50),
   date_of_birth: Joi.date().required(),
   id_type: validateEnums('Voters Card', 'NHIS', 'National ID', 'Others'),
-  id_number: validateNumber(),
+  id_number: validateString(),
   district: validateString(),
   region: validateString(),
-  community_name: validateString(),
+  community_name: validateString(60),
   house_name: validateString(),
-  house_number: validateNumber(),
+  house_number: validateString(),
   nearest_landmark: validateString(),
-  Phone_1: validateNumber(),
-  Phone_2: validateNumber(),
+  Phone_1: validateString(),
+  Phone_2: validateString(),
   education_level: validateEnums(
     'Tertiary',
     'SHS',
@@ -79,7 +82,7 @@ const guarantor = Joi.object().keys({
   grt_relations: validateString(),
   grt_residential_address: validateString(100),
   grt_occupation: validateString(),
-  grt_phone: validateNumber(),
+  grt_phone: validateString(),
   grt_district: validateString(),
   grt_region: validateString()
 });
