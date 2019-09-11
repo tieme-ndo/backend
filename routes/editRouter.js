@@ -11,5 +11,19 @@ editRouter.get(
   isAuthorized,
   editController.getAllEdits
 );
+/* 
+editRouter.get(
+  '/edits/:id/approve',
+  verifyToken,
+  isAuthorized,
+  editController.approveEdit
+);
 
+editRouter.get(
+  '/edits/:id/decline',
+  verifyToken,
+  isAuthorized,
+  editController.declineEdit
+);
+ */
 module.exports = editRouter;
