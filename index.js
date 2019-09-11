@@ -35,7 +35,7 @@ app.get('/', (req, res) => res.status(200).json({
 app.use('/api/v1', router);
 
 app.get('/debug-sentry', (req, res) => {
-  throw new Error('My first Sentry error!');
+  throw new Error('Oh noes! I broke backend this time');
 });
 
 // Handle invalid request
