@@ -159,6 +159,72 @@ User types (Staff/Admin)
 }
 ```
 
+#### Edits
+
+```js
+{
+  _id: UUID,
+  date: DATE,
+  edited_farmer: {
+    personalInfo: {
+        title: STRING,
+        surname: STRING,
+        first_name: STRING,
+        middle_name: STRING,
+        image_url: STRING,
+        marital_status: STRING,
+        gender: STRING,
+        place_of_birth: STRING,
+        date_of_birth: DATE,
+        id_type: STRING,
+        id_number: STRING,
+        district: STRING,
+        region: STRING,
+        community_name: STRING,
+        house_name: STRING,
+        house_number: STRING,
+        nearest_landmark: STRING,
+        Phone_1: STRING,
+        Phone_2: STRING,
+        education_level: STRING,
+        occupation: STRING,
+        expected_income_per_month: STRING,
+        major_source_of_income_name: STRING,
+        major_source_of_income_amount: NUMBER,
+        minor_source_of_income_name: STRING,
+        minor_source_of_income_amount: NUMBER
+    },
+    familyInfo: {
+      family_size: NUMBER,
+      number_of_dependant: NUMBER,
+      highest_level_of_dependent: STRING,
+      family_income_per_month: STRING
+    },
+    guarantor:{
+      grt_title: STRING,
+      grt_surname: STRING,
+      grt_first_name: STRING,
+      grt_gender: STRING,
+      grt_relations: STRING,
+      grt_residential_address: STRING,
+      grt_occupation: STRING,
+      grt_phone: STRING,
+      grt_district: STRING,
+      grt_region: STRING
+    },
+    farmInfo:{
+      number_of_acres: NUMBER,
+      location_of_farm: STRING,
+      farm_nearest_landmark: STRING,
+      crops_cultivated: ARRAY[STRING],
+      animals_or_birds: ARRAY[STRING]
+    }
+  },
+  farmer_id: UUID,
+  edited_by: STRING
+}
+```
+
 ## Actions
 
 **[View DB Actions Here](https://mongoosejs.com/docs/api/model.html)**

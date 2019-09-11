@@ -1,4 +1,5 @@
 const { models } = require('../../models');
+const getDiff = require('./getDiff');
 const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 
 /**
@@ -18,10 +19,17 @@ const getAllEdits = async (req, res, next) => {
         message: 'Could not find any edit in the record'
       });
     }
+
+    let diffEdits = await Promise.all(
+      edits.map(async edit => {
+        return getDiff(edit);
+      })
+    );
+
     return res.status(200).json({
       success: true,
       message: 'Edits records found',
-      edits
+      edits: diffEdits
     });
   } catch (err) {
     return next(
