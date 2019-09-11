@@ -33,7 +33,8 @@ const getDiff = async edit => {
         after: difference.rhs
       };
     }),
-    farmer_id: edit.farmer_id
+    farmer_id: edit.farmer_id,
+    id: edit._id
   };
 };
 
