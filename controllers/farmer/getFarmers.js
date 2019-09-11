@@ -49,7 +49,7 @@ const getFarmerById = async (req, res, next) => {
       return res.status(200).json({
         success: true,
         message: 'Farmer record found',
-        farmer: farmersWithFormattedDates
+        farmer
       });
     }
     return res.status(404).json({
