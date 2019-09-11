@@ -11,6 +11,7 @@ const { connectDB } = require('./models');
 
 const app = express();
 
+// Monitor unhandled errors in production/staging only
 if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
     dsn: 'https://0636ca6c9d0845f498d09b83b1303970@sentry.io/1724713',
@@ -33,10 +34,6 @@ app.get('/', (req, res) => res.status(200).json({
   }));
 
 app.use('/api/v1', router);
-
-app.get('/debug-sentry', (req, res) => {
-  throw new Error('Oh noes! I broke backend this time');
-});
 
 // Handle invalid request
 app.all('*', (req, res) => res.status(NOT_FOUND).json({
