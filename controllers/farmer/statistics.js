@@ -41,12 +41,13 @@ const statistics = async (req, res, next) => {
 
     return res.json(farmerStatisticsInNumbers);
   } catch (error) {
-    return next(
-      createError({
-        message: 'Could not get farmers statistics',
-        status: GENERIC_ERROR
-      })
-    );
+    // return next(
+    //   // createError({
+    //   //   message: 'Could not get farmers statistics',
+    //   //   status: GENERIC_ERROR
+    //   // })
+    // );
+    return res.status().json(error);
   }
 };
 
