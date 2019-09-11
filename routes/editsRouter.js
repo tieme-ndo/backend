@@ -21,7 +21,7 @@ editRouter.post(
   editController.approveEdit
 );
 
-editRouter.get(
+editRouter.post(
   '/edits/:id/decline',
   verifyToken,
   validate.validateId,

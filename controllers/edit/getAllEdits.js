@@ -33,6 +33,4 @@ const getAllEdits = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  getAllEdits
-};
+module.exports = getAllEdits;

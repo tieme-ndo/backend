@@ -13,7 +13,7 @@ const approveEdit = async (req, res, next) => {
   try {
     const editEntry = await models.Edit.find({ _id: req.params.id });
     if (editEntry) {
-      const editedFarmer = await models.Farmer.findOneAndUpdate(
+      const editedFarmer = await models.Farmer.findOneAndReplace(
         { _id: req.params.id },
         { ...editEntry.edited_farmer }
       );
@@ -22,13 +22,12 @@ const approveEdit = async (req, res, next) => {
         message: 'Edit approved',
         editedFarmer
       });
-    } else {
-      return res.status(404).json({
-        success: false,
-        message:
-          'There is no saved edit with this ID, please subit a valid edit-ID'
-      });
     }
+    return res.status(404).json({
+      success: false,
+      message:
+        'There is no saved edit with this ID, please subit a valid edit-ID'
+    });
   } catch (err) {
     return next(
       createError({
@@ -39,6 +38,4 @@ const approveEdit = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  approveEdit
-};
+module.exports = approveEdit;
