@@ -5,9 +5,15 @@ const edited_by = {
   type: String,
   required: true
 };
+
 const date = {
   type: Date,
   default: Date.now()
+};
+
+const farmer_id = {
+  type: String,
+  required: true
 };
 
 const edited_farmer = {
@@ -18,6 +24,7 @@ const edited_farmer = {
 const editSchema = mongoose.Schema({
   edited_by,
   date,
+  farmer_id,
   edited_farmer
 });
 
