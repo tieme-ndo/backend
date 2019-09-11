@@ -1,9 +1,9 @@
-const { models } = require('../../models');
+const { models } = require("../../models");
 const {
   createError,
   GENERIC_ERROR,
   NOT_FOUND
-} = require('../../helpers/error');
+} = require("../../helpers/error");
 
 /**
  * @description Update farmer details
@@ -22,36 +22,48 @@ const updateFarmer = async (req, res, next) => {
     if (!farmerExist) {
       return next(
         createError({
-          message: 'Farmer does not exist',
+          message: "Farmer does not exist",
           status: NOT_FOUND
         })
       );
     }
     if (farmerExist.staff === username || isAdmin) {
       farmerDetails.staff = username || farmerDetails.staff;
+      if (isAdmin) {
+        const farmer = await models.Farmer.findOneAndUpdate(
+          { _id: farmerId },
+          farmerDetails,
+          { new: true }
+        );
 
-      const farmer = await models.Farmer.findOneAndUpdate(
-        { _id: farmerId },
-        farmerDetails,
-        { new: true }
-      );
-
-      return res.status(201).json({
-        success: true,
-        message: 'Farmer details updated successfully',
-        farmer
-      });
+        return res.status(201).json({
+          success: true,
+          message: "Farmer details updated successfully",
+          farmer
+        });
+      } else {
+        const farmerEditRequest = await models.Edit.create({
+          edited_farmer: farmerDetails,
+          edited_by: username
+        })
+        
+        return res.status(201).json({
+          success: true,
+          message: "You are not an admin, your change was created and is ready for admin approval",
+          farmerEditRequest
+        });
+      }
     }
     return next(
       createError({
-        message: 'Not authorized to update farmer details',
+        message: "Not authorized to update farmer details",
         status: NOT_FOUND
       })
     );
   } catch (err) {
     return next(
       createError({
-        message: 'Could not update farmer details',
+        message: "Could not update farmer details",
         status: GENERIC_ERROR
       })
     );
