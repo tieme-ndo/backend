@@ -38,9 +38,10 @@ const statistics = async (req, res, next) => {
     //   farmersAgeGreaterThanOrEqualThirtyFive,
     //   farmersAgeLesserThanThirtyFive
     // };
-
+    console.log(`try block${allFarmers}`);
     return res.status(200).json(allFarmers);
   } catch (error) {
+    console.log(`catch block${error}`);
     return next(
       createError({
         message: 'Could not get farmers statistics',
