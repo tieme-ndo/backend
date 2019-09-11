@@ -20,13 +20,13 @@ editRouter.post(
   isAuthorized,
   editController.approveEdit
 );
-/* 
+
 editRouter.get(
   '/edits/:id/decline',
   verifyToken,
   validate.validateId,
   isAuthorized,
   editController.declineEdit
-); */
+);
 
 module.exports = editRouter;
