@@ -39,15 +39,14 @@ const statistics = async (req, res, next) => {
       farmersAgeLesserThanThirtyFive
     };
 
-    return res.json(farmerStatisticsInNumbers);
+    return res.status(200).json(farmerStatisticsInNumbers);
   } catch (error) {
-    // return next(
-    //   // createError({
-    //   //   message: 'Could not get farmers statistics',
-    //   //   status: GENERIC_ERROR
-    //   // })
-    // );
-    return res.status(500).json(error);
+    return next(
+      createError({
+        message: 'Could not get farmers statistics',
+        status: GENERIC_ERROR
+      })
+    );
   }
 };
 
