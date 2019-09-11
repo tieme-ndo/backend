@@ -1,5 +1,6 @@
 const { models } = require('../../models');
 const { createError, NOT_FOUND } = require('../../helpers/error.js');
+const formatObjectsArrayDates = require("../../helpers/formatObjectsArrayDates");
 
 /**
  * @description Get Farmers
@@ -18,11 +19,17 @@ const getAllFarmers = async (req, res, next) => {
         message: 'Could not find any farmer in the record'
       });
     }
+
+    const farmersWithFormattedDates = formatObjectsArrayDates(
+      ['personalInfo.date_of_birth'],
+      farmers
+    );
+
     return res.status(200).json({
       success: true,
       message: 'Farmers records found',
       totalNumberOfFarmers: farmers.length,
-      farmers
+      farmers: farmersWithFormattedDates
     });
   } catch (err) {
     return next(
@@ -42,7 +49,7 @@ const getFarmerById = async (req, res, next) => {
       return res.status(200).json({
         success: true,
         message: 'Farmer record found',
-        farmer
+        farmer: farmersWithFormattedDates
       });
     }
     return res.status(404).json({
