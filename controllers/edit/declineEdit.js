@@ -12,7 +12,6 @@ const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 const declineEdit = async (req, res, next) => {
   try {
     const editEntry = await models.Edit.findOneAndRemove({ _id: req.params.id });
-
     if (editEntry) {
         return res.status(200).json({
           success: true,
