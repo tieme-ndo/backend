@@ -43,6 +43,7 @@ const updateFarmer = async (req, res, next) => {
       }
       const farmerEditRequest = await models.Edit.create({
         edited_farmer: farmerDetails,
+        farmer_id: farmerId,
         edited_by: username
       });
 
