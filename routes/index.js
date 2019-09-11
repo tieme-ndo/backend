@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const user = require('./userRouter');
 const farmer = require('./farmerRouter');
-const edit = require('./editRouter');
+const edits = require('./editsRouter');
 
 router.use(user);
 router.use(farmer);
-router.use(edit);
+router.use(edits);
 
 module.exports = router;

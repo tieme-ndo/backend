@@ -14,7 +14,7 @@ const getAllEdits = async (req, res, next) => {
     const edits = await models.Edit.find();
     if (!edits.length) {
       return res.status(404).json({
-        succes: false,
+        success: false,
         message: 'Could not find any edit in the record'
       });
     }
