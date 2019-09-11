@@ -1,5 +1,5 @@
-const { models } = require('../../models');
-const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
+const { models } = require("../../models");
+const { createError, GENERIC_ERROR } = require("../../helpers/error.js");
 
 /**
  * @description Get Edits
@@ -11,27 +11,28 @@ const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 
 const approveEdit = async (req, res, next) => {
   try {
-    const editEntry = await models.Edit.find({ _id: req.params.id });
+    const editEntry = await models.Edit.findOne({ _id: req.params.id });
     if (editEntry) {
       const editedFarmer = await models.Farmer.findOneAndReplace(
         { _id: req.params.id },
-        { ...editEntry.edited_farmer }
+        { ...editEntry.edited_farmer, staff: req.user.username }
       );
+      await models.Edit.findOneAndRemove({ _id: req.params.id });
       return res.status(200).json({
         success: true,
-        message: 'Edit approved',
+        message: "Edit approved",
         editedFarmer
       });
     }
     return res.status(404).json({
       success: false,
       message:
-        'There is no saved edit with this ID, please subit a valid edit-ID'
+        "There is no saved edit with this ID, please subit a valid edit-ID"
     });
   } catch (err) {
     return next(
       createError({
-        message: 'Internal database error',
+        message: "Internal database error",
         status: GENERIC_ERROR
       })
     );
