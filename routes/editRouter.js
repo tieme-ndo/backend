@@ -10,7 +10,6 @@ editRouter.get(
   '/edits',
   verifyToken,
   isAuthorized,
-  validate.createUser,
   editController.getAllEdits
 );
 
