@@ -34,6 +34,10 @@ app.get('/', (req, res) => res.status(200).json({
 
 app.use('/api/v1', router);
 
+app.get('/debug-sentry', (req, res) => {
+  throw new Error('My first Sentry error!');
+});
+
 // Handle invalid request
 app.all('*', (req, res) => res.status(NOT_FOUND).json({
     success: false,
