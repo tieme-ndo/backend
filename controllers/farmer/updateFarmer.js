@@ -28,7 +28,6 @@ const updateFarmer = async (req, res, next) => {
       );
     }
     if (farmerExist.staff === username || isAdmin) {
-      farmerDetails.staff = username || farmerDetails.staff;
       if (isAdmin) {
         const farmer = await models.Farmer.findOneAndUpdate(
           { _id: farmerId },
@@ -46,7 +45,7 @@ const updateFarmer = async (req, res, next) => {
           edited_farmer: farmerDetails,
           edited_by: username
         })
-        
+
         return res.status(201).json({
           success: true,
           message: "You are not an admin, your change was created and is ready for admin approval",
