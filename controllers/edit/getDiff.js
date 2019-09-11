@@ -12,10 +12,6 @@ const getDiff = async edit => {
   };
   const differences = await diff(originalFarmer, edit.edited_farmer);
 
-  /* const filteredDifferences = differences.filter(edit => {
-    return !edit.path.includes('$init');
-  });
- */
   return {
     changes: differences.map(difference => {
       if (difference.kind === 'D') {
