@@ -13,7 +13,6 @@ before(async () => {
     connectDB().then(async () => {
       await Promise.all([
         models.User.deleteMany({}),
-        models.Farmer.deleteMany({}),
         models.User.create({
           username: 'Moses',
           isAdmin: true,

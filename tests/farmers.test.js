@@ -56,6 +56,18 @@ describe('Farmer route', () => {
           done(err);
         });
     });
+
+    it('It should return 200 [farmer statistic]', (done) => {
+      chai
+        .request(server)
+        .get('/api/v1/farmers/statistic')
+        .set('Authorization', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done(err);
+        });
+    });
+
     it('It updates farmer details', (done) => {
       farmerInput.personalInfo.title = 'Miss';
       chai
