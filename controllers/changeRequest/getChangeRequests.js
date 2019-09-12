@@ -1,5 +1,4 @@
 const { models } = require('../../models');
-const getDiff = require('./getDiff');
 const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 
 /**
@@ -12,7 +11,13 @@ const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 
 const getAllChangeRequests = async (req, res, next) => {
   try {
-    const changeRequests = await models.ChangeRequest.find();
+    const nonRequestedDataFields = {
+      requested_changes: false
+    };
+    const changeRequests = await models.ChangeRequest.find(
+      {},
+      nonRequestedDataFields
+    );
     if (!changeRequests.length) {
       return res.status(404).json({
         success: false,
@@ -20,16 +25,10 @@ const getAllChangeRequests = async (req, res, next) => {
       });
     }
 
-    let diffChangeRequests = await Promise.all(
-      changeRequests.map(async changeRequest => {
-        return getDiff(changeRequest);
-      })
-    );
-
     return res.status(200).json({
       success: true,
       message: 'ChangeRequests found',
-      changeRequests: diffChangeRequests
+      changeRequests
     });
   } catch (err) {
     return next(
@@ -43,7 +42,9 @@ const getAllChangeRequests = async (req, res, next) => {
 
 const getChangeRequestById = async (req, res, next) => {
   try {
-    const changeRequest = await models.ChangeRequest.findOne({_id: req.params.id});
+    const changeRequest = await models.ChangeRequest.findOne({
+      _id: req.params.id
+    });
     if (!changeRequest) {
       return res.status(404).json({
         success: false,
@@ -69,4 +70,4 @@ const getChangeRequestById = async (req, res, next) => {
 module.exports = {
   getAllChangeRequests,
   getChangeRequestById
-}
+};
