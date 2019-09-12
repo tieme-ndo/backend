@@ -19,8 +19,8 @@ const updateFarmer = async (req, res, next) => {
     const farmerDetails = req.body;
     const { username, isAdmin } = req.user;
 
-    const farmerExist = await models.Farmer.findOne({ _id: farmerId });
-    if (!farmerExist) {
+    const farmer = await models.Farmer.findOne({ _id: farmerId });
+    if (!farmer) {
       return next(
         createError({
           message: "Farmer does not exist",
@@ -28,7 +28,7 @@ const updateFarmer = async (req, res, next) => {
         })
       );
     }
-    if (farmerExist.staff === username || isAdmin) {
+    if (farmer.staff === username || isAdmin) {
       if (isAdmin) {
         const convertedObject = convertToDotNotationObject(farmerDetails);
         const farmer = await models.Farmer.findOneAndUpdate(
@@ -43,13 +43,11 @@ const updateFarmer = async (req, res, next) => {
           farmer
         });
       }
-      console.log(
-        `${farmerExist.personalInfo.first_name} ${farmerExist.personalInfo.surname}`
-      );
+
       const farmerEditRequest = await models.ChangeRequest.create({
         requested_changes: farmerDetails,
         farmer_id: farmerId,
-        farmer_name: `${farmerExist.personalInfo.first_name} ${farmerExist.personalInfo.surname}`,
+        farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
         change_requested_by: username
       });
 
