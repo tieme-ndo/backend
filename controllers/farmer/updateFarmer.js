@@ -43,9 +43,13 @@ const updateFarmer = async (req, res, next) => {
           farmer
         });
       }
+      console.log(
+        `${farmerExist.personalInfo.first_name} ${farmerExist.personalInfo.surname}`
+      );
       const farmerEditRequest = await models.ChangeRequest.create({
         requested_changes: farmerDetails,
         farmer_id: farmerId,
+        farmer_name: `${farmerExist.personalInfo.first_name} ${farmerExist.personalInfo.surname}`,
         change_requested_by: username
       });
 
