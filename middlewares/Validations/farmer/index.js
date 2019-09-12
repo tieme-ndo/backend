@@ -1,9 +1,9 @@
 const createFarmer = require('./createFarmer');
 const validateId = require('./validateId');
-const editRequest = require('./editRequest');
+const changeRequest = require('./changeRequest');
 
 module.exports = {
   createFarmer,
   validateId,
-  editRequest
+  changeRequest
 };

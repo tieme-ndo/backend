@@ -21,7 +21,7 @@ const requested_changes = {
 };
 
 const changeRequestSchema = mongoose.Schema({
-  changeRequested_by,
+  change_requested_by,
   date,
   farmer_id,
   requested_changes
