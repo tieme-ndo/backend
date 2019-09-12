@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const farmerSchema = require('./farmer');
 
 const edited_by = {
   type: String,
@@ -16,8 +15,8 @@ const farmer_id = {
   required: true
 };
 
-const edited_farmer = {
-  type: farmerSchema,
+const farmer_changes = {
+  type: Object,
   required: true
 };
 
@@ -25,7 +24,7 @@ const editSchema = mongoose.Schema({
   edited_by,
   date,
   farmer_id,
-  edited_farmer
+  farmer_changes
 });
 
 const Edit = mongoose.model('Edit', editSchema);

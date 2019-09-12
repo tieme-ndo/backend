@@ -18,7 +18,7 @@ farmerRouter.put(
   '/farmers/:id/update',
   verifyToken,
   validate.validateId,
-  validate.createFarmer,
+  validate.editRequest,
   FarmerController.updateFarmer
 );
 
