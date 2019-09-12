@@ -1,4 +1,5 @@
 const { models } = require('../../models');
+const convertToDotNotationObject = require('./convertToDotNotationObject');
 const {
   createError,
   GENERIC_ERROR,
@@ -29,10 +30,11 @@ const updateFarmer = async (req, res, next) => {
     }
     if (farmerExist.staff === username || isAdmin) {
       if (isAdmin) {
+        const convertedObject = convertToDotNotationObject(farmerDetails);
         const farmer = await models.Farmer.findOneAndUpdate(
           { _id: farmerId },
-          farmerDetails,
-          { new: true }
+          convertedObject,
+          { new: true, runValidators: true }
         );
 
         return res.status(201).json({
@@ -41,10 +43,10 @@ const updateFarmer = async (req, res, next) => {
           farmer
         });
       }
-      const farmerEditRequest = await models.Edit.create({
-        edited_farmer: farmerDetails,
+      const farmerEditRequest = await models.ChangeRequest.create({
+        requested_changes: farmerDetails,
         farmer_id: farmerId,
-        edited_by: username
+        change_requested_by: username
       });
 
       return res.status(201).json({
