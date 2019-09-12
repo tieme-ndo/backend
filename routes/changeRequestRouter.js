@@ -10,14 +10,14 @@ changeRequestRouter.get(
   '/changeRequests',
   verifyToken,
   isAuthorized,
-  changeRequestController.getAllchangeRequests
+  changeRequestController.getAllChangeRequests
 );
 
 changeRequestRouter.get(
   '/changeRequests/:id',
   verifyToken,
   isAuthorized,
-  changeRequestController.getchangeRequestById
+  changeRequestController.getChangeRequestById
 );
 
 changeRequestRouter.post(
