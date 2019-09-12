@@ -47,7 +47,7 @@ const statistics = async (req, res, next) => {
     //   //   status: GENERIC_ERROR
     //   // })
     // );
-    return res.status().json(error);
+    return res.status(500).json(error);
   }
 };
 
