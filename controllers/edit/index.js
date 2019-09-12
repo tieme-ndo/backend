@@ -1,4 +1,4 @@
-const getAllEdits = require('./getAllEdits');
+const { getEdits, getEditById } = require('./getEdits');
 const approveEdit = require('./approveEdit');
 const declineEdit = require('./declineEdit');
 
