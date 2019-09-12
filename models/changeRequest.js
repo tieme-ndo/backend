@@ -15,7 +15,7 @@ const farmer_id = {
   required: true
 };
 
-const farmer_changes = {
+const requested_changes = {
   type: Object,
   required: true
 };
@@ -24,7 +24,7 @@ const changeRequestSchema = mongoose.Schema({
   changeRequested_by,
   date,
   farmer_id,
-  farmer_changes
+  requested_changes
 });
 
 const ChangeRequest = mongoose.model('ChangeRequest', changeRequestSchema);

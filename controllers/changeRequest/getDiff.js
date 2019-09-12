@@ -10,7 +10,7 @@ const getDiff = async changeRequest => {
     farmInfo: farmerObject.farmInfo,
     guarantor: farmerObject.guarantor
   };
-  const differences = await diff(originalFarmer, changeRequest.edited_farmer);
+  const differences = await diff(originalFarmer, changeRequest.requested_changes);
 
   const filteredDifferences = differences.filter(changeRequest => {
     return !changeRequest.path.includes('$init');
