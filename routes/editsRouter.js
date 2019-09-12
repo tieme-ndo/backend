@@ -13,6 +13,13 @@ editRouter.get(
   editController.getAllEdits
 );
 
+editRouter.get(
+  '/edits/:id',
+  verifyToken,
+  isAuthorized,
+  editController.getEditById
+);
+
 editRouter.post(
   '/edits/:id/approve',
   verifyToken,
