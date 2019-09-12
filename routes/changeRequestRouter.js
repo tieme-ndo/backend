@@ -7,21 +7,21 @@ const validate = require('../middlewares/Validations/farmer');
 const changeRequestRouter = express.Router();
 
 changeRequestRouter.get(
-  '/changeRequests',
+  '/change-requests',
   verifyToken,
   isAuthorized,
   changeRequestController.getAllChangeRequests
 );
 
 changeRequestRouter.get(
-  '/changeRequests/:id',
+  '/change-requests/:id',
   verifyToken,
   isAuthorized,
   changeRequestController.getChangeRequestById
 );
 
 changeRequestRouter.post(
-  '/changeRequests/:id/approve',
+  '/change-requests/:id/approve',
   verifyToken,
   validate.validateId,
   isAuthorized,
@@ -29,7 +29,7 @@ changeRequestRouter.post(
 );
 
 changeRequestRouter.post(
-  '/changeRequests/:id/decline',
+  '/change-requests/:id/decline',
   verifyToken,
   validate.validateId,
   isAuthorized,
