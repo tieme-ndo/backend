@@ -12,7 +12,6 @@ const { createError, GENERIC_ERROR } = require("../../helpers/error.js");
 const approveChangeRequest = async (req, res, next) => {
   try {
     const changeRequestEntry = await models.ChangeRequest.findOne({ _id: req.params.id });
-    console.log(changeRequestEntry);
     if (changeRequestEntry) {
       const convertedObject = convertToDotNotationObject(changeRequestEntry);
         await models.Farmer.findOneAndUpdate(
