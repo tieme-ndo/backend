@@ -39,7 +39,7 @@ describe('Farmer route', () => {
     farmerInput.personalInfo.title = 'Miss';
     chai
       .request(server)
-      .put(`/api/v1/farmers/${id}/update`)
+      .patch(`/api/v1/farmers/${id}/update`)
       .set('Authorization', token)
       .send(farmerInput)
       .end((err, res) => {
@@ -109,7 +109,7 @@ describe('Farmer route', () => {
   it('It should return 400 bad request', (done) => {
     chai
       .request(server)
-      .put('/api/v1/farmers/hui89ewhee/update')
+      .patch('/api/v1/farmers/hui89ewhee/update')
       .set('Authorization', token)
       .send(farmerInput)
       .end((err, res) => {
