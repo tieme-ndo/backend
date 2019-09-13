@@ -10,7 +10,9 @@ chai.use(chaiHttp);
 
 describe('Farmer route', () => {
   let token = '';
+  let staffToken = '';
   let id = '';
+  let idCreatedByStaff = '';
   it('Login user responds with 200', (done) => {
     chai
       .request(server)
@@ -18,6 +20,18 @@ describe('Farmer route', () => {
       .send(seeds.adminUser)
       .end((err, res) => {
         token = res.body.token;
+        res.should.have.status(200);
+        done(err);
+      });
+  });
+
+  it('Login staff user responds with 200', (done) => {
+    chai
+      .request(server)
+      .post('/api/v1/user/login')
+      .send(seeds.staffUser)
+      .end((err, res) => {
+        staffToken = res.body.token;
         res.should.have.status(200);
         done(err);
       });
@@ -35,6 +49,18 @@ describe('Farmer route', () => {
         done(err);
       });
   });
+  it('It should return 201 when creating new farmer', done => {
+    chai
+      .request(server)
+      .post('/api/v1/farmers/create')
+      .set('Authorization', staffToken)
+      .send(farmerInput)
+      .end((err, res) => {
+        res.should.have.status(201);
+        idCreatedByStaff = res.body.farmer._id;
+        done(err);
+      });
+  });
   it('It updates farmer details', (done) => {
     farmerInput.personalInfo.title = 'Miss';
     chai
@@ -45,6 +71,21 @@ describe('Farmer route', () => {
       .end((err, res) => {
         res.should.have.status(201);
         res.body.farmer.personalInfo.title.should.equal('Miss');
+        done(err);
+      });
+  });
+  it('It does not update farmer details if done by staff', (done) => {
+    farmerInput.personalInfo.title = 'Mr';
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${idCreatedByStaff}/update`)
+      .set('Authorization', staffToken)
+      .send(farmerInput)
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.body.message.should.equal(
+          'You are not an admin, your change was created and is ready for admin approval'
+        );
         done(err);
       });
   });
@@ -64,6 +105,14 @@ describe('Farmer route', () => {
     chai
       .request(server)
       .delete(`/api/v1/farmers/${id}/delete`)
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal('Farmer details deleted successfully');
+      });
+    chai
+      .request(server)
+      .delete(`/api/v1/farmers/${idCreatedByStaff}/delete`)
       .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(200);
