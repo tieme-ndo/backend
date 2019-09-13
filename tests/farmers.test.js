@@ -12,16 +12,18 @@ chai.use(chaiHttp);
 before(async () => {
   try {
     const password = bcrypt.hashSync('123456', bcrypt.genSaltSync(10));
-    connectDB();
-    await models.User.deleteMany({});
-    await models.Farmer.deleteMany({});
-    await models.User.create({
-      username: 'James',
-      password,
-      isAdmin: true
-    });
+    await connectDB();
+    await Promise.all([
+      models.User.deleteMany({}),
+      models.Farmer.deleteMany({}),
+      models.User.create({
+        username: 'James',
+        isAdmin: true,
+        password
+      })
+    ]);
   } catch (error) {
-    return error;
+    console.log(error);
   }
 });
 
@@ -30,7 +32,7 @@ describe('Farmer route', () => {
   let id = '';
   it('Login user', (done) => {
     const userLogin = {
-      username: 'James',
+      username: 'Moses',
       password: '123456'
     };
     chai

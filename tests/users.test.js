@@ -10,19 +10,18 @@ let token = '';
 before(async () => {
   try {
     const password = bcrypt.hashSync('123456', bcrypt.genSaltSync(10));
-    connectDB().then(async () => {
-      await Promise.all([
-        models.User.deleteMany({}),
-        models.Farmer.deleteMany({}),
-        models.User.create({
-          username: 'Moses',
-          isAdmin: true,
-          password
-        })
-      ]);
-    });
+    await connectDB();
+    await Promise.all([
+      models.User.deleteMany({}),
+      models.Farmer.deleteMany({}),
+      models.User.create({
+        username: 'Moses',
+        isAdmin: true,
+        password
+      })
+    ]);
   } catch (error) {
-    return error;
+    console.log(error);
   }
 });
 
