@@ -11,6 +11,16 @@ const adminUser = {
   isAdmin: true
 };
 
+const staffUser = {
+  username: staffUsername,
+  password: hashedPw,
+};
+
+const staffUser2 = {
+  username: 'Staff2',
+  password: hashedPw
+};
+
 before(async () => {
   try {
     await connectDB();
@@ -18,6 +28,7 @@ before(async () => {
     await models.User.deleteMany({});
     await models.Farmer.deleteMany({});
     await models.User.create(adminUser);
+    await models.User.create(staffUser);
   } catch (error) {
     console.log(error);
   }
@@ -43,6 +54,10 @@ after(async () => {
 module.exports = {
   staffUser: {
     username: staffUsername,
+    password
+  },
+  staffUser2: {
+    username: staffUser2.username,
     password
   },
   adminUser: {
