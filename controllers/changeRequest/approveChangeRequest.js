@@ -12,11 +12,14 @@ const { createError, GENERIC_ERROR } = require("../../helpers/error.js");
 const approveChangeRequest = async (req, res, next) => {
   try {
     const changeRequestEntry = await models.ChangeRequest.findOne({ _id: req.params.id });
+    console.log(changeRequestEntry);
     if (changeRequestEntry) {
-      const editedFarmer = await models.Farmer.findOneAndReplace(
-        { _id: req.params.id },
-        { ...changeRequestEntry.farmer_changes, staff: req.user.username }
-      );
+      const convertedObject = convertToDotNotationObject(changeRequestEntry);
+        await models.Farmer.findOneAndUpdate(
+          { _id: farmerId },
+          convertedObject,
+          { new: true, runValidators: true }
+        )
       await models.ChangeRequest.findOneAndRemove({ _id: req.params.id });
       return res.status(200).json({
         success: true,
