@@ -1,6 +1,6 @@
 const { models } = require('../../models');
 const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
-const createChangeObject = require('./createChangeObject')
+const convertToDotNotationObject = require('../farmer/convertToDotNotationObject');
 
 /**
  * @description Get ChangeRequests
@@ -54,23 +54,21 @@ const getChangeRequestById = async (req, res, next) => {
       });
     }
 
+    
+    const requestedChanges = changeRequest.requested_changes;
+    const selectFilter= convertToDotNotationObject(requestedChanges);
+    console.log(selectFilter);
     const toChangeFarmer = await models.Farmer.findOne({
       _id: changeRequest.farmer_id
-    });
-    const requestedChanges = changeRequest.requested_changes;
-    const prevFarmerInfo = {
-      ...toChangeFarmer.personalInfo,
-      ...toChangeFarmer.familyInfo,
-      ...toChangeFarmer.guarantor,
-      ...toChangeFarmer.farmInfo
-    };
-    const changeObject = createChangeObject(requestedChanges, prevFarmerInfo)
+    }, selectFilter).lean();
+    console.log(toChangeFarmer);
 
     return res.status(200).json({
       success: true,
       message: 'ChangeRequest with this ID found',
-      changeObject
+      requestedChanges
     });
+
   } catch (err) {
     return next(
       createError({
