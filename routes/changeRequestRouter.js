@@ -20,7 +20,7 @@ changeRequestRouter.get(
   changeRequestController.getChangeRequestById
 );
 
-changeRequestRouter.patch(
+changeRequestRouter.post(
   '/change-requests/:id/approve',
   verifyToken,
   validate.validateId,
