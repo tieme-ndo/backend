@@ -13,7 +13,7 @@ const adminUser = {
 
 const staffUser = {
   username: staffUsername,
-  password: hashedPw,
+  password: hashedPw
 };
 
 const staffUser2 = {
@@ -47,12 +47,6 @@ after(async () => {
   }
 });
 
-/**
- * @TODO - create a function that will create new Farmer in DB
- * @TODO - create a function that will DELETE the farmer from DB
- * @TODO - reuse this function in farmer tests so every test is independent from each other
- */
-
 module.exports = {
   staffUser: {
     username: staffUsername,
@@ -69,10 +63,6 @@ module.exports = {
   missingUsername: {
     username: '',
     password
-  },
-  invalidPassword: {
-    username: adminUsername,
-    password: '123456'
   },
   newPassword: {
     password: '1234567'
