@@ -27,6 +27,7 @@ before(async () => {
 
     await models.User.deleteMany({});
     await models.Farmer.deleteMany({});
+    await models.ChangeRequest.deleteMany({});
     await models.User.create(adminUser);
     await models.User.create(staffUser);
   } catch (error) {
@@ -40,6 +41,7 @@ after(async () => {
 
     await models.User.deleteMany({});
     await models.Farmer.deleteMany({});
+    await models.ChangeRequest.deleteMany({});
   } catch (error) {
     console.log(error);
   }

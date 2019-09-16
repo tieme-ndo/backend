@@ -123,7 +123,7 @@ describe('Farmer route', () => {
   it('It should return an array of farmers', (done) => {
     chai
       .request(server)
-      .get('/api/v1/farmers')
+      .get(`/api/v1/farmers/${idCreatedByStaff}/`)
       .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
