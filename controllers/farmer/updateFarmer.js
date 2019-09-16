@@ -4,7 +4,7 @@ const {
   createError,
   GENERIC_ERROR,
   NOT_FOUND
-} = require("../../helpers/error");
+} = require('../../helpers/error');
 
 /**
  * @description Update farmer details
@@ -23,7 +23,7 @@ const updateFarmer = async (req, res, next) => {
     if (!farmer) {
       return next(
         createError({
-          message: "Farmer does not exist",
+          message: 'Farmer does not exist',
           status: NOT_FOUND
         })
       );
@@ -39,7 +39,7 @@ const updateFarmer = async (req, res, next) => {
 
         return res.status(201).json({
           success: true,
-          message: "Farmer details updated successfully",
+          message: 'Farmer details updated successfully',
           farmer
         });
       }
@@ -54,20 +54,20 @@ const updateFarmer = async (req, res, next) => {
       return res.status(201).json({
         success: true,
         message:
-          "You are not an admin, your change was created and is ready for admin approval",
+          'You are not an admin, your change was created and is ready for admin approval',
         farmerEditRequest
       });
     }
     return next(
       createError({
-        message: "Not authorized to update farmer details",
+        message: 'Not authorized to update farmer details',
         status: NOT_FOUND
       })
     );
   } catch (err) {
     return next(
       createError({
-        message: "Could not update farmer details",
+        message: 'Could not update farmer details',
         status: GENERIC_ERROR
       })
     );

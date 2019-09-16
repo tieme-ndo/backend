@@ -1,8 +1,8 @@
-const Joi = require("@hapi/joi");
-const joiValidate = require("../../../helpers/joiValidate");
+const Joi = require('@hapi/joi');
+const joiValidate = require('../../../helpers/joiValidate');
 
 /**
- * Create user validation schema
+ * Create farmer change request validation schema
  */
 
 const validateString = (maxVal = 30) =>
@@ -15,16 +15,16 @@ const validateEnums = (...enums) => Joi.string().valid(enums);
 const validateNumber = () => Joi.number();
 
 const personalInfo = Joi.object().keys({
-  title: validateEnums("Miss", "Mrs", "Mr", "Chief"),
+  title: validateEnums('Miss', 'Mrs', 'Mr', 'Chief'),
   surname: validateString(),
   first_name: validateString(),
-  image_url: Joi.string().allow(""),
-  middle_name: Joi.string().allow(""),
-  marital_status: validateEnums("Single", "Married", "Widowed", "Divorced"),
-  gender: validateEnums("Male", "Female", "Others"),
+  image_url: Joi.string().allow(''),
+  middle_name: Joi.string().allow(''),
+  marital_status: validateEnums('Single', 'Married', 'Widowed', 'Divorced'),
+  gender: validateEnums('Male', 'Female', 'Others'),
   place_of_birth: validateString(50),
   date_of_birth: Joi.date(),
-  id_type: validateEnums("Voters Card", "NHIS", "National ID", "Others"),
+  id_type: validateEnums('Voters Card', 'NHIS', 'National ID', 'Others'),
   id_number: validateString(),
   district: validateString(),
   region: validateString(),
@@ -38,17 +38,17 @@ const personalInfo = Joi.object().keys({
   Phone_1: validateString(),
   Phone_2: validateString(),
   education_level: validateEnums(
-    "Tertiary",
-    "SHS",
-    "JHS",
-    "Primary",
-    "Not Educated"
+    'Tertiary',
+    'SHS',
+    'JHS',
+    'Primary',
+    'Not Educated'
   ),
   occupation: validateString(),
   expected_income_per_month: validateEnums(
-    "Less than GHC 500",
-    "501 to GHC 1,000",
-    "More than GHC 1,000"
+    'Less than GHC 500',
+    '501 to GHC 1,000',
+    'More than GHC 1,000'
   ),
   major_source_of_income_name: validateString(),
   major_source_of_income_amount: validateNumber(),
@@ -60,24 +60,24 @@ const familyInfo = Joi.object().keys({
   family_size: validateNumber(),
   number_of_dependant: validateNumber(),
   highest_level_of_dependent: validateEnums(
-    "Tertiary",
-    "SHS",
-    "JHS",
-    "Primary",
-    "Not Educated"
+    'Tertiary',
+    'SHS',
+    'JHS',
+    'Primary',
+    'Not Educated'
   ),
   family_income_per_month: validateEnums(
-    "Less than GHC 500",
-    "501 to GHC 1,000",
-    "More than GHC 1,000"
+    'Less than GHC 500',
+    '501 to GHC 1,000',
+    'More than GHC 1,000'
   )
 });
 
 const guarantor = Joi.object().keys({
-  grt_title: validateEnums("Miss", "Mrs", "Mr", "Chief"),
+  grt_title: validateEnums('Miss', 'Mrs', 'Mr', 'Chief'),
   grt_surname: validateString(),
   grt_first_name: validateString(),
-  grt_gender: validateEnums("Male", "Female", "Others"),
+  grt_gender: validateEnums('Male', 'Female', 'Others'),
   grt_relations: validateString(),
   grt_residential_address: validateString(100),
   grt_occupation: validateString(),

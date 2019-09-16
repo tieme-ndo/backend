@@ -15,7 +15,7 @@ describe('Request change route', () => {
   let idCreatedByStaff = '';
   let changeRequestId = '';
 
-  it('Login user responds with 200', done => {
+  it('Login admin user responds with 200', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/login')
@@ -27,7 +27,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('Login staff user responds with 200', done => {
+  it('Login staff user responds with 200', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/login')
@@ -39,7 +39,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('It should return 201 when creating new farmer', done => {
+  it('It should return 201 when creating new farmer', (done) => {
     chai
       .request(server)
       .post('/api/v1/farmers/create')
@@ -52,7 +52,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('It creates a changerequest if farmer is updated by staff', done => {
+  it('It creates a changerequest if farmer is updated by staff', (done) => {
     farmerInput.personalInfo.title = 'Mr';
     chai
       .request(server)
@@ -71,7 +71,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('It retrieves a list of change requests', done => {
+  it('It retrieves a list of change requests', (done) => {
     chai
       .request(server)
       .get('/api/v1/change-requests/')
@@ -84,7 +84,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('It retrieves a change request info', done => {
+  it('It retrieves a change request info', (done) => {
     chai
       .request(server)
       .get(`/api/v1/change-requests/${changeRequestId}`)
@@ -97,7 +97,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('It rejects a change', done => {
+  it('It rejects a change', (done) => {
     chai
       .request(server)
       .post(`/api/v1/change-requests/${changeRequestId}/decline`)
@@ -109,7 +109,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('It creates a changerequest if farmer is updated by staff', done => {
+  it('It creates a changerequest if farmer is updated by staff. Copy of test to have a changerequest in DB', (done) => {
     farmerInput.personalInfo.title = 'Mr';
     chai
       .request(server)
@@ -128,7 +128,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('It accepts a change', done => {
+  it('It accepts a change', (done) => {
     chai
       .request(server)
       .post(`/api/v1/change-requests/${changeRequestId}/approve`)
