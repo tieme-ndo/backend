@@ -20,9 +20,10 @@ const getAllChangeRequests = async (req, res, next) => {
       nonRequestedDataFields
     );
     if (!changeRequests.length) {
-      return res.status(404).json({
-        success: false,
-        message: 'Could not find any changeRequest in the record'
+      return res.status(200).json({
+        success: true,
+        message: 'Could not find any changeRequest in the record',
+        changeRequests: []
       });
     }
 
@@ -56,7 +57,7 @@ const getChangeRequestById = async (req, res, next) => {
 
     /*  This block of code is used to query the DB with a filter derived from the changeRequest
         to only display the data we need.
-        Mongoose includes the _id anyway, so it is deleted afterwards. 
+        Mongoose includes the _id anyway, so it is deleted afterwards.
     */
     const requested_changes = changeRequest.requested_changes;
     const selectFilter = Object.keys(
