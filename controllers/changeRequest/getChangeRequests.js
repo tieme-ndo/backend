@@ -73,7 +73,7 @@ const getChangeRequestById = async (req, res, next) => {
     const responseObject = {
       requested_changes,
       original_data,
-      id: changeRequest._id,
+      _id: changeRequest._id,
       farmer_name: changeRequest.farmer_name,
       change_requested_by: changeRequest.change_requested_by,
       datetime: changeRequest.date
