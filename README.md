@@ -159,7 +159,9 @@ User types (Staff/Admin)
 }
 ```
 
-#### Edits
+#### Change Requests
+
+Properties in `edited_farmer` object are not required. It takes only those fields that were changed in Edit Farmer form.
 
 ```js
 {
