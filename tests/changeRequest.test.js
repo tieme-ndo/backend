@@ -96,4 +96,47 @@ describe('Request change route', () => {
         done(err);
       });
   });
+
+  it('It rejects a change', done => {
+    chai
+      .request(server)
+      .post(`/api/v1/change-requests/${changeRequestId}/decline`)
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal('ChangeRequest declined');
+        done(err);
+      });
+  });
+
+  it('It creates a changerequest if farmer is updated by staff', done => {
+    farmerInput.personalInfo.title = 'Mr';
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${idCreatedByStaff}/update`)
+      .set('Authorization', staffToken)
+      .send(farmerInput)
+      .end(async (err, res) => {
+        res.should.have.status(201);
+        res.body.message.should.equal(
+          'You are not an admin, your change was created and is ready for admin approval'
+        );
+        const changeRequests = await models.ChangeRequest.find();
+        chai.expect(changeRequests).to.have.lengthOf(1);
+        changeRequestId = changeRequests[0]._id;
+        done(err);
+      });
+  });
+
+  it('It accepts a change', done => {
+    chai
+      .request(server)
+      .post(`/api/v1/change-requests/${changeRequestId}/approve`)
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal('ChangeRequest approved');
+        done(err);
+      });
+  });
 });
