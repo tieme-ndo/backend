@@ -14,6 +14,7 @@ farmerRouter.post(
 
 farmerRouter.get('/farmers', verifyToken, FarmerController.getAllFarmers);
 farmerRouter.get('/farmers/:id', verifyToken, validate.validateId, FarmerController.getFarmerById);
+
 farmerRouter.patch(
   '/farmers/:id/update',
   verifyToken,
