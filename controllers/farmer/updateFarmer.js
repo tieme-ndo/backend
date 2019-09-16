@@ -48,7 +48,8 @@ const updateFarmer = async (req, res, next) => {
         requested_changes: farmerDetails,
         farmer_id: farmerId,
         farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
-        change_requested_by: username
+        change_requested_by: username,
+        date: Date.now()
       });
 
       return res.status(201).json({
