@@ -66,7 +66,7 @@ describe('Users route [user/signup]', () => {
       .request(server)
       .post('/api/v1/user/signup')
       .set('authorization', token)
-      .send(seeds.staffUser)
+      .send(seeds.staffUser2)
       .end((err, res) => {
         res.should.have.status(201);
         done(err);
@@ -78,7 +78,7 @@ describe('Users route [user/signup]', () => {
       .request(server)
       .post('/api/v1/user/signup')
       .set('authorization', token)
-      .send(seeds.staffUser)
+      .send(seeds.staffUser2)
       .end((err, res) => {
         res.should.have.status(409);
         done(err);
