@@ -31,13 +31,15 @@ const statistics = async (req, res, next) => {
       (farmer) => calculateAge(farmer.personalInfo.date_of_birth) < 35
     ).length;
 
-    return res.status(200).json({
+    const farmerStatisticsInNumbers = {
       totalNumOfFarmers,
       totalNumOfMaleFarmers,
       totalNumOfFemaleFarmers,
       farmersAgeGreaterThanOrEqualThirtyFive,
       farmersAgeLesserThanThirtyFive
-    });
+    };
+
+    return res.status(200).json(farmerStatisticsInNumbers);
   } catch (error) {
     return next(
       createError({
