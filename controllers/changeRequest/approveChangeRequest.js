@@ -28,7 +28,7 @@ const approveChangeRequest = async (req, res, next) => {
       return res.status(200).json({
         success: true,
         message: 'ChangeRequest approved',
-        editedFarmer
+        changes: changeRequestEntry.requested_changes
       });
     }
     return res.status(404).json({
