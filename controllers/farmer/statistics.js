@@ -11,7 +11,7 @@ const calculateAge = require('../../helpers/calculateAge');
  */
 const statistics = async (req, res, next) => {
   try {
-    const allFarmers = await models.Farmer.find({});
+    const allFarmers = await models.Farmer.find({ archived: false });
 
     const totalNumOfFarmers = allFarmers.length;
 
