@@ -1,4 +1,5 @@
 const { models } = require('../../models');
+const convertToDotNotationObject = require('./convertToDotNotationObject');
 const {
   createError,
   GENERIC_ERROR,
@@ -18,8 +19,8 @@ const updateFarmer = async (req, res, next) => {
     const farmerDetails = req.body;
     const { username, isAdmin } = req.user;
 
-    const farmerExist = await models.Farmer.findOne({ _id: farmerId });
-    if (!farmerExist) {
+    const farmer = await models.Farmer.findOne({ _id: farmerId });
+    if (!farmer) {
       return next(
         createError({
           message: 'Farmer does not exist',
@@ -27,19 +28,35 @@ const updateFarmer = async (req, res, next) => {
         })
       );
     }
-    if (farmerExist.staff === username || isAdmin) {
-      farmerDetails.staff = username || farmerDetails.staff;
+    if (farmer.staff === username || isAdmin) {
+      if (isAdmin) {
+        const convertedObject = convertToDotNotationObject(farmerDetails);
+        const farmer = await models.Farmer.findOneAndUpdate(
+          { _id: farmerId },
+          convertedObject,
+          { new: true, runValidators: true }
+        );
 
-      const farmer = await models.Farmer.findOneAndUpdate(
-        { _id: farmerId },
-        farmerDetails,
-        { new: true }
-      );
+        return res.status(201).json({
+          success: true,
+          message: 'Farmer details updated successfully',
+          farmer
+        });
+      }
+
+      const farmerEditRequest = await models.ChangeRequest.create({
+        requested_changes: farmerDetails,
+        farmer_id: farmerId,
+        farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
+        change_requested_by: username,
+        date: Date.now()
+      });
 
       return res.status(201).json({
         success: true,
-        message: 'Farmer details updated successfully',
-        farmer
+        message:
+          'You are not an admin, your change was created and is ready for admin approval',
+        farmerEditRequest
       });
     }
     return next(

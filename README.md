@@ -10,7 +10,7 @@
 **[Production Deployment](https://t-ndo.herokuapp.com)** <br/>
 **[Staging Deployment](https://tndo-temp-staging.herokuapp.com/)**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/4dc889b835331a059718)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/128f9cfdf87dd2eb709d)
 
 ## Getting started
 
@@ -68,7 +68,7 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-**[View API Reference Here](https://documenter.getpostman.com/view/5770396/SVfWM5o8)**
+**[View API Reference Here](https://documenter.getpostman.com/view/8821479/SVmtzfpW?version=latest)**
 
 # Data Model
 
@@ -156,6 +156,74 @@ User types (Staff/Admin)
 		crops_cultivated: ARRAY[STRING],
 		animals_or_birds: ARRAY[STRING]
 	}
+}
+```
+
+#### Change Requests
+
+Properties in `edited_farmer` object are not required. It takes only those fields that were changed in Edit Farmer form.
+
+```js
+{
+  _id: UUID,
+  date: DATE,
+  edited_farmer: {
+    personalInfo: {
+        title: STRING,
+        surname: STRING,
+        first_name: STRING,
+        middle_name: STRING,
+        image_url: STRING,
+        marital_status: STRING,
+        gender: STRING,
+        place_of_birth: STRING,
+        date_of_birth: DATE,
+        id_type: STRING,
+        id_number: STRING,
+        district: STRING,
+        region: STRING,
+        community_name: STRING,
+        house_name: STRING,
+        house_number: STRING,
+        nearest_landmark: STRING,
+        Phone_1: STRING,
+        Phone_2: STRING,
+        education_level: STRING,
+        occupation: STRING,
+        expected_income_per_month: STRING,
+        major_source_of_income_name: STRING,
+        major_source_of_income_amount: NUMBER,
+        minor_source_of_income_name: STRING,
+        minor_source_of_income_amount: NUMBER
+    },
+    familyInfo: {
+      family_size: NUMBER,
+      number_of_dependant: NUMBER,
+      highest_level_of_dependent: STRING,
+      family_income_per_month: STRING
+    },
+    guarantor:{
+      grt_title: STRING,
+      grt_surname: STRING,
+      grt_first_name: STRING,
+      grt_gender: STRING,
+      grt_relations: STRING,
+      grt_residential_address: STRING,
+      grt_occupation: STRING,
+      grt_phone: STRING,
+      grt_district: STRING,
+      grt_region: STRING
+    },
+    farmInfo:{
+      number_of_acres: NUMBER,
+      location_of_farm: STRING,
+      farm_nearest_landmark: STRING,
+      crops_cultivated: ARRAY[STRING],
+      animals_or_birds: ARRAY[STRING]
+    }
+  },
+  farmer_id: UUID,
+  edited_by: STRING
 }
 ```
 

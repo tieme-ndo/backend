@@ -19,18 +19,13 @@ farmerRouter.post(
 );
 
 farmerRouter.get('/farmers', verifyToken, FarmerController.getAllFarmers);
+farmerRouter.get('/farmers/:id', verifyToken, validate.validateId, FarmerController.getFarmerById);
 
-farmerRouter.get(
-  '/farmers/:id',
-  verifyToken,
-  validate.validateId,
-  FarmerController.getFarmerById
-);
-farmerRouter.put(
+farmerRouter.patch(
   '/farmers/:id/update',
   verifyToken,
   validate.validateId,
-  validate.createFarmer,
+  validate.changeRequest,
   FarmerController.updateFarmer
 );
 
