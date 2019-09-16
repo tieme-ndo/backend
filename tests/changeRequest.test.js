@@ -12,8 +12,20 @@ chai.use(chaiHttp);
 describe('Request change route', () => {
   let token = '';
   let staffToken = '';
-  let id = '';
   let idCreatedByStaff = '';
+  let changeRequestId = '';
+
+  it('Login user responds with 200', done => {
+    chai
+      .request(server)
+      .post('/api/v1/user/login')
+      .send(seeds.adminUser)
+      .end((err, res) => {
+        token = res.body.token;
+        res.should.have.status(200);
+        done(err);
+      });
+  });
 
   it('Login staff user responds with 200', done => {
     chai
@@ -53,8 +65,34 @@ describe('Request change route', () => {
           'You are not an admin, your change was created and is ready for admin approval'
         );
         const changeRequests = await models.ChangeRequest.find();
-        changeRequests.should.be.a('array');
         chai.expect(changeRequests).to.have.lengthOf(1);
+        changeRequestId = changeRequests[0]._id;
+        done(err);
+      });
+  });
+
+  it('It retrieves a list of change requests', done => {
+    chai
+      .request(server)
+      .get('/api/v1/change-requests/')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal('ChangeRequests found');
+        res.body.changeRequests.should.be.a('array');
+        done(err);
+      });
+  });
+
+  it('It retrieves a change request info', done => {
+    chai
+      .request(server)
+      .get(`/api/v1/change-requests/${changeRequestId}`)
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal('ChangeRequest with this ID found');
+        res.body.requested_changes.should.be.a('object');
         done(err);
       });
   });
