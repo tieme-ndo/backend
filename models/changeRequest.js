@@ -7,7 +7,7 @@ const change_requested_by = {
 
 const date = {
   type: Date,
-  default: Date.now()
+  required: true
 };
 
 const farmer_id = {

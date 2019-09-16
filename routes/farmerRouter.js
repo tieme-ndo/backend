@@ -5,6 +5,12 @@ const validate = require('../middlewares/Validations/farmer');
 
 const farmerRouter = express.Router();
 
+farmerRouter.get(
+  '/farmers/statistic',
+  verifyToken,
+  FarmerController.statistics
+);
+
 farmerRouter.post(
   '/farmers/create',
   verifyToken,
