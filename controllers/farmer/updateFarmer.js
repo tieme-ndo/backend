@@ -28,6 +28,7 @@ const updateFarmer = async (req, res, next) => {
         })
       );
     }
+
     if (isAdmin) {
       const convertedObject = convertToDotNotationObject(farmerDetails);
       const farmer = await models.Farmer.findOneAndUpdate(
