@@ -31,7 +31,7 @@ const updateFarmer = async (req, res, next) => {
     if (farmer.staff === username || isAdmin) {
       if (isAdmin) {
         const convertedObject = convertToDotNotationObject(farmerDetails);
-        const farmer = await models.Farmer.findOneAndUpdate(
+        const updatedFarmer = await models.Farmer.findOneAndUpdate(
           { _id: farmerId },
           convertedObject,
           { new: true, runValidators: true }
@@ -40,7 +40,7 @@ const updateFarmer = async (req, res, next) => {
         return res.status(201).json({
           success: true,
           message: 'Farmer details updated successfully',
-          farmer
+          farmer: updatedFarmer
         });
       }
 
