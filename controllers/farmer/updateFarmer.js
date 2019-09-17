@@ -42,8 +42,7 @@ const updateFarmer = async (req, res, next) => {
           message: 'Farmer details updated successfully',
           farmer
         });
-/*       } */
-      }  // This } has to be deleted to make farmer.staff === username check back to work
+      } 
 
       const farmerEditRequest = await models.ChangeRequest.create({
         requested_changes: farmerDetails,
