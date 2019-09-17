@@ -1,42 +1,17 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const bcrypt = require('bcrypt');
 const server = require('../index');
-const { models, connectDB } = require('../models');
+const seeds = require('./testsSetup');
 
 chai.use(chaiHttp);
 let token = '';
 
-before(async () => {
-  try {
-    const password = bcrypt.hashSync('123456', bcrypt.genSaltSync(10));
-    connectDB().then(async () => {
-      await Promise.all([
-        models.User.deleteMany({}),
-        models.Farmer.deleteMany({}),
-        models.User.create({
-          username: 'Moses',
-          isAdmin: true,
-          password
-        })
-      ]);
-    });
-  } catch (error) {
-    return error;
-  }
-});
-
 describe('Users route [/user/login]', () => {
-  it('should log in user', (done) => {
-    const userLogin = {
-      username: 'Moses',
-      password: '123456'
-    };
-
+  it('should return 200 on user log in', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/login')
-      .send(userLogin)
+      .send(seeds.adminUser)
       .end((err, res) => {
         token = res.body.token;
         res.should.have.status(200);
@@ -44,32 +19,24 @@ describe('Users route [/user/login]', () => {
       });
   });
 
-  it('should reset user password', (done) => {
-    const newPassword = {
-      password: '1234567'
-    };
-
+  it('should return 200 on reset user password', (done) => {
     chai
       .request(server)
       .put('/api/v1/user/reset-password')
       .set('authorization', token)
-      .send(newPassword)
+      .send(seeds.newPassword)
       .end((err, res) => {
         res.should.have.status(200);
         done(err);
       });
   });
 
-  it('should return no token provided', (done) => {
-    const newPassword = {
-      password: '1234567'
-    };
-
+  it('should return 401 when no token is provided', (done) => {
     chai
       .request(server)
       .put('/api/v1/user/reset-password')
       .set('authorization', '')
-      .send(newPassword)
+      .send(seeds.newPassword)
       .end((err, res) => {
         res.should.have.status(401);
         done(err);
@@ -94,56 +61,43 @@ describe('Users route [/user/login]', () => {
 });
 
 describe('Users route [user/signup]', () => {
-  it('should add new user', (done) => {
-    const validUserDetails = {
-      username: 'Rexy',
-      password: '1234567'
-    };
-
+  it('should return 201 on add new user', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/signup')
       .set('authorization', token)
-      .send(validUserDetails)
+      .send(seeds.staffUser2)
       .end((err, res) => {
         res.should.have.status(201);
         done(err);
       });
   });
 
-  it('should return 409 ', (done) => {
-    const alreadyExistUser = {
-      username: 'Rexy',
-      password: '1234567'
-    };
+  it('should return 409 when the user already exist', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/signup')
       .set('authorization', token)
-      .send(alreadyExistUser)
+      .send(seeds.staffUser2)
       .end((err, res) => {
         res.should.have.status(409);
         done(err);
       });
   });
 
-  it('should return 400 ', (done) => {
-    const incompleteUserDetails = {
-      username: '',
-      password: '1234567'
-    };
+  it('should return 400 when the user is missing username', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/signup')
       .set('authorization', token)
-      .send(incompleteUserDetails)
+      .send(seeds.missingUsername)
       .end((err, res) => {
         res.should.have.status(400);
         done(err);
       });
   });
 
-  it('should return 401 ', (done) => {
+  it('should return 401 when user does not exist', (done) => {
     const newUser = {
       username: 'Pavol',
       password: '1234567'

@@ -44,7 +44,7 @@ const personalInfo = {
     required: true
   },
   id_number: {
-    type: Number,
+    type: String,
     required: true
   },
   district: {
@@ -64,7 +64,7 @@ const personalInfo = {
     required: true
   },
   house_number: {
-    type: Number,
+    type: String,
     required: true
   },
   nearest_landmark: {
@@ -72,11 +72,11 @@ const personalInfo = {
     required: true
   },
   Phone_1: {
-    type: Number,
+    type: String,
     required: true
   },
   Phone_2: {
-    type: Number,
+    type: String,
     required: true
   },
   education_level: {
@@ -93,10 +93,22 @@ const personalInfo = {
     enum: ['Less than GHC 500', '501 to GHC 1,000', 'More than GHC 1,000'],
     required: true
   },
-  major_source_of_income_name: String,
-  major_source_of_income_amount: Number,
-  minor_source_of_income_name: String,
-  minor_source_of_income_amount: Number
+  major_source_of_income_name: {
+    type: String,
+    required: true
+  },
+  major_source_of_income_amount: {
+    type: Number,
+    required: true
+  },
+  minor_source_of_income_name: {
+    type: String,
+    required: true
+  },
+  minor_source_of_income_amount: {
+    type: Number,
+    required: true
+  }
 };
 
 const familyInfo = {
@@ -152,7 +164,7 @@ const guarantor = {
     required: true
   },
   grt_phone: {
-    type: Number,
+    type: String,
     required: true
   },
   grt_district: {
@@ -217,4 +229,4 @@ const farmerSchema = mongoose.Schema({
 
 const Farmer = mongoose.model('Farmer', farmerSchema);
 
-module.exports = Farmer;
+module.exports = { Farmer };

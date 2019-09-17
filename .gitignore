@@ -80,3 +80,6 @@ typings/
 .dynamodb/
 
 .eslintrc.json
+
+# VSCode Debugger config
+.vscode

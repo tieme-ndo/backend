@@ -18,11 +18,10 @@ const register = async (req, res, next) => {
     userDetails.password = bcrypt.hashSync(userDetails.password, salt);
     userDetails.username = userDetails.username.toLowerCase();
 
-    await models.User.create(userDetails);
-
-    const user = await models.User.findOne({
-      username: userDetails.username
-    }).select(['-password']);
+    const newUser = await models.User.create(userDetails);
+    // convert Mongoose model to plain JS object to remove pw
+    const user = newUser.toObject();
+    delete user.password;
 
     return res.status(201).json({
       success: true,

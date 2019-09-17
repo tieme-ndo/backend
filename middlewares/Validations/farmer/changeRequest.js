@@ -2,18 +2,17 @@ const Joi = require('@hapi/joi');
 const joiValidate = require('../../../helpers/joiValidate');
 
 /**
- * Create user validation schema
+ * Create farmer change request validation schema
  */
 
 const validateString = (maxVal = 30) =>
   Joi.string()
     .min(3)
     .max(maxVal)
-    .trim()
-    .required();
+    .trim();
 
 const validateEnums = (...enums) => Joi.string().valid(enums);
-const validateNumber = () => Joi.number().required();
+const validateNumber = () => Joi.number();
 
 const personalInfo = Joi.object().keys({
   title: validateEnums('Miss', 'Mrs', 'Mr', 'Chief'),
@@ -24,7 +23,7 @@ const personalInfo = Joi.object().keys({
   marital_status: validateEnums('Single', 'Married', 'Widowed', 'Divorced'),
   gender: validateEnums('Male', 'Female', 'Others'),
   place_of_birth: validateString(50),
-  date_of_birth: Joi.date().required(),
+  date_of_birth: Joi.date(),
   id_type: validateEnums('Voters Card', 'NHIS', 'National ID', 'Others'),
   id_number: validateString(),
   district: validateString(),
@@ -34,8 +33,7 @@ const personalInfo = Joi.object().keys({
   house_number: Joi.string()
     .min(1)
     .max(20)
-    .trim()
-    .required(),
+    .trim(),
   nearest_landmark: validateString(),
   Phone_1: validateString(),
   Phone_2: validateString(),
@@ -92,8 +90,8 @@ const farmInfo = Joi.object().keys({
   number_of_acres: validateNumber(),
   location_of_farm: validateString(100),
   farm_nearest_landmark: validateString(100),
-  crops_cultivated: Joi.array().required(),
-  animals_or_birds: Joi.array().required()
+  crops_cultivated: Joi.array(),
+  animals_or_birds: Joi.array()
 });
 
 const farmerSchema = Joi.object().keys({
@@ -106,7 +104,7 @@ const farmerSchema = Joi.object().keys({
 /**
  * Validate user body against defined schema
  */
-const createFarmer = (req, res, next) =>
+const changeRequest = (req, res, next) =>
   joiValidate(req, res, next, farmerSchema);
 
-module.exports = createFarmer;
+module.exports = changeRequest;
