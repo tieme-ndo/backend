@@ -47,14 +47,7 @@ after(async () => {
   }
 });
 
-async function deleteDatabase() {
-  await models.User.deleteMany({});
-  await models.Farmer.deleteMany({});
-  await models.ChangeRequest.deleteMany({});
-}
-
 module.exports = {
-  deleteDatabase,
   staffUser: {
     username: staffUsername,
     password
