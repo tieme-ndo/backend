@@ -28,43 +28,44 @@ const updateFarmer = async (req, res, next) => {
         })
       );
     }
-    if (farmer.staff === username || isAdmin) {
-      if (isAdmin) {
-        const convertedObject = convertToDotNotationObject(farmerDetails);
-        const updatedFarmer = await models.Farmer.findOneAndUpdate(
-          { _id: farmerId },
-          convertedObject,
-          { new: true, runValidators: true }
-        );
 
-        return res.status(201).json({
-          success: true,
-          message: 'Farmer details updated successfully',
-          farmer: updatedFarmer
-        });
-      }
-
-      const farmerEditRequest = await models.ChangeRequest.create({
-        requested_changes: farmerDetails,
-        farmer_id: farmerId,
-        farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
-        change_requested_by: username,
-        date: Date.now()
-      });
+    if (isAdmin) {
+      const convertedObject = convertToDotNotationObject(farmerDetails);
+      const updatedFarmer = await models.Farmer.findOneAndUpdate(
+        { _id: farmerId },
+        convertedObject,
+        { new: true, runValidators: true }
+      );
 
       return res.status(201).json({
         success: true,
-        message:
-          'You are not an admin, your change was created and is ready for admin approval',
-        farmerEditRequest
+        message: 'Farmer details updated successfully',
+        farmer: updatedFarmer
       });
     }
-    return next(
+    /* This is implemented in RC3
+      if (farmer.staff === username) { */
+    const farmerEditRequest = await models.ChangeRequest.create({
+      requested_changes: farmerDetails,
+      farmer_id: farmerId,
+      farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
+      change_requested_by: username,
+      date: Date.now()
+    });
+
+    return res.status(201).json({
+      success: true,
+      message:
+        'You are not an admin, your change was created and is ready for admin approval',
+      farmerEditRequest
+    });
+
+    /* return next(
       createError({
         message: 'Not authorized to update farmer details',
         status: NOT_FOUND
       })
-    );
+    ); */
   } catch (err) {
     return next(
       createError({
