@@ -56,7 +56,7 @@ const updateFarmer = async (req, res, next) => {
     return res.status(201).json({
       success: true,
       message:
-        'You are not an admin, your change was created and is ready for admin approval',
+        'Your change was created and is ready for admin approval',
       farmerEditRequest
     });
 
