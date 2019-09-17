@@ -1,5 +1,5 @@
 const { models } = require('../../models');
-const { createError, NOT_FOUND } = require('../../helpers/error.js');
+const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 
 /**
  * @description Get Farmers
@@ -27,8 +27,8 @@ const getAllFarmers = async (req, res, next) => {
   } catch (err) {
     return next(
       createError({
-        message: 'Farmers records not found',
-        status: NOT_FOUND
+        message: 'Internal server error',
+        status: GENERIC_ERROR
       })
     );
   }
