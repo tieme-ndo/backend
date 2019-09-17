@@ -84,7 +84,7 @@ describe('Farmer route', () => {
       .end((err, res) => {
         res.should.have.status(201);
         res.body.message.should.equal(
-          'You are not an admin, your change was created and is ready for admin approval'
+          'Your change was created and is ready for admin approval'
         );
         done(err);
       });
