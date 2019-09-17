@@ -28,7 +28,7 @@ const updateFarmer = async (req, res, next) => {
         })
       );
     }
-    if (farmer.staff === username || isAdmin) {
+/* THIS WILL BE IMPLEMENTED IN THE NEXT RC:    if (farmer.staff === username || isAdmin) { */
       if (isAdmin) {
         const convertedObject = convertToDotNotationObject(farmerDetails);
         const farmer = await models.Farmer.findOneAndUpdate(
@@ -42,7 +42,8 @@ const updateFarmer = async (req, res, next) => {
           message: 'Farmer details updated successfully',
           farmer
         });
-      }
+/*       } */
+      }  // This } has to be deleted to make farmer.staff === username check back to work
 
       const farmerEditRequest = await models.ChangeRequest.create({
         requested_changes: farmerDetails,
@@ -58,13 +59,14 @@ const updateFarmer = async (req, res, next) => {
           'You are not an admin, your change was created and is ready for admin approval',
         farmerEditRequest
       });
-    }
+    /* THIS WILL BE IMPLEMENTED IN THE NEXT RC: 
+  }
     return next(
       createError({
         message: 'Not authorized to update farmer details',
         status: NOT_FOUND
       })
-    );
+    ); */
   } catch (err) {
     return next(
       createError({
