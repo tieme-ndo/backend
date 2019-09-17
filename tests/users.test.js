@@ -111,4 +111,20 @@ describe('Users route [user/signup]', () => {
         done(err);
       });
   });
+
+  it('should return normalize username on add new user', (done) => {
+    const capitalUsername = seeds.staffUser2;
+    capitalUsername.username = 'BIGuserNAME';
+    chai
+      .request(server)
+      .post('/api/v1/user/signup')
+      .set('authorization', token)
+      .send(capitalUsername)
+      .end((err, res) => {
+        res.body.user.username.should.equal(
+          capitalUsername.username.toLowerCase()
+        );
+        done(err);
+      });
+  });
 });
