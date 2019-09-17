@@ -1,10 +1,10 @@
-const { models } = require('../../models');
-const convertToDotNotationObject = require('./convertToDotNotationObject');
+const { models } = require("../../models");
+const convertToDotNotationObject = require("./convertToDotNotationObject");
 const {
   createError,
   GENERIC_ERROR,
   NOT_FOUND
-} = require('../../helpers/error');
+} = require("../../helpers/error");
 
 /**
  * @description Update farmer details
@@ -23,43 +23,43 @@ const updateFarmer = async (req, res, next) => {
     if (!farmer) {
       return next(
         createError({
-          message: 'Farmer does not exist',
+          message: "Farmer does not exist",
           status: NOT_FOUND
         })
       );
     }
-/* THIS WILL BE IMPLEMENTED IN THE NEXT RC:    if (farmer.staff === username || isAdmin) { */
-      if (isAdmin) {
-        const convertedObject = convertToDotNotationObject(farmerDetails);
-        const farmer = await models.Farmer.findOneAndUpdate(
-          { _id: farmerId },
-          convertedObject,
-          { new: true, runValidators: true }
-        );
-
-        return res.status(201).json({
-          success: true,
-          message: 'Farmer details updated successfully',
-          farmer
-        });
-      } 
-
-      const farmerEditRequest = await models.ChangeRequest.create({
-        requested_changes: farmerDetails,
-        farmer_id: farmerId,
-        farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
-        change_requested_by: username,
-        date: Date.now()
-      });
+    if (isAdmin) {
+      const convertedObject = convertToDotNotationObject(farmerDetails);
+      const farmer = await models.Farmer.findOneAndUpdate(
+        { _id: farmerId },
+        convertedObject,
+        { new: true, runValidators: true }
+      );
 
       return res.status(201).json({
         success: true,
-        message:
-          'You are not an admin, your change was created and is ready for admin approval',
-        farmerEditRequest
+        message: "Farmer details updated successfully",
+        farmer
       });
+    }
+    /* THIS WILL BE IMPLEMENTED IN THE NEXT RC:
+      if (farmer.staff === username) { */
+    const farmerEditRequest = await models.ChangeRequest.create({
+      requested_changes: farmerDetails,
+      farmer_id: farmerId,
+      farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
+      change_requested_by: username,
+      date: Date.now()
+    });
+
+    return res.status(201).json({
+      success: true,
+      message:
+        "You are not an admin, your change was created and is ready for admin approval",
+      farmerEditRequest
+    });
+    /* } */
     /* THIS WILL BE IMPLEMENTED IN THE NEXT RC: 
-  }
     return next(
       createError({
         message: 'Not authorized to update farmer details',
@@ -69,7 +69,7 @@ const updateFarmer = async (req, res, next) => {
   } catch (err) {
     return next(
       createError({
-        message: 'Could not update farmer details',
+        message: "Could not update farmer details",
         status: GENERIC_ERROR
       })
     );
