@@ -6,6 +6,8 @@ to a dot notation object in order to make updates
 in deep objects using Mongoose
 */
 function convertToDotNotationObject(obj) {
+  let dateObject = {};
+  if (obj.personalInfo.date_of_birth) dateObject = { "personalInfo.date_of_birth" : obj.personalInfo.date_of_birth };
   const dotNotationObject = dotize.convert(obj);
   const arraysObject = {};
   Object.keys(dotNotationObject).map(key => {
@@ -18,7 +20,7 @@ function convertToDotNotationObject(obj) {
     }
   });
 
-  return { ...dotNotationObject, ...arraysObject };
+  return { ...dotNotationObject, ...arraysObject, ...dateObject };
 }
 
 module.exports = convertToDotNotationObject;
