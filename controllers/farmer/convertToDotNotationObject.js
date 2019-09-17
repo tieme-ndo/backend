@@ -7,7 +7,10 @@ in deep objects using Mongoose
 */
 function convertToDotNotationObject(obj) {
   let dateObject = {};
-  if (obj.personalInfo.date_of_birth) dateObject = { "personalInfo.date_of_birth" : obj.personalInfo.date_of_birth };
+  if (obj.personalInfo && obj.personalInfo.date_of_birth)
+    dateObject = {
+      'personalInfo.date_of_birth': obj.personalInfo.date_of_birth
+    };
   const dotNotationObject = dotize.convert(obj);
   const arraysObject = {};
   Object.keys(dotNotationObject).map(key => {
