@@ -150,6 +150,19 @@ describe('Farmer route', () => {
         done(err);
       });
   });
+  it('It should return 409', (done) => {
+    const uniqueFarmer = farmerInput;
+    uniqueFarmer.personalInfo.first_name = 'createdByAdmin2';
+    chai
+      .request(server)
+      .post('/api/v1/farmers/create')
+      .set('Authorization', token)
+      .send(uniqueFarmer)
+      .end((err, res) => {
+        res.should.have.status(409);
+        done(err);
+      });
+  });
   it('It should return an array of farmers', (done) => {
     chai
       .request(server)
