@@ -10,7 +10,7 @@
 **[Production Deployment](https://t-ndo.herokuapp.com)** <br/>
 **[Staging Deployment](https://tndo-temp-staging.herokuapp.com/)**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/128f9cfdf87dd2eb709d)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e0398fa3da81ee0a9ce2)
 
 ## Getting started
 
@@ -68,7 +68,7 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-**[View API Reference Here](https://documenter.getpostman.com/view/8821479/SVmtzfpW?version=latest)**
+**[View API Reference Here]https://documenter.getpostman.com/view/6785535/SVmvUeeT?version=latest**
 
 # Data Model
 
