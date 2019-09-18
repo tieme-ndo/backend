@@ -3,7 +3,8 @@ const convertToDotNotationObject = require('./convertToDotNotationObject');
 const {
   createError,
   GENERIC_ERROR,
-  NOT_FOUND
+  NOT_FOUND,
+  CONFLICT
 } = require('../../helpers/error');
 
 /**
@@ -18,6 +19,7 @@ const updateFarmer = async (req, res, next) => {
     const farmerId = req.params.id;
     const farmerDetails = req.body;
     const { username, isAdmin } = req.user;
+    const { middle_name, first_name, surname } = farmerDetails.personalInfo;
 
     const farmer = await models.Farmer.findOne({ _id: farmerId });
     if (!farmer) {
@@ -25,6 +27,20 @@ const updateFarmer = async (req, res, next) => {
         createError({
           message: 'Farmer does not exist',
           status: NOT_FOUND
+        })
+      );
+    }
+
+    if (
+      farmer.personalInfo.first_name === first_name &&
+      farmer.personalInfo.middle_name === middle_name &&
+      farmer.personalInfo.surname === surname &&
+      farmer.archived === false
+    ) {
+      return next(
+        createError({
+          message: 'Farmer record exists already',
+          status: CONFLICT
         })
       );
     }
@@ -55,8 +71,7 @@ const updateFarmer = async (req, res, next) => {
 
     return res.status(201).json({
       success: true,
-      message:
-        'Your change was created and is ready for admin approval',
+      message: 'Your change was created and is ready for admin approval',
       farmerEditRequest
     });
 
