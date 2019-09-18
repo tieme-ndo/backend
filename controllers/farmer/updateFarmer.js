@@ -4,7 +4,6 @@ const {
   createError,
   GENERIC_ERROR,
   NOT_FOUND,
-  CONFLICT
 } = require('../../helpers/error');
 
 /**
