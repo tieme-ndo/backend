@@ -29,10 +29,10 @@ const updateFarmer = async (req, res, next) => {
         })
       );
     }
-    
+
     if(farmer.archived){
       return next({
-        message: "This Farmer is archived and can not be updated",
+        message: 'This Farmer is archived and can not be updated',
         status: FORBIDDEN
       })
     }
