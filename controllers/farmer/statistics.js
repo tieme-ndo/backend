@@ -24,7 +24,7 @@ const statistics = async (req, res, next) => {
     ).length;
 
     const totalNumOfOtherFarmers = allFarmers.filter(
-      (farmer) => farmer.personalInfo.gender.toLowerCase() === 'other'
+      (farmer) => farmer.personalInfo.gender.toLowerCase() === 'others'
     ).length;
 
     const farmersAgeGreaterThanOrEqualThirtyFive = allFarmers.filter(
