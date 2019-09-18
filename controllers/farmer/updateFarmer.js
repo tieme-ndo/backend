@@ -19,7 +19,6 @@ const updateFarmer = async (req, res, next) => {
     const farmerId = req.params.id;
     const farmerDetails = req.body;
     const { username, isAdmin } = req.user;
-    const { middle_name, first_name, surname } = farmerDetails.personalInfo;
 
     const farmer = await models.Farmer.findOne({ _id: farmerId });
     if (!farmer) {
