@@ -31,20 +31,6 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
-    if (
-      farmer.personalInfo.first_name === first_name &&
-      farmer.personalInfo.middle_name === middle_name &&
-      farmer.personalInfo.surname === surname &&
-      farmer.archived === false
-    ) {
-      return next(
-        createError({
-          message: 'Farmer record exists already',
-          status: CONFLICT
-        })
-      );
-    }
-
     if (isAdmin) {
       const convertedObject = convertToDotNotationObject(farmerDetails);
       const updatedFarmer = await models.Farmer.findOneAndUpdate(
