@@ -89,6 +89,22 @@ describe('Farmer route', () => {
         done(err);
       });
   });
+  it('It does not update farmer details if change {} is empty', (done) => {
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${idCreatedByStaff}/update`)
+      .set('Authorization', staffToken)
+      .send({})
+      .end((err, res) => {
+        console.log(res.body);
+        res.should.have.status(403);
+        res.body.message.should.equal(
+          'You can not submit empty updates'
+        );
+        done(err);
+      });
+  });
+  
   it('It should return a single farmer', (done) => {
     chai
       .request(server)

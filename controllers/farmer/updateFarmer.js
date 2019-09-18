@@ -30,8 +30,7 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
-    if(farmerDetails === {}){
-      await models.ChangeRequest.findOneAndRemove({ _id: req.params.id });
+    if(Object.keys(farmerDetails).length === 0 && farmerDetails.constructor === Object){
       return next({
         status: FORBIDDEN,
         message: 'You can not submit empty updates'
