@@ -21,7 +21,8 @@ const approveChangeRequest = async (req, res, next) => {
         changeRequestEntry.requested_changes
       );
 
-      const farmer = await models.Farmer.findOne({ _id: changeRequestEntry.farmer_id });
+      const farmer = await models.Farmer.findOne({ _id: changeRequestEntry.farmer_id }).lean();
+
       if (!farmer) {
         return next(
           createError({
@@ -32,6 +33,7 @@ const approveChangeRequest = async (req, res, next) => {
       }
 
       if(farmer.archived){
+        await models.ChangeRequest.findOneAndRemove({ _id: req.params.id });
         return next({
           message: 'This Farmer is archived and can not be updated',
           status: FORBIDDEN
