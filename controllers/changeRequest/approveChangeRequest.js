@@ -15,7 +15,6 @@ const approveChangeRequest = async (req, res, next) => {
     const changeRequestEntry = await models.ChangeRequest.findOne({
       _id: req.params.id
     });
-    
     if (changeRequestEntry) {
       const convertedObject = convertToDotNotationObject(
         changeRequestEntry.requested_changes
