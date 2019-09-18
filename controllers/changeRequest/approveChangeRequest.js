@@ -15,6 +15,10 @@ const approveChangeRequest = async (req, res, next) => {
     const changeRequestEntry = await models.ChangeRequest.findOne({
       _id: req.params.id
     });
+    if(changeRequestEntry.requested_changes === {}){
+      await models.ChangeRequest.findOneAndRemove({ _id: req.params.id });
+      return res.status(200).json({ message: 'The change requestw as empty and has been removed' });
+    }
     if (changeRequestEntry) {
       const convertedObject = convertToDotNotationObject(
         changeRequestEntry.requested_changes

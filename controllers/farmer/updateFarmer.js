@@ -3,7 +3,8 @@ const convertToDotNotationObject = require('./convertToDotNotationObject');
 const {
   createError,
   GENERIC_ERROR,
-  NOT_FOUND
+  NOT_FOUND,
+  FORBIDDEN
 } = require('../../helpers/error');
 
 /**
@@ -27,6 +28,14 @@ const updateFarmer = async (req, res, next) => {
           status: NOT_FOUND
         })
       );
+    }
+
+    if(farmerDetails === {}){
+      await models.ChangeRequest.findOneAndRemove({ _id: req.params.id });
+      return next({
+        status: FORBIDDEN,
+        message: 'You can not submit empty updates'
+      })
     }
 
     if (isAdmin) {
