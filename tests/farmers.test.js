@@ -155,6 +155,59 @@ describe('Farmer route', () => {
       });
   });
 
+  it('It should 200 on GET farmer statistics', (done) => {
+    chai
+      .request(server)
+      .get('/api/v1/farmers/statistic')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done(err);
+      });
+  });
+
+  it('It should return num of M/F/O farmers that add up to total number of farmers', (done) => {
+    chai
+      .request(server)
+      .get('/api/v1/farmers/statistic')
+      .set('Authorization', token)
+      .end((err, res) => {
+        const {
+          totalNumOfFarmers,
+          totalNumOfMaleFarmers,
+          totalNumOfFemaleFarmers,
+          totalNumOfOtherFarmers
+        } = res.body;
+
+        totalNumOfFarmers.should.equal(
+          totalNumOfMaleFarmers
+            + totalNumOfFemaleFarmers
+            + totalNumOfOtherFarmers
+        );
+        done(err);
+      });
+  });
+
+  it('It should return num of <35/>35 y/o farmers that add up to total number of farmers', (done) => {
+    chai
+      .request(server)
+      .get('/api/v1/farmers/statistic')
+      .set('Authorization', token)
+      .end((err, res) => {
+        const {
+          totalNumOfFarmers,
+          farmersAgeGreaterThanOrEqualThirtyFive,
+          farmersAgeLesserThanThirtyFive
+        } = res.body;
+
+        totalNumOfFarmers.should.equal(
+          farmersAgeGreaterThanOrEqualThirtyFive
+            + farmersAgeLesserThanThirtyFive
+        );
+        done(err);
+      });
+  });
+
   it('It should return 400 bad request and "Not a valid ID" message on bad farmer ID', (done) => {
     chai
       .request(server)
