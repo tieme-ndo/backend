@@ -22,7 +22,6 @@ const createError = ({ message = 'Internal server error', status = 500 }) => {
   error.success = false;
 
   return error;
-  
 };
 
 module.exports = {

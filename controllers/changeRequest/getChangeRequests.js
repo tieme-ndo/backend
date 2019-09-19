@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { models } = require('../../models');
 const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 const convertToDotNotationObject = require('../farmer/convertToDotNotationObject');
@@ -59,7 +60,7 @@ const getChangeRequestById = async (req, res, next) => {
         to only display the data we need.
         Mongoose includes the _id anyway, so it is deleted afterwards.
     */
-    const requested_changes = changeRequest.requested_changes;
+    const { requested_changes } = changeRequest;
     const selectFilter = Object.keys(
       convertToDotNotationObject(requested_changes)
     );
