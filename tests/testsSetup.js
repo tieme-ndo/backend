@@ -1,13 +1,13 @@
-const bcrypt = require("bcrypt");
-const mongoose = require("mongoose");
-const { models, connectDB } = require("../models");
-const farmerInput = require("./farmerInput");
+const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const { models, connectDB } = require('../models');
+const farmerInput = require('./farmerInput');
 
 // variables
-const password = "123456";
+const password = '123456';
 const hashedPw = bcrypt.hashSync(password, 10);
-const adminUsername = "admin";
-const staffUsername = "staff";
+const adminUsername = 'admin';
+const staffUsername = 'staff';
 const adminUser = {
   username: adminUsername,
   password: hashedPw,
@@ -20,7 +20,7 @@ const staffUser = {
 };
 
 // test hooks
-before(done => {
+before((done) => {
   try {
     connectDB();
     done();
@@ -46,12 +46,12 @@ beforeEach(async () => {
     await models.ChangeRequest.create({
       requested_changes: {
         personalInfo: {
-          first_name: "Joe",
-          title: "Chief"
+          first_name: 'Joe',
+          title: 'Chief'
         },
         farmInfo: {
-          crops_cultivated: ["Maize", "Millet"],
-          animals_or_birds: ["cow", "donkey"]
+          crops_cultivated: ['Maize', 'Millet'],
+          animals_or_birds: ['cow', 'donkey']
         }
       },
       farmer_id: farmer._id,
@@ -64,7 +64,7 @@ beforeEach(async () => {
   }
 });
 
-after(done => {
+after((done) => {
   mongoose.connection.collections.farmers.drop(() => {
     done();
   });
@@ -76,7 +76,6 @@ after(done => {
   mongoose.connection.collections.changerequests.drop(() => {
     done();
   });
-  mongoose.disconnect(done);
 });
 
 // helper functions
@@ -94,14 +93,14 @@ module.exports = {
     password
   },
   staffUserLogin2: {
-    username: "staff2",
+    username: 'staff2',
     password
   },
   missingUsernameLogin: {
-    username: "",
+    username: '',
     password
   },
   newPassword: {
-    password: "1234567"
+    password: '1234567'
   }
 };
