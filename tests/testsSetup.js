@@ -25,8 +25,7 @@ before((done) => {
     connectDB();
     done();
   } catch (error) {
-    console.log(error);
-    console.log('before ERROR');
+    console.error(error.name, error.message);
   }
 });
 
@@ -39,12 +38,10 @@ beforeEach(async () => {
     await models.User.create(adminUser);
     await models.User.create(staffUser);
     // assign staff to farmer. this is usually done in AddFarmer controller
-    farmerInput.staff = staffUsername;
-    await models.Farmer.create(farmerInput);
+    await models.Farmer.create({ ...farmerInput, staff: staffUsername });
     // needs to create changeRequest - check the request data structure
   } catch (error) {
-    console.log(error);
-    console.log('beforeEach ERROR');
+    console.error(error.name, error.message);
   }
 });
 
