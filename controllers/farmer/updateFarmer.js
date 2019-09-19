@@ -5,6 +5,7 @@ const {
   GENERIC_ERROR,
   NOT_FOUND,
   FORBIDDEN
+
 } = require('../../helpers/error');
 
 /**
@@ -26,15 +27,24 @@ const updateFarmer = async (req, res, next) => {
         createError({
           message: 'Farmer does not exist',
           status: NOT_FOUND
-        })
+        });
       );
     }
 
     if(Object.keys(farmerDetails).length === 0 && farmerDetails.constructor === Object){
-      return next({
+      return next(createError({
         status: FORBIDDEN,
         message: 'You can not submit empty updates'
-      })
+        });
+      );
+    }
+        
+    if(farmer.archived){
+      return next(createError({
+        message: 'This Farmer is archived and can not be updated',
+        status: FORBIDDEN
+        });
+      );
     }
 
     if (isAdmin) {

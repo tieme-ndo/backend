@@ -1,5 +1,5 @@
 const { models } = require('../../models');
-const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
+const { createError, GENERIC_ERROR, FORBIDDEN  } = require('../../helpers/error.js');
 const convertToDotNotationObject = require('../farmer/convertToDotNotationObject');
 
 /**
@@ -15,16 +15,39 @@ const approveChangeRequest = async (req, res, next) => {
     const changeRequestEntry = await models.ChangeRequest.findOne({
       _id: req.params.id
     });
+
     if (changeRequestEntry) {
       const convertedObject = convertToDotNotationObject(
         changeRequestEntry.requested_changes
       );
+
+      const farmer = await models.Farmer.findOne({ _id: changeRequestEntry.farmer_id }).lean();
+
+      if (!farmer) {
+        return next(
+          createError({
+            message: 'Farmer does not exist',
+            status: NOT_FOUND
+          })
+        );
+      }
+
+      if(farmer.archived){
+        await models.ChangeRequest.findOneAndRemove({ _id: req.params.id });
+        return next({
+          message: 'This Farmer is archived and can not be updated',
+          status: FORBIDDEN
+       })
+      }
+
       await models.Farmer.findOneAndUpdate(
         { _id: changeRequestEntry.farmer_id },
         convertedObject,
         { new: true, runValidators: true }
       );
+
       await models.ChangeRequest.findOneAndRemove({ _id: req.params.id });
+
       return res.status(200).json({
         success: true,
         message: 'ChangeRequest approved',
@@ -34,7 +57,7 @@ const approveChangeRequest = async (req, res, next) => {
     return res.status(404).json({
       success: false,
       message:
-        'There is no saved changeRequest with this ID, please subit a valid changeRequest-ID'
+        'There is no saved changeRequest with this ID, please submit a valid changeRequest-ID'
     });
   } catch (err) {
     return next(
