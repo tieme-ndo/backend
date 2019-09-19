@@ -14,7 +14,7 @@ describe('Farmer route', () => {
   let id = '';
   let idCreatedByStaff = '';
 
-  it('Login admin user responds with 200', (done) => {
+  it('Login admin user responds with 200', done => {
     chai
       .request(server)
       .post('/api/v1/user/login')
@@ -26,7 +26,7 @@ describe('Farmer route', () => {
       });
   });
 
-  it('Login staff user responds with 200', (done) => {
+  it('Login staff user responds with 200', done => {
     chai
       .request(server)
       .post('/api/v1/user/login')
@@ -38,7 +38,43 @@ describe('Farmer route', () => {
       });
   });
 
-  it('It should return 201 when creating new farmer', (done) => {
+  it('It should return 200 and an empty Array when there are no farmers in the DB as admin', done => {
+    chai
+      .request(server)
+      .get('/api/v1/farmers')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal(
+          'Could not find any farmer in the record'
+        );
+        res.body.totalNumberOfFarmers.should.equal(0);
+        res.body.farmers.should.eql(new Array());
+        res.body.farmers.should.be.a('array');
+        res.body.success.should.equal(true);
+        done(err);
+      });
+  });
+
+  it('It should return 200 and an empty Array when there are no farmers in the DB as staff', done => {
+    chai
+      .request(server)
+      .get('/api/v1/farmers')
+      .set('Authorization', staffToken)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal(
+          'Could not find any farmer in the record'
+        );
+        res.body.totalNumberOfFarmers.should.equal(0);
+        res.body.farmers.should.eql(new Array());
+        res.body.farmers.should.be.a('array');
+        res.body.success.should.equal(true);
+        done(err);
+      });
+  });
+
+  it('It should return 201 when creating new farmer', done => {
     const uniqueFarmer = farmerInput;
     uniqueFarmer.personalInfo.first_name = 'createdByAdmin';
     chai
@@ -52,7 +88,9 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It should return 201 when creating new farmer by staff user', (done) => {
+  
+
+  it('It should return 201 when creating new farmer by staff user', done => {
     const uniqueFarmer = farmerInput;
     uniqueFarmer.personalInfo.first_name = 'createdByStaff';
     chai
@@ -66,7 +104,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It updates farmer details when done by admin', (done) => {
+
+  it('It updates farmer details when done by admin', done => {
     farmerInput.personalInfo.title = 'Miss';
     chai
       .request(server)
@@ -79,7 +118,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It does not update farmer details if done by staff', (done) => {
+
+  it('It does not update farmer details if done by staff', done => {
     farmerInput.personalInfo.title = 'Mr';
     chai
       .request(server)
@@ -94,7 +134,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It does not update farmer details if change {} is empty', (done) => {
+
+  it('It does not update farmer details if change {} is empty', done => {
     chai
       .request(server)
       .patch(`/api/v1/farmers/${idCreatedByStaff}/update`)
@@ -107,7 +148,7 @@ describe('Farmer route', () => {
       });
   });
 
-  it('It should return a single farmer', (done) => {
+  it('It should return a single farmer', done => {
     chai
       .request(server)
       .get(`/api/v1/farmers/${id}`)
@@ -119,7 +160,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It deletes farmer details', (done) => {
+
+  it('It deletes farmer details', done => {
     chai
       .request(server)
       .delete(`/api/v1/farmers/${id}/delete`)
@@ -138,7 +180,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It does not update archived farmer details when done by admin', (done) => {
+
+  it('It does not update archived farmer details when done by admin', done => {
     farmerInput.personalInfo.title = 'Chief';
     chai
       .request(server)
@@ -153,7 +196,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It does not update archived farmer details if done by staff', (done) => {
+
+  it('It does not update archived farmer details if done by staff', done => {
     farmerInput.personalInfo.title = 'Chief';
 
     chai
@@ -169,17 +213,19 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It should return 404 if there are no farmers in the DB', (done) => {
+
+  it('It should return 404 if there are is no famrme with the id in the db', done => {
     chai
       .request(server)
-      .get(`/api/v1/farmers/${idCreatedByStaff}/`)
+      .get(`/api/v1/farmers/${idCreatedByStaff}`)
       .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(404);
         done(err);
       });
   });
-  it('It should return 201. Duplicate of test at line 40. Need farmer for next test', (done) => {
+
+  it('It should return 201. Duplicate of test at line 40. Need farmer for next test', done => {
     const uniqueFarmer = farmerInput;
     uniqueFarmer.personalInfo.first_name = 'createdByAdmin2';
 
@@ -194,7 +240,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It should return 409', (done) => {
+
+  it('It should return 409', done => {
     const uniqueFarmer = farmerInput;
     uniqueFarmer.personalInfo.first_name = 'createdByAdmin2';
     chai
@@ -207,7 +254,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It should return an array of farmers', (done) => {
+
+  it('It should return an array of farmers', done => {
     chai
       .request(server)
       .get('/api/v1/farmers')
@@ -220,7 +268,7 @@ describe('Farmer route', () => {
       });
   });
 
-  it('It should 200 on GET farmer statistics', (done) => {
+  it('It should 200 on GET farmer statistics', done => {
     chai
       .request(server)
       .get('/api/v1/farmers/statistic')
@@ -231,7 +279,7 @@ describe('Farmer route', () => {
       });
   });
 
-  it('It should return num of M/F/O farmers that add up to total number of farmers', (done) => {
+  it('It should return num of M/F/O farmers that add up to total number of farmers', done => {
     chai
       .request(server)
       .get('/api/v1/farmers/statistic')
@@ -245,15 +293,15 @@ describe('Farmer route', () => {
         } = res.body;
 
         totalNumOfFarmers.should.equal(
-          totalNumOfMaleFarmers
-            + totalNumOfFemaleFarmers
-            + totalNumOfOtherFarmers
+          totalNumOfMaleFarmers +
+            totalNumOfFemaleFarmers +
+            totalNumOfOtherFarmers
         );
         done(err);
       });
   });
 
-  it('It should return num of <35/>35 y/o farmers that add up to total number of farmers', (done) => {
+  it('It should return num of <35/>35 y/o farmers that add up to total number of farmers', done => {
     chai
       .request(server)
       .get('/api/v1/farmers/statistic')
@@ -266,14 +314,14 @@ describe('Farmer route', () => {
         } = res.body;
 
         totalNumOfFarmers.should.equal(
-          farmersAgeGreaterThanOrEqualThirtyFive
-            + farmersAgeLesserThanThirtyFive
+          farmersAgeGreaterThanOrEqualThirtyFive +
+            farmersAgeLesserThanThirtyFive
         );
         done(err);
       });
   });
 
-  it('It should return 400 bad request and "Not a valid ID" message on bad farmer ID', (done) => {
+  it('It should return 400 bad request and "Not a valid ID" message on bad farmer ID', done => {
     chai
       .request(server)
       .patch('/api/v1/farmers/hui89ewhee/update')
@@ -285,7 +333,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It should return 400 on failed data validation', (done) => {
+
+  it('It should return 400 on failed data validation', done => {
     farmerInput.personalInfo.title = 'Mrzz';
     chai
       .request(server)
@@ -297,7 +346,8 @@ describe('Farmer route', () => {
         done(err);
       });
   });
-  it('It should return 401 when missing token', (done) => {
+
+  it('It should return 401 when missing token', done => {
     chai
       .request(server)
       .post('/api/v1/farmers/create')
