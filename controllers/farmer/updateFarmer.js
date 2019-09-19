@@ -4,7 +4,8 @@ const {
   createError,
   GENERIC_ERROR,
   NOT_FOUND,
-  FORBIDDEN
+  FORBIDDEN,
+  CONFLICT
 } = require('../../helpers/error');
 
 /**
@@ -19,6 +20,7 @@ const updateFarmer = async (req, res, next) => {
     const farmerId = req.params.id;
     const farmerDetails = req.body;
     const { username, isAdmin } = req.user;
+    const { middle_name, first_name, surname } = farmerDetails.personalInfo;
 
     const farmer = await models.Farmer.findOne({ _id: farmerId });
     if (!farmer) {
@@ -31,8 +33,22 @@ const updateFarmer = async (req, res, next) => {
     }
 
     if (
-      Object.keys(farmerDetails).length === 0
-      && farmerDetails.constructor === Object
+      farmer.personalInfo.first_name === first_name &&
+      farmer.personalInfo.middle_name === middle_name &&
+      farmer.personalInfo.surname === surname &&
+      farmer.archived === false
+    ) {
+      return next(
+        createError({
+          message: 'Farmer record exists already. You need a unique name combination',
+          status: CONFLICT
+        })
+      );
+    }
+
+    if (
+      Object.keys(farmerDetails).length === 0 &&
+      farmerDetails.constructor === Object
     ) {
       return next(
         createError({

@@ -28,7 +28,7 @@ const addFarmer = async (req, res, next) => {
     if (farmerExists) {
       return next(
         createError({
-          message: 'Farmer record exists already',
+          message: 'Farmer record exists already. You need a unique name combination',
           status: CONFLICT
         })
       );
