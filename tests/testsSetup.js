@@ -20,10 +20,9 @@ const staffUser = {
 };
 
 // test hooks
-before((done) => {
+before(async () => {
   try {
-    connectDB();
-    done();
+    await connectDB();
   } catch (error) {
     console.error(error.name, error.message);
   }
@@ -64,18 +63,14 @@ beforeEach(async () => {
   }
 });
 
-after((done) => {
-  mongoose.connection.collections.farmers.drop(() => {
-    done();
-  });
+after(async () => {
+  await models.User.deleteMany({});
+  await models.Farmer.deleteMany({});
+  await models.ChangeRequest.deleteMany({});
 
-  mongoose.connection.collections.users.drop(() => {
-    done();
-  });
-
-  mongoose.connection.collections.changerequests.drop(() => {
-    done();
-  });
+  await mongoose.connection.collections.farmers.drop();
+  await mongoose.connection.collections.users.drop();
+  await mongoose.connection.collections.changerequests.drop();
 });
 
 // helper functions
