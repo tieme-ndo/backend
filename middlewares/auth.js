@@ -19,6 +19,7 @@ const verifyToken = async (req, res, next) => {
       return next();
     }
     return res.status(401).json({
+      success: false,
       message: 'No token provided, must be set on the Authorization Header'
     });
   } catch (error) {

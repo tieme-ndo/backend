@@ -22,7 +22,7 @@ const joiValidate = (req, res, next, schema) => {
       message: current.message.replace(/['"]/g, ''),
     }));
 
-    return res.status(400).json({ errors });
+    return res.status(400).json({success: false, errors });
   }
   req.body = value;
 

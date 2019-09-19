@@ -19,14 +19,15 @@ const login = async (req, res, next) => {
     let { username } = req.body;
     const { password } = req.body;
     username = username.toLowerCase();
-    const userExist = await models.User.findOne({ username });
+    const userExist = await models.User.findOne({ username }).lean();
 
     if (userExist) {
       const compare = bcrypt.compareSync(password, userExist.password);
 
       const user = await models.User.findOne({ username }).select([
         '-password'
-      ]);
+      ]).lean();
+      delete user.__v
 
       if (compare) {
         const token = await generateToken(userExist);
@@ -54,7 +55,6 @@ const login = async (req, res, next) => {
   } catch (err) {
     return next(
       createError({
-        message: 'Could not create new user',
         status: GENERIC_ERROR
       })
     );

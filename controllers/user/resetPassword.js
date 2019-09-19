@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const { models } = require('../../models');
 const {
-  createError, GENERIC_ERROR, CONFLICT, UNAUTHORIZED
+  createError, GENERIC_ERROR, UNAUTHORIZED, NOT_FOUND
 } = require('../../helpers/error');
 
 /**
@@ -14,12 +14,22 @@ const {
  */
 const resetPassword = async (req, res, next) => {
   try {
-    const userExist = await models.User.findOne({ username: req.user.username });
+    const userExist = await models.User.findOne({ username: req.user.username }).lean();
 
     if (!userExist) {
       return next(createError({
         message: 'User does not exist',
-        status: CONFLICT
+        status: NOT_FOUND
+      }));
+    }
+
+    const compare = bcrypt.compareSync(req.body.prevPassword, userExist.password);
+    delete req.body.prevPassword
+
+    if(!compare){
+      return next(createError({
+        message: 'Previous password is wrong',
+        status: UNAUTHORIZED
       }));
     }
 
@@ -27,7 +37,7 @@ const resetPassword = async (req, res, next) => {
 
     req.body.password = bcrypt.hashSync(req.body.password, salt);
 
-    const user = await models.User.findOneAndUpdate({ username: req.user.username }, req.body).select(['-password']);
+    const user = await models.User.findOneAndUpdate({ username: req.user.username }, req.body).select(['-password']).lean();
 
     if (!user) {
       return next(createError({
@@ -40,6 +50,7 @@ const resetPassword = async (req, res, next) => {
       success: true,
       message: 'Password reset successfully',
     });
+
   } catch (error) {
     return next(createError({
       message: 'Could not reset password',
