@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 const { models, connectDB } = require('../models');
+const farmerInput = require('./farmerInput');
 
 const password = '123456';
 const hashedPw = bcrypt.hashSync(password, 10);
@@ -21,30 +23,47 @@ const staffUser2 = {
   password: hashedPw
 };
 
-before(async () => {
+before((done) => {
   try {
-    await connectDB();
-
-    await models.User.deleteMany({});
-    await models.Farmer.deleteMany({});
-    await models.ChangeRequest.deleteMany({});
-    await models.User.create(adminUser);
-    await models.User.create(staffUser);
+    connectDB();
+    done();
   } catch (error) {
     console.log(error);
+    console.log('before ERROR');
   }
 });
 
-after(async () => {
+beforeEach(async () => {
   try {
-    await connectDB();
-
     await models.User.deleteMany({});
     await models.Farmer.deleteMany({});
     await models.ChangeRequest.deleteMany({});
+
+    await models.User.create(adminUser);
+    await models.User.create(staffUser);
+    // assign staff to farmer. this is usually done in AddFarmer controller
+    farmerInput.staff = staffUsername;
+    await models.Farmer.create(farmerInput);
+    // needs to create changeRequest - check the request data structure
   } catch (error) {
     console.log(error);
+    console.log('beforeEach ERROR');
   }
+});
+
+after((done) => {
+  mongoose.connection.collections.farmers.drop(() => {
+    done();
+  });
+
+  mongoose.connection.collections.users.drop(() => {
+    done();
+  });
+
+  mongoose.connection.collections.changerequests.drop(() => {
+    done();
+  });
+  mongoose.disconnect(done);
 });
 
 module.exports = {
