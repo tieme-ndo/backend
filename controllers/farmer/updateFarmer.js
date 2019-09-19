@@ -3,7 +3,8 @@ const convertToDotNotationObject = require('./convertToDotNotationObject');
 const {
   createError,
   GENERIC_ERROR,
-  NOT_FOUND,
+  FORBIDDEN,
+  NOT_FOUND
 } = require('../../helpers/error');
 
 /**
@@ -27,6 +28,13 @@ const updateFarmer = async (req, res, next) => {
           status: NOT_FOUND
         })
       );
+    }
+
+    if(farmer.archived){
+      return next({
+        message: 'This Farmer is archived and can not be updated',
+        status: FORBIDDEN
+      })
     }
 
     if (isAdmin) {

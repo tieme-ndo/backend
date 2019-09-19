@@ -125,6 +125,33 @@ describe('Farmer route', () => {
         done(err);
       });
   });
+  it('It does not update archived farmer details when done by admin', (done) => {
+    farmerInput.personalInfo.title = 'Chief';
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${id}/update`)
+      .set('Authorization', token)
+      .send(farmerInput)
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.message.should.equal('This Farmer is archived and can not be updated');
+        done(err);
+      });
+  });
+  it('It does not update archived farmer details if done by staff', (done) => {
+    farmerInput.personalInfo.title = 'Chief';
+    
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${idCreatedByStaff}/update`)
+      .set('Authorization', staffToken)
+      .send(farmerInput)
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.message.should.equal('This Farmer is archived and can not be updated');
+        done(err);
+      });
+  });
   it('It should return 404 if there are no farmers in the DB', (done) => {
     chai
       .request(server)
@@ -172,6 +199,59 @@ describe('Farmer route', () => {
         res.should.have.status(200);
         res.body.farmers.should.be.a('array');
         res.body.message.should.equal('Farmers records found');
+        done(err);
+      });
+  });
+
+  it('It should 200 on GET farmer statistics', (done) => {
+    chai
+      .request(server)
+      .get('/api/v1/farmers/statistic')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done(err);
+      });
+  });
+
+  it('It should return num of M/F/O farmers that add up to total number of farmers', (done) => {
+    chai
+      .request(server)
+      .get('/api/v1/farmers/statistic')
+      .set('Authorization', token)
+      .end((err, res) => {
+        const {
+          totalNumOfFarmers,
+          totalNumOfMaleFarmers,
+          totalNumOfFemaleFarmers,
+          totalNumOfOtherFarmers
+        } = res.body;
+
+        totalNumOfFarmers.should.equal(
+          totalNumOfMaleFarmers
+            + totalNumOfFemaleFarmers
+            + totalNumOfOtherFarmers
+        );
+        done(err);
+      });
+  });
+
+  it('It should return num of <35/>35 y/o farmers that add up to total number of farmers', (done) => {
+    chai
+      .request(server)
+      .get('/api/v1/farmers/statistic')
+      .set('Authorization', token)
+      .end((err, res) => {
+        const {
+          totalNumOfFarmers,
+          farmersAgeGreaterThanOrEqualThirtyFive,
+          farmersAgeLesserThanThirtyFive
+        } = res.body;
+
+        totalNumOfFarmers.should.equal(
+          farmersAgeGreaterThanOrEqualThirtyFive
+            + farmersAgeLesserThanThirtyFive
+        );
         done(err);
       });
   });

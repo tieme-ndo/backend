@@ -3,8 +3,8 @@ const { models, connectDB } = require('../models');
 
 const password = '123456';
 const hashedPw = bcrypt.hashSync(password, 10);
-const adminUsername = 'Admin';
-const staffUsername = 'Staff';
+const adminUsername = 'admin';
+const staffUsername = 'staff';
 const adminUser = {
   username: adminUsername,
   password: hashedPw,
@@ -17,7 +17,7 @@ const staffUser = {
 };
 
 const staffUser2 = {
-  username: 'Staff2',
+  username: 'staff2',
   password: hashedPw
 };
 
