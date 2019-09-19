@@ -139,4 +139,46 @@ describe('Request change route', () => {
         done(err);
       });
   });
+
+  it('It creates a changerequest if farmer is updated by staff. Copy of test to have a changerequest in DB', (done) => {
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${idCreatedByStaff}/update`)
+      .set('Authorization', staffToken)
+      .send({ personalInfo: { title : 'Chief' } })
+      .end(async (err, res) => {
+        res.should.have.status(201);
+        res.body.message.should.equal(
+          'Your change was created and is ready for admin approval'
+        );
+        const changeRequests = await models.ChangeRequest.find();
+        chai.expect(changeRequests).to.have.lengthOf(1);
+        changeRequestId = changeRequests[0]._id;
+        done(err);
+      });
+  });
+
+  it('It sets the farmer to archived, necessary for next test', (done) => {
+    chai
+      .request(server)
+      .delete(`/api/v1/farmers/${idCreatedByStaff}/delete`)
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal('Farmer details deleted successfully');
+        done(err);
+      });
+  });
+
+  it('It does not accept an update of an archived farmer details', (done) => {
+    chai
+      .request(server)
+      .post(`/api/v1/change-requests/${changeRequestId}/approve`)
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.message.should.equal('This Farmer is archived and can not be updated');
+        done(err);
+      });
+  });
 });
