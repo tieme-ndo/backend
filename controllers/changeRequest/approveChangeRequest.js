@@ -1,5 +1,5 @@
 const { models } = require('../../models');
-const { createError, GENERIC_ERROR, FORBIDDEN  } = require('../../helpers/error.js');
+const { createError, GENERIC_ERROR, FORBIDDEN, NOT_FOUND } = require('../../helpers/error.js');
 const convertToDotNotationObject = require('../farmer/convertToDotNotationObject');
 
 /**
@@ -32,12 +32,12 @@ const approveChangeRequest = async (req, res, next) => {
         );
       }
 
-      if(farmer.archived){
+      if (farmer.archived) {
         await models.ChangeRequest.findOneAndRemove({ _id: req.params.id });
         return next({
           message: 'This Farmer is archived and can not be updated',
           status: FORBIDDEN
-       })
+        });
       }
 
       await models.Farmer.findOneAndUpdate(
