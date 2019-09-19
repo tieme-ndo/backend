@@ -1,5 +1,5 @@
 const { models } = require('../../models');
-const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
+const { createError, GENERIC_ERROR, NOT_FOUND } = require('../../helpers/error.js');
 
 /**
  * @description Get Farmers

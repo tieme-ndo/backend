@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const mongoose = require('mongoose');
 
 const change_requested_by = {

@@ -5,11 +5,10 @@ const joiValidate = require('../../../helpers/joiValidate');
  * Create farmer change request validation schema
  */
 
-const validateString = (maxVal = 30) =>
-  Joi.string()
-    .min(3)
-    .max(maxVal)
-    .trim();
+const validateString = (maxVal = 30) => Joi.string()
+  .min(3)
+  .max(maxVal)
+  .trim();
 
 const validateEnums = (...enums) => Joi.string().valid(enums);
 const validateNumber = () => Joi.number();
@@ -104,7 +103,6 @@ const farmerSchema = Joi.object().keys({
 /**
  * Validate user body against defined schema
  */
-const changeRequest = (req, res, next) =>
-  joiValidate(req, res, next, farmerSchema);
+const changeRequest = (req, res, next) => joiValidate(req, res, next, farmerSchema);
 
 module.exports = changeRequest;
