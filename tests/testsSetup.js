@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const { models, connectDB } = require('../models');
 const farmerInput = require('./farmerInput');
+const generateToken = require('../helpers/generateToken');
 
 // variables
 const password = '123456';
@@ -36,10 +37,29 @@ beforeEach(async () => {
     await models.ChangeRequest.deleteMany({});
 
     await models.User.create(adminUser);
-    await models.User.create(staffUser);
+    const staff = await models.User.create(staffUser);
     // assign staff to farmer. this is usually done in AddFarmer controller
-    await models.Farmer.create({ ...farmerInput, staff: staffUsername });
+    const farmer = await models.Farmer.create({
+      ...farmerInput,
+      staff: staffUsername
+    });
     // needs to create changeRequest - check the request data structure
+    await models.ChangeRequest.create({
+      requested_changes: {
+        personalInfo: {
+          first_name: 'Joe',
+          title: 'Chief'
+        },
+        farmInfo: {
+          crops_cultivated: ['Maize', 'Millet'],
+          animals_or_birds: ['cow', 'donkey']
+        }
+      },
+      farmer_id: farmer._id,
+      farmer_name: farmer.personalInfo.first_name,
+      change_requested_by: staff.username,
+      date: Date.now()
+    });
   } catch (error) {
     console.error(error.name, error.message);
   }
@@ -61,9 +81,13 @@ after((done) => {
 });
 
 // helper functions
+const adminToken = generateToken(adminUser);
+const staffToken = generateToken(staffUser);
 
 // exports
 module.exports = {
+  adminToken,
+  staffToken,
   staffUserCreate: staffUser,
   adminUserCreate: adminUser,
   staffUserLogin: {
