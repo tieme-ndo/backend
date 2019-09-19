@@ -94,6 +94,19 @@ describe('Farmer route', () => {
         done(err);
       });
   });
+  it('It does not update farmer details if change {} is empty', (done) => {
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${idCreatedByStaff}/update`)
+      .set('Authorization', staffToken)
+      .send({})
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.message.should.equal('You can not submit empty updates');
+        done(err);
+      });
+  });
+
   it('It should return a single farmer', (done) => {
     chai
       .request(server)
@@ -134,13 +147,15 @@ describe('Farmer route', () => {
       .send(farmerInput)
       .end((err, res) => {
         res.should.have.status(403);
-        res.body.message.should.equal('This Farmer is archived and can not be updated');
+        res.body.message.should.equal(
+          'This Farmer is archived and can not be updated'
+        );
         done(err);
       });
   });
   it('It does not update archived farmer details if done by staff', (done) => {
     farmerInput.personalInfo.title = 'Chief';
-    
+
     chai
       .request(server)
       .patch(`/api/v1/farmers/${idCreatedByStaff}/update`)
@@ -148,7 +163,9 @@ describe('Farmer route', () => {
       .send(farmerInput)
       .end((err, res) => {
         res.should.have.status(403);
-        res.body.message.should.equal('This Farmer is archived and can not be updated');
+        res.body.message.should.equal(
+          'This Farmer is archived and can not be updated'
+        );
         done(err);
       });
   });
