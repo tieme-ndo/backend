@@ -112,19 +112,6 @@ describe('Request change route', () => {
       });
   });
 
-  it('It sets the farmer to archived, necessary for next test', async () => {
-    const farmer = await models.Farmer.findOne().select('_id');
-    farmerId = farmer._id;
-    chai
-      .request(server)
-      .delete(`/api/v1/farmers/${farmerId}/delete`)
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('Farmer details deleted successfully');
-      });
-  });
-
   it('It does not accept an update of an archived farmer details', async () => {
     // get farmer
     const farmer = await models.Farmer.findOne().select('_id');
