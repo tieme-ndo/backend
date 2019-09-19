@@ -1,6 +1,5 @@
 const badRequest = require('./badRequest');
 const notFound = require('./notFound');
-const resourceConflict = require('./resourceConflict');
 const forbidden = require('./forbidden');
 const unauthorized = require('./unauthorized');
 const genericError = require('./genericError');
@@ -11,7 +10,6 @@ const genericError = require('./genericError');
 const errorsObject = {
   badRequest,
   notFound,
-  resourceConflict,
   forbidden,
   unauthorized,
   genericError,

@@ -1,5 +1,7 @@
 const { models } = require('../../models');
-const { createError, GENERIC_ERROR, FORBIDDEN, NOT_FOUND } = require('../../helpers/error.js');
+const {
+  createError, GENERIC_ERROR, FORBIDDEN, NOT_FOUND
+} = require('../../helpers/error.js');
 const convertToDotNotationObject = require('../farmer/convertToDotNotationObject');
 
 /**

@@ -31,8 +31,8 @@ const updateFarmer = async (req, res, next) => {
     }
 
     if (
-      Object.keys(farmerDetails).length === 0 &&
-      farmerDetails.constructor === Object
+      Object.keys(farmerDetails).length === 0
+      && farmerDetails.constructor === Object
     ) {
       return next(
         createError({
