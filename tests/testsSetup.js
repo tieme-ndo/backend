@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { models, connectDB } = require('../models');
 const farmerInput = require('./farmerInput');
 
+// variables
 const password = '123456';
 const hashedPw = bcrypt.hashSync(password, 10);
 const adminUsername = 'admin';
@@ -18,11 +19,7 @@ const staffUser = {
   password: hashedPw
 };
 
-const staffUser2 = {
-  username: 'staff2',
-  password: hashedPw
-};
-
+// test hooks
 before((done) => {
   try {
     connectDB();
@@ -66,20 +63,25 @@ after((done) => {
   mongoose.disconnect(done);
 });
 
+// helper functions
+
+// exports
 module.exports = {
-  staffUser: {
+  staffUserCreate: staffUser,
+  adminUserCreate: adminUser,
+  staffUserLogin: {
     username: staffUsername,
     password
   },
-  staffUser2: {
-    username: staffUser2.username,
-    password
-  },
-  adminUser: {
+  adminUserLogin: {
     username: adminUsername,
     password
   },
-  missingUsername: {
+  staffUserLogin2: {
+    username: 'staff2',
+    password
+  },
+  missingUsernameLogin: {
     username: '',
     password
   },
