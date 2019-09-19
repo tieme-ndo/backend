@@ -13,6 +13,7 @@ describe('Farmer route', () => {
   let staffToken = '';
   let id = '';
   let idCreatedByStaff = '';
+
   it('Login admin user responds with 200', (done) => {
     chai
       .request(server)
@@ -38,11 +39,13 @@ describe('Farmer route', () => {
   });
 
   it('It should return 201 when creating new farmer', (done) => {
+    const uniqueFarmer = farmerInput;
+    uniqueFarmer.personalInfo.first_name = 'createdByAdmin';
     chai
       .request(server)
       .post('/api/v1/farmers/create')
       .set('Authorization', token)
-      .send(farmerInput)
+      .send(uniqueFarmer)
       .end((err, res) => {
         res.should.have.status(201);
         id = res.body.farmer._id;
@@ -50,11 +53,13 @@ describe('Farmer route', () => {
       });
   });
   it('It should return 201 when creating new farmer by staff user', (done) => {
+    const uniqueFarmer = farmerInput;
+    uniqueFarmer.personalInfo.first_name = 'createdByStaff';
     chai
       .request(server)
       .post('/api/v1/farmers/create')
       .set('Authorization', staffToken)
-      .send(farmerInput)
+      .send(uniqueFarmer)
       .end((err, res) => {
         res.should.have.status(201);
         idCreatedByStaff = res.body.farmer._id;
@@ -158,14 +163,30 @@ describe('Farmer route', () => {
       });
   });
   it('It should return 201. Duplicate of test at line 40. Need farmer for next test', (done) => {
+    const uniqueFarmer = farmerInput;
+    uniqueFarmer.personalInfo.first_name = 'createdByAdmin2';
+
     chai
       .request(server)
       .post('/api/v1/farmers/create')
       .set('Authorization', token)
-      .send(farmerInput)
+      .send(uniqueFarmer)
       .end((err, res) => {
         res.should.have.status(201);
         id = res.body.farmer._id;
+        done(err);
+      });
+  });
+  it('It should return 409', (done) => {
+    const uniqueFarmer = farmerInput;
+    uniqueFarmer.personalInfo.first_name = 'createdByAdmin2';
+    chai
+      .request(server)
+      .post('/api/v1/farmers/create')
+      .set('Authorization', token)
+      .send(uniqueFarmer)
+      .end((err, res) => {
+        res.should.have.status(409);
         done(err);
       });
   });

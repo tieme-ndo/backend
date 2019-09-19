@@ -63,8 +63,7 @@ const updateFarmer = async (req, res, next) => {
 
     return res.status(201).json({
       success: true,
-      message:
-        'Your change was created and is ready for admin approval',
+      message: 'Your change was created and is ready for admin approval',
       farmerEditRequest
     });
 
