@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 const { models } = require('../../models');
-const { createError, GENERIC_ERROR } = require('../../helpers/error');
+const { createError, GENERIC_ERROR, CONFLICT } = require('../../helpers/error');
 
 /**
  * @description Create new farmer
@@ -14,6 +15,24 @@ const addFarmer = async (req, res, next) => {
     const { username } = req.user;
 
     farmerDetails.staff = username;
+
+    const { middle_name, first_name, surname } = farmerDetails.personalInfo;
+
+    const farmerExists = await models.Farmer.findOne({
+      'personalInfo.first_name': first_name,
+      'personalInfo.middle_name': middle_name,
+      'personalInfo.surname': surname,
+      archived: false
+    });
+
+    if (farmerExists) {
+      return next(
+        createError({
+          message: 'Farmer record exists already',
+          status: CONFLICT
+        })
+      );
+    }
 
     const farmer = await models.Farmer.create(farmerDetails);
 
