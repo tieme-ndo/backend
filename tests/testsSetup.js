@@ -19,6 +19,13 @@ const staffUser = {
   password: hashedPw
 };
 
+// helpers
+async function clearDb() {
+  await models.User.deleteMany({});
+  await models.Farmer.deleteMany({});
+  await models.ChangeRequest.deleteMany({});
+}
+
 // test hooks
 before(async () => {
   try {
@@ -30,10 +37,8 @@ before(async () => {
 
 beforeEach(async () => {
   try {
-    await models.User.deleteMany({});
-    await models.Farmer.deleteMany({});
-    await models.ChangeRequest.deleteMany({});
-
+    await clearDb();
+    // seed User, Farmer and ChangeRequest collection
     await models.User.create(adminUser);
     const staff = await models.User.create(staffUser);
     // assign staff to farmer. this is usually done in AddFarmer controller
@@ -41,7 +46,7 @@ beforeEach(async () => {
       ...farmerInput,
       staff: staffUsername
     });
-    // needs to create changeRequest - check the request data structure
+
     await models.ChangeRequest.create({
       requested_changes: {
         personalInfo: {
@@ -64,13 +69,17 @@ beforeEach(async () => {
 });
 
 after(async () => {
-  await models.User.deleteMany({});
-  await models.Farmer.deleteMany({});
-  await models.ChangeRequest.deleteMany({});
+  try {
+    await clearDb();
 
-  await mongoose.connection.collections.farmers.drop();
-  await mongoose.connection.collections.users.drop();
-  await mongoose.connection.collections.changerequests.drop();
+    await mongoose.connection.collections.farmers.drop();
+    await mongoose.connection.collections.users.drop();
+    await mongoose.connection.collections.changerequests.drop();
+
+    await mongoose.disconnect(() => console.log('Database disconnected'));
+  } catch (error) {
+    console.error(error.name, error.message);
+  }
 });
 
 // exports
