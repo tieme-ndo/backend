@@ -1,5 +1,5 @@
 const { models } = require('../../models');
-const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
+const { createError, GENERIC_ERROR, NOT_FOUND } = require('../../helpers/error.js');
 
 /**
  * @description Get Farmers
@@ -12,10 +12,12 @@ const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 const getAllFarmers = async (req, res, next) => {
   try {
     const farmers = await models.Farmer.find({ archived: false });
-    if (!farmers.length) {
-      return res.status(404).json({
-        succes: false,
-        message: 'Could not find any farmer in the record'
+    if (farmers.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: 'Could not find any farmer in the record',
+        totalNumberOfFarmers: 0,
+        farmers: []
       });
     }
     return res.status(200).json({
@@ -46,7 +48,7 @@ const getFarmerById = async (req, res, next) => {
       });
     }
     return res.status(404).json({
-      succes: false,
+      success: false,
       message: `Cannot find farmer with ${id}`
     });
   } catch (err) {

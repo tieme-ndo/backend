@@ -19,9 +19,9 @@ const FORBIDDEN = 403;
 const createError = ({ message = 'Internal server error', status = 500 }) => {
   const error = new Error(message);
   error.status = status;
+  error.success = false;
 
   return error;
-  
 };
 
 module.exports = {

@@ -38,6 +38,42 @@ describe('Farmer route', () => {
       });
   });
 
+  it('It should return 200 and an empty Array when there are no farmers in the DB as admin', async () => {
+    await models.Farmer.deleteMany({});
+    chai
+      .request(server)
+      .get('/api/v1/farmers')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal(
+          'Could not find any farmer in the record'
+        );
+        res.body.totalNumberOfFarmers.should.equal(0);
+        res.body.farmers.should.eql([]);
+        res.body.farmers.should.be.a('array');
+        res.body.success.should.equal(true);
+      });
+  });
+
+  it('It should return 200 and an empty Array when there are no farmers in the DB as staff', async () => {
+    await models.Farmer.deleteMany({});
+    chai
+      .request(server)
+      .get('/api/v1/farmers')
+      .set('Authorization', staffToken)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal(
+          'Could not find any farmer in the record'
+        );
+        res.body.totalNumberOfFarmers.should.equal(0);
+        res.body.farmers.should.eql([]);
+        res.body.farmers.should.be.a('array');
+        res.body.success.should.equal(true);
+      });
+  });
+
   it('It should return 201 when creating new farmer', (done) => {
     // reasign first name to make it 'unique'
     farmerInput.personalInfo.first_name = 'createdByAdmin';
