@@ -84,13 +84,15 @@ after(async () => {
 });
 
 // helper functions
-function getAdminTestToken() {
-  console.log(adminToken);
-  return adminToken;
+function getAdminTestToken(cb) {
+  return cb(adminUser)
+    .then((token) => token)
+    .catch(() => console.log('Failed to generate admin Token'));
 }
-function getStaffTestToken() {
-  console.log(staffToken);
-  return staffToken;
+function getStaffTestToken(cb) {
+  return cb(staffUser)
+    .then((token) => token)
+    .catch(() => console.log('Failed to generate staff Token'));
 }
 
 // exports
