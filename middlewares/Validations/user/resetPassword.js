@@ -1,5 +1,5 @@
-const Joi = require("@hapi/joi");
-const joiValidate = require("../../../helpers/joiValidate");
+const Joi = require('@hapi/joi');
+const joiValidate = require('../../../helpers/joiValidate');
 
 /**
  * reset user password validation schema
