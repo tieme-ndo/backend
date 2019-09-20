@@ -19,18 +19,16 @@ const login = async (req, res, next) => {
     let { username } = req.body;
     const { password } = req.body;
     username = username.toLowerCase();
-    const userExist = await models.User.findOne({ username }).lean();
 
-    if (userExist) {
-      const compare = bcrypt.compareSync(password, userExist.password);
+    const user = await models.User.findOne({ username }).lean();
+    delete user.__v;
 
-      const user = await models.User.findOne({ username }).select([
-        '-password'
-      ]).lean();
-      delete user.__v
+    if (user) {
+      const compare = bcrypt.compareSync(password, user.password);
+      delete user.password;
 
       if (compare) {
-        const token = await generateToken(userExist);
+        const token = await generateToken(user);
 
         return res.status(200).json({
           success: true,
