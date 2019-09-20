@@ -4,7 +4,6 @@ const server = require('../index');
 const farmerInput = require('./farmerInput');
 const seeds = require('./testsSetup');
 const { models } = require('../models');
-const generateToken = require('../helpers/generateToken');
 
 chai.should();
 
@@ -17,8 +16,6 @@ describe('Request change route', () => {
   let changeRequestId = '';
 
   it('Login admin user responds with 200', (done) => {
-    console.log('adminToken', seeds.getAdminTestToken(generateToken));
-    console.log('staffToken', seeds.getStaffTestToken(generateToken));
     chai
       .request(server)
       .post('/api/v1/user/login')

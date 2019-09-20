@@ -252,7 +252,10 @@ _You can also check [.env.example](./.env.example) to know all required environm
 
 ## Testing
 
-Tests are setup as independently as possible (they do not rely on other tests to pass). General setup of tests is in `./tests/testsSetup.js` file.
+Tests are setup as independently as possible (they do not rely on other tests to pass). General setup of tests is in `./tests/testsSetup.js` file. The only common variable that is used in tests is the `JWT token` stored as `token` or `staffToken` based on user type.
+
+Before each test, all collections in the database are deleted and new seed documents are entered.
+After all tests are done, collections are deleted and then dropped.
 
 ## Contributing
 
