@@ -14,7 +14,7 @@ const resourceConflict = (err, req, res, next) => {
   }
 
   return res.status(CONFLICT).json({
-    ok: false,
+    success: false,
     errors: {
       message: err.message,
       status: err.status,

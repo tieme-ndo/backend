@@ -64,7 +64,12 @@ module.exports = {
     username: '',
     password
   },
-  newPassword: {
+  changePassword: {
+    currentPassword: password,
+    password: '1234567'
+  },
+  changePasswordFalse: {
+    currentPassword: 'Wrong current password',
     password: '1234567'
   }
 };

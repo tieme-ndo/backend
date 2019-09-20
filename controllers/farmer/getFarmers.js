@@ -48,7 +48,7 @@ const getFarmerById = async (req, res, next) => {
       });
     }
     return res.status(404).json({
-      succes: false,
+      success: false,
       message: `Cannot find farmer with ${id}`
     });
   } catch (err) {
