@@ -6,12 +6,12 @@ const seeds = require('./testsSetup');
 chai.use(chaiHttp);
 let token = '';
 
-describe('Users route [/user/login]', () => {
-  it('should return 200 on user log in', (done) => {
+describe('Users route', () => {
+  it('Should return 200 on user log in', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/login')
-      .send(seeds.adminUser)
+      .send(seeds.adminUserLogin)
       .end((err, res) => {
         token = res.body.token;
         res.should.have.status(200);
@@ -19,7 +19,7 @@ describe('Users route [/user/login]', () => {
       });
   });
 
-  it('should return 200 on reset user password', (done) => {
+  it('Should return 200 on reset user password', (done) => {
     chai
       .request(server)
       .put('/api/v1/user/reset-password')
@@ -56,7 +56,7 @@ describe('Users route [/user/login]', () => {
       });
   });
 
-  it('should return 400 bad request', (done) => {
+  it('Should return 400 bad request', (done) => {
     const newPassword = {
       password: ''
     };
@@ -71,46 +71,44 @@ describe('Users route [/user/login]', () => {
         done(err);
       });
   });
-});
 
-describe('Users route [user/signup]', () => {
-  it('should return 201 on add new user', (done) => {
+  it('Should return 201 on add new user', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/signup')
       .set('authorization', token)
-      .send(seeds.staffUser2)
+      .send(seeds.staffUserLogin2)
       .end((err, res) => {
         res.should.have.status(201);
         done(err);
       });
   });
 
-  it('should return 409 when the user already exist', (done) => {
+  it('Should return 409 when the user already exist', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/signup')
       .set('authorization', token)
-      .send(seeds.staffUser2)
+      .send(seeds.staffUserLogin)
       .end((err, res) => {
         res.should.have.status(409);
         done(err);
       });
   });
 
-  it('should return 400 when the user is missing username', (done) => {
+  it('Should return 400 when the user is missing username', (done) => {
     chai
       .request(server)
       .post('/api/v1/user/signup')
       .set('authorization', token)
-      .send(seeds.missingUsername)
+      .send(seeds.missingUsernameLogin)
       .end((err, res) => {
         res.should.have.status(400);
         done(err);
       });
   });
 
-  it('should return 401 when user does not exist', (done) => {
+  it('Should return 401 when user does not exist', (done) => {
     const newUser = {
       username: 'Pavol',
       password: '1234567'
@@ -125,8 +123,8 @@ describe('Users route [user/signup]', () => {
       });
   });
 
-  it('should return normalize username on add new user', (done) => {
-    const capitalUsername = seeds.staffUser2;
+  it('Should return normalize username on add new user', (done) => {
+    const capitalUsername = seeds.staffUserLogin2;
     capitalUsername.username = 'BIGuserNAME';
     chai
       .request(server)

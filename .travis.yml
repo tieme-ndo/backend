@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - '10.13'
+services:
+  - mongodb
 env:
   global:
     - CC_TEST_REPORTER_ID=3c185c43a92d448df2cdaade234ab3792c88ba2b57f3316d465201f44cbbcaf5
