@@ -14,6 +14,9 @@ describe('Request change route', () => {
   let staffToken = '';
   let farmerId = '';
   let changeRequestId = '';
+  console.log('adminToken');
+  console.log(seeds.getAdminTestToken());
+  console.log('staffToken', seeds.getStaffTestToken());
 
   it('Login admin user responds with 200', (done) => {
     chai

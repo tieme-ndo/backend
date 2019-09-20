@@ -2,8 +2,11 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const { models, connectDB } = require('../models');
 const farmerInput = require('./farmerInput');
+const generateToken = require('../helpers/generateToken');
 
 // variables
+let adminToken = '';
+let staffToken = '';
 const password = '123456';
 const hashedPw = bcrypt.hashSync(password, 10);
 const adminUsername = 'admin';
@@ -23,6 +26,13 @@ const staffUser = {
 before(async () => {
   try {
     await connectDB();
+    return Promise.all([
+      generateToken(adminUser),
+      generateToken(staffUser)
+    ]).then((val) => {
+      adminToken = val[0];
+      staffToken = val[1];
+    });
   } catch (error) {
     console.error(error.name, error.message);
   }
@@ -74,9 +84,19 @@ after(async () => {
 });
 
 // helper functions
+function getAdminTestToken() {
+  console.log(adminToken);
+  return adminToken;
+}
+function getStaffTestToken() {
+  console.log(staffToken);
+  return staffToken;
+}
 
 // exports
 module.exports = {
+  getAdminTestToken,
+  getStaffTestToken,
   staffUserCreate: staffUser,
   adminUserCreate: adminUser,
   staffUserLogin: {

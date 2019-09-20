@@ -250,6 +250,10 @@ import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz01
 
 _You can also check [.env.example](./.env.example) to know all required environment variables._
 
+## Testing
+
+Tests are setup as independently as possible (they do not rely on other tests to pass). General setup of tests is in `./tests/testsSetup.js` file.
+
 ## Contributing
 
 ### Issue/Bug Request
