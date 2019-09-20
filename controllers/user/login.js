@@ -55,6 +55,7 @@ const login = async (req, res, next) => {
   } catch (err) {
     return next(
       createError({
+        message: 'Internal server error',
         status: GENERIC_ERROR
       })
     );
