@@ -75,8 +75,6 @@ after(async () => {
     await mongoose.connection.collections.farmers.drop();
     await mongoose.connection.collections.users.drop();
     await mongoose.connection.collections.changerequests.drop();
-
-    await mongoose.disconnect(() => console.log('Database disconnected'));
   } catch (error) {
     console.error(error.name, error.message);
   }
