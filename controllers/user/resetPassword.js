@@ -28,7 +28,7 @@ const resetPassword = async (req, res, next) => {
 
     if(!compare){
       return next(createError({
-        message: 'Previous password is wrong',
+        message: 'Current password is incorrect',
         status: UNAUTHORIZED
       }));
     }
