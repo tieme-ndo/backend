@@ -226,7 +226,7 @@ describe('Farmer route', () => {
       });
   });
 
-  it('It should return 404 if there are no farmers in the DB', async () => {
+  it('It should return 404 if the farmer is not found in DB', async () => {
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
     await models.Farmer.deleteMany({});

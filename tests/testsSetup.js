@@ -84,8 +84,6 @@ after(async () => {
 
 // exports
 module.exports = {
-  staffUserCreate: staffUser,
-  adminUserCreate: adminUser,
   staffUserLogin: {
     username: staffUsername,
     password

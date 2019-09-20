@@ -108,7 +108,7 @@ describe('Users route', () => {
       });
   });
 
-  it('Should return 401 when user does not exist', (done) => {
+  it('Should return 401 when token is not provided in request headers', (done) => {
     const newUser = {
       username: 'Pavol',
       password: '1234567'
