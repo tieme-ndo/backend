@@ -31,7 +31,7 @@ describe('Users route [/user/login]', () => {
       });
   });
 
-  it('should return 401 on reset user password with wrong previous password', (done) => {
+  it('should return 401 on reset user password with wrong current password', (done) => {
     chai
       .request(server)
       .put('/api/v1/user/reset-password')
@@ -39,7 +39,7 @@ describe('Users route [/user/login]', () => {
       .send(seeds.changePasswordFalse)
       .end((err, res) => {
         res.should.have.status(401);
-        res.body.message.should.equal('Previous password is wrong');
+        res.body.message.should.equal('Current password is incorrect');
         done(err);
       });
   });

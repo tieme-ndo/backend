@@ -65,11 +65,11 @@ module.exports = {
     password
   },
   changePassword: {
-    prevPassword: password,
+    currentPassword: password,
     password: '1234567'
   },
   changePasswordFalse: {
-    prevPassword: 'Wrong previous password',
+    currentPassword: 'Wrong current password',
     password: '1234567'
   }
 };

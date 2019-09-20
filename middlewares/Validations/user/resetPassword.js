@@ -5,7 +5,7 @@ const joiValidate = require("../../../helpers/joiValidate");
  * reset user password validation schema
  */
 const passwordSchema = Joi.object({
-  prevPassword: Joi.string()
+  currentPassword: Joi.string()
     .min(6)
     .max(40)
     .trim()

@@ -23,8 +23,8 @@ const resetPassword = async (req, res, next) => {
       }));
     }
 
-    const compare = bcrypt.compareSync(req.body.prevPassword, userExist.password);
-    delete req.body.prevPassword
+    const compare = bcrypt.compareSync(req.body.currentPassword, userExist.password);
+    delete req.body.currentPassword
 
     if(!compare){
       return next(createError({
