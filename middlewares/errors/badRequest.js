@@ -8,7 +8,7 @@ const badRequest = (err, req, res, next) => {
   // Handle invalid JSON body
   if (err.type && err.type.includes('entity.parse.failed')) {
     return res.status(BAD_REQUEST).json({
-      ok: false,
+      success: false,
       errors: [
         {
           message: 'Invalid JSON object check request body',
@@ -19,7 +19,7 @@ const badRequest = (err, req, res, next) => {
   }
 
   return res.status(BAD_REQUEST).json({
-    ok: false,
+    success: false,
     errors: {
       message: err.message || 'Bad Request',
       status: err.status,

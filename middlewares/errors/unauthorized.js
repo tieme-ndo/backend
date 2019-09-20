@@ -14,7 +14,7 @@ const unauthorized = (err, req, res, next) => {
   }
 
   return res.status(UNAUTHORIZED).json({
-    ok: false,
+    success: false,
     message: err.message || 'Unauthorized',
     errors: [err],
   });

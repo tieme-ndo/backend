@@ -15,7 +15,7 @@ const forbidden = (err, req, res, next) => {
   }
 
   return res.status(FORBIDDEN).json({
-    ok: false,
+    success: false,
     message: err.message || 'Forbidden',
     errors: [err],
   });

@@ -24,9 +24,22 @@ describe('Users route [/user/login]', () => {
       .request(server)
       .put('/api/v1/user/reset-password')
       .set('authorization', token)
-      .send(seeds.newPassword)
+      .send(seeds.changePassword)
       .end((err, res) => {
         res.should.have.status(200);
+        done(err);
+      });
+  });
+
+  it('should return 401 on reset user password with wrong current password', (done) => {
+    chai
+      .request(server)
+      .put('/api/v1/user/reset-password')
+      .set('authorization', token)
+      .send(seeds.changePasswordFalse)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.message.should.equal('Current password is incorrect');
         done(err);
       });
   });
