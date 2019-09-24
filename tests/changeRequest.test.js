@@ -50,22 +50,20 @@ describe('Request change route', () => {
     };
     const farmer = await models.Farmer.findOne().select('_id');
     farmerId = farmer._id;
-    chai
+    const res = await chai
       .request(server)
       .patch(`/api/v1/farmers/${farmerId}/update`)
       .set('Authorization', staffToken)
-      .send(updateInput)
-      .end(async (err, res) => {
-        res.should.have.status(201);
-        res.body.message.should.equal(
-          'Your change was created and is ready for admin approval'
-        );
-        const changeRequests = await models.ChangeRequest.find();	
-        chai.expect(changeRequests).to.have.lengthOf(2);	
-        changeRequestId = changeRequests[0]._id;
-      });
+      .send(updateInput);
+    res.should.have.status(201);
+    res.body.message.should.equal(
+      'Your change was created and is ready for admin approval'
+    );
+    const changeRequests = await models.ChangeRequest.find();
+    chai.expect(changeRequests).to.have.lengthOf(2);
+    changeRequestId = changeRequests[0]._id;
   });
-
+  /* 
   it('DUPLICATE, check error messages: It creates a changeRequest if farmer is updated by staff', async () => {
     const updateInput = {
       personalInfo: {
@@ -91,7 +89,7 @@ describe('Request change route', () => {
         chai.expect(changeRequests).to.have.lengthOf(2);	
         changeRequestId = changeRequests[0]._id;
       });
-  });
+  }); */
 
   it('It retrieves a list of change requests', done => {
     chai
@@ -109,41 +107,35 @@ describe('Request change route', () => {
   it('It retrieves a change request info', async () => {
     const changeReq = await models.ChangeRequest.findOne().select('_id');
     changeRequestId = changeReq._id;
-    chai
+    const res = await chai
       .request(server)
       .get(`/api/v1/change-requests/${changeRequestId}`)
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('ChangeRequest with this ID found');
-        res.body.requested_changes.should.be.a('object');
-      });
+      .set('Authorization', token);
+    res.should.have.status(200);
+    res.body.message.should.equal('ChangeRequest with this ID found');
+    res.body.requested_changes.should.be.a('object');
   });
 
   it('It rejects a change', async () => {
     const changeReq = await models.ChangeRequest.findOne().select('_id');
     changeRequestId = changeReq._id;
-    chai
+    const res = await chai
       .request(server)
       .post(`/api/v1/change-requests/${changeRequestId}/decline`)
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('ChangeRequest declined');
-      });
+      .set('Authorization', token);
+    res.should.have.status(200);
+    res.body.message.should.equal('ChangeRequest declined');
   });
 
   it('It accepts a change', async () => {
     const changeReq = await models.ChangeRequest.findOne().select('_id');
     changeRequestId = changeReq._id;
-    chai
+    const res = await chai
       .request(server)
       .post(`/api/v1/change-requests/${changeRequestId}/approve`)
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('ChangeRequest approved');
-      });
+      .set('Authorization', token);
+    res.should.have.status(200);
+    res.body.message.should.equal('ChangeRequest approved');
   });
 
   it('It does not accept an update of an archived farmer details', async () => {
