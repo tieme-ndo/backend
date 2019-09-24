@@ -118,7 +118,7 @@ const updateFarmer = async (req, res, next) => {
       farmer_name: `${toUpdateFarmer.personalInfo.first_name} ${toUpdateFarmer.personalInfo.surname}`,
       change_requested_by: username,
       date: Date.now()
-    });
+    }).lean();
 
     return res.status(201).json({
       success: true,
