@@ -18,7 +18,7 @@ const farmerInput = {
     house_number: '1',
     nearest_landmark: 'Bustop',
     Phone_1: '8765456789',
-    Phone_2: '678976546', 
+    Phone_2: '678976546',
     education_level: 'Tertiary',
     occupation: 'Farmer',
     expected_income_per_month: '501 to GHC 1,000',

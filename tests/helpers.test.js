@@ -3,14 +3,13 @@ const generateToken = require('../helpers/generateToken');
 
 chai.should();
 
-
-describe('create token func', () => {
+describe('Helpers tests', () => {
   const user = {
     username: 'Tiemendo',
     isAdmin: true,
     password: '123456'
   };
-  it('it should return a token', async () => {
+  it('Should create a token and return it', async () => {
     const token = await generateToken(user);
     token.should.be.a('string');
   });
