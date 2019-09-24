@@ -40,29 +40,35 @@ describe('Request change route', () => {
   });
 
   it('It creates a changeRequest if farmer is updated by staff', async () => {
-    const updateInput = {
-      personalInfo: {
-        first_name: 'Abby',
-        middle_name: '',
-        sur
-      },
-      farmInfo: {
-        number_of_acres: 4
-      }
-    };
-    const farmer = await models.Farmer.findOne().select('_id');
-    farmerId = farmer._id;
-    chai
-      .request(server)
-      .patch(`/api/v1/farmers/${farmerId}/update`)
-      .set('Authorization', staffToken)
-      .send(updateInput)
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.message.should.equal(
-          'Your change was created and is ready for admin approval'
-        );
-      });
+    try {
+      const updateInput = {
+        personalInfo: {
+          title: 'Mr',
+          surname: 'World',
+          first_name: 'Hello',
+          middle_name: 'Sunny',
+        }
+      };
+
+      const farmer = await models.Farmer.findOne().select('_id');
+      farmerId = farmer._id;
+      chai
+        .request(server)
+        .patch(`/api/v1/farmers/${farmerId}/update`)
+        .set('Authorization', staffToken)
+        .send(updateInput)
+        .end((err, res) => {
+          console.log(updateInput);
+          console.log(res.body);
+          res.should.have.status(201);
+          res.body.message.should.equal(
+            'Your change was created and is ready for admin approval'
+          );
+          done(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   });
 
   it('It retrieves a list of change requests', done => {

@@ -116,7 +116,7 @@ const updateFarmer = async (req, res, next) => {
     const farmerEditRequest = await models.ChangeRequest.create({
       requested_changes: farmerDetails,
       farmer_id: farmerId,
-      farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
+      farmer_name: `${toUpdateFarmer.personalInfo.first_name} ${toUpdateFarmer.personalInfo.surname}`,
       change_requested_by: username,
       date: Date.now()
     });
