@@ -63,33 +63,6 @@ describe('Request change route', () => {
     chai.expect(changeRequests).to.have.lengthOf(2);
     changeRequestId = changeRequests[0]._id;
   });
-  /* 
-  it('DUPLICATE, check error messages: It creates a changeRequest if farmer is updated by staff', async () => {
-    const updateInput = {
-      personalInfo: {
-        title: 'Mrs',
-        surname: 'World',
-        first_name: 'Hello',
-        middle_name: 'Funny'
-      }
-    };
-    const farmer = await models.Farmer.findOne().select('_id');
-    farmerId = farmer._id;
-    chai
-      .request(server)
-      .patch(`/api/v1/farmers/${farmerId}/update`)
-      .set('Authorization', staffToken)
-      .send(updateInput)
-      .end(async (err, res) => {
-        res.should.have.status(201);
-        res.body.message.should.equal(
-          'Your change was created and is ready for admin approval'
-        );
-        const changeRequests = await models.ChangeRequest.find();	
-        chai.expect(changeRequests).to.have.lengthOf(2);	
-        changeRequestId = changeRequests[0]._id;
-      });
-  }); */
 
   it('It retrieves a list of change requests', done => {
     chai
