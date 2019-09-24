@@ -54,7 +54,6 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
-    //How does archived influence this feature?
     let { first_name, middle_name, surname } = '';
     if (
       farmerDetails.personalInfo.first_name !== undefined ||

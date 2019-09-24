@@ -120,7 +120,7 @@ describe('Farmer route', () => {
       .send(updateInput)
       .end((err, res) => {
         res.should.have.status(201);
-        console.log(res.body)
+        console.log(updateInput);
         res.body.farmer.personalInfo.title.should.equal('Chief');
         res.body.farmer.personalInfo.first_name.should.equal('Bob');
         res.body.farmer.personalInfo.surname.should.equal('The Builder');
