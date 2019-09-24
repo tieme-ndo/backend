@@ -40,36 +40,58 @@ describe('Request change route', () => {
   });
 
   it('It creates a changeRequest if farmer is updated by staff', async () => {
-    try {
-      const updateInput = {
-        personalInfo: {
-          title: 'Mr',
-          surname: 'World',
-          first_name: 'Hello',
-          middle_name: 'Sunny',
-        }
-      };
-
-      const farmer = await models.Farmer.findOne().select('_id');
-      farmerId = farmer._id;
-      chai
-        .request(server)
-        .patch(`/api/v1/farmers/${farmerId}/update`)
-        .set('Authorization', staffToken)
-        .send(updateInput)
-        .end((err, res) => {
-          console.log(updateInput);
-          console.log(res.body);
-          res.should.have.status(201);
-          res.body.message.should.equal(
-            'Your change was created and is ready for admin approval'
-          );
-          done(err);
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    const updateInput = {
+      personalInfo: {
+        title: 'Mr',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Sunny'
+      }
+    };
+    const farmer = await models.Farmer.findOne().select('_id');
+    farmerId = farmer._id;
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${farmerId}/update`)
+      .set('Authorization', staffToken)
+      .send(updateInput)
+      .end(async (err, res) => {
+        res.should.have.status(201);
+        res.body.message.should.equal(
+          'Your change was created and is ready for admin approval'
+        );
+        const changeRequests = await models.ChangeRequest.find();	
+        chai.expect(changeRequests).to.have.lengthOf(2);	
+        changeRequestId = changeRequests[0]._id;
+      });
   });
+
+  /* it('DUPLICATE, check error messages: It creates a changeRequest if farmer is updated by staff', async () => {
+    const updateInput = {
+      personalInfo: {
+        title: 'Mrs',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Funny'
+      }
+    };
+    const farmer = await models.Farmer.findOne().select('_id');
+    farmerId = farmer._id;
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${farmerId}/update`)
+      .set('Authorization', staffToken)
+      .send(updateInput)
+      .end(async (err, res) => {
+        res.should.have.status(201);
+        res.body.message.should.equal(
+          'Your change was created and is ready for admin approval'
+        );
+        const changeRequests = await models.ChangeRequest.find();	
+        chai.expect(changeRequests).to.have.lengthOf(2);	
+        changeRequestId = changeRequests[0]._id;
+      });
+  }); */
 
   it('It retrieves a list of change requests', done => {
     chai
@@ -77,6 +99,7 @@ describe('Request change route', () => {
       .get('/api/v1/change-requests/')
       .set('Authorization', token)
       .end((err, res) => {
+        console.log(res.body.changeRequests)
         res.should.have.status(200);
         res.body.message.should.equal('ChangeRequests found');
         res.body.changeRequests.should.be.a('array');
@@ -119,7 +142,6 @@ describe('Request change route', () => {
       .post(`/api/v1/change-requests/${changeRequestId}/approve`)
       .set('Authorization', token)
       .end((err, res) => {
-        console.log(res.body.message);
         res.should.have.status(200);
         res.body.message.should.equal('ChangeRequest approved');
       });

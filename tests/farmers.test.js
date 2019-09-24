@@ -121,7 +121,7 @@ describe('Farmer route', () => {
       });
   });
 
-  it('It does not update farmer details if done by staff', async () => {
+  it('It creates change request if updated by staff', async () => {
     farmerInput.personalInfo.title = 'Mr';
     farmerInput.personalInfo.first_name = "Sara";
     farmerInput.personalInfo.surname = "Connor";
