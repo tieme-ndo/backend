@@ -112,13 +112,13 @@ const updateFarmer = async (req, res, next) => {
     }
     /* This is implemented in RC3
       if (farmer.staff === username) { */
-    const farmerEditRequest = await models.ChangeRequest.create({
+    let farmerEditRequest = await models.ChangeRequest.create({
       requested_changes: farmerDetails,
       farmer_id: farmerId,
       farmer_name: `${toUpdateFarmer.personalInfo.first_name} ${toUpdateFarmer.personalInfo.surname}`,
       change_requested_by: username,
       date: Date.now()
-    }).lean();
+    });
 
     return res.status(201).json({
       success: true,
