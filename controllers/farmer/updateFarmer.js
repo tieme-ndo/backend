@@ -4,7 +4,8 @@ const {
   createError,
   GENERIC_ERROR,
   NOT_FOUND,
-  FORBIDDEN
+  FORBIDDEN,
+  CONFLICT
 } = require('../../helpers/error');
 
 /**
@@ -32,7 +33,7 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
-    const toUpdateFarmer = await models.Farmer.findOne({ _id: farmerId });
+    const toUpdateFarmer = await models.Farmer.findOne({ _id: farmerId }).lean();;
     if (!toUpdateFarmer) {
       return next(
         createError({
@@ -53,40 +54,44 @@ const updateFarmer = async (req, res, next) => {
 
     //How does archived influence this feature?
     let { first_name, middle_name, surname } = '';
-
-    if (farmerDetails.personalInfo) {
-      if (farmerDetails.personalInfo.first_name) {
+    if (
+      farmerDetails.personalInfo.first_name ||
+      farmerDetails.personalInfo.middle_name ||
+      farmerDetails.personalInfo.surname
+    ) {
+      if (farmerDetails.personalInfo.first_name !== undefined) {
         first_name = farmerDetails.personalInfo.first_name;
       } else {
         first_name = toUpdateFarmer.personalInfo.first_name;
       }
-      if (farmerDetails.personalInfo.middle_name) {
-        first_name = farmerDetails.personalInfo.middle_name;
+      if (farmerDetails.personalInfo.middle_name !== undefined) {
+        middle_name = farmerDetails.personalInfo.middle_name;
       } else {
-        first_name = toUpdateFarmer.personalInfo.middle_name;
+        middle_name = toUpdateFarmer.personalInfo.middle_name;
       }
-      if (farmerDetails.personalInfo.surname) {
-        first_name = farmerDetails.personalInfo.surname;
+      if (farmerDetails.personalInfo.surname !== undefined) {
+        surname = farmerDetails.personalInfo.surname;
       } else {
-        first_name = toUpdateFarmer.personalInfo.surname;
+        surname = toUpdateFarmer.personalInfo.surname;
       }
-    }
 
-    const duplicateExists = await models.Farmer.findOne({
-      'personalInfo.first_name': first_name,
-      'personalInfo.middle_name': middle_name,
-      'personalInfo.surname': surname,
-      archived: false
-    });
+      const duplicateExists = await models.Farmer.findOne({
+        'personalInfo.first_name': first_name,
+        'personalInfo.middle_name': middle_name,
+        'personalInfo.surname': surname,
+        archived: false
+      }).lean();
 
-    if (duplicateExists && farmerId !== duplicateExists._id) {
-      return next(
-        createError({
-          message:
-            'This update would lead to a duplicate farmer. Please select a unique first, middle and surname combination',
-          status: CONFLICT
-        })
-      );
+      duplicateExists._id = duplicateExists._id.toString()
+      if (duplicateExists && !(farmerId === duplicateExists._id)) {
+        return next(
+          createError({
+            message:
+              'This update would lead to a farmer duplicate. Please select a unique first, middle and surname combination',
+            status: CONFLICT
+          })
+        );
+      }
     }
 
     if (isAdmin) {
@@ -95,7 +100,7 @@ const updateFarmer = async (req, res, next) => {
         { _id: farmerId },
         convertedObject,
         { new: true, runValidators: true }
-      );
+      ).lean();
 
       return res.status(201).json({
         success: true,

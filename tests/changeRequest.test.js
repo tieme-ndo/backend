@@ -40,7 +40,7 @@ describe('Request change route', () => {
   });
 
   it('It creates a changeRequest if farmer is updated by staff', async () => {
-    farmerInput.personalInfo.title = 'Mr';
+    farmerInput.personalInfo.first_name = 'Abby';
     const farmer = await models.Farmer.findOne().select('_id');
     farmerId = farmer._id;
     chai
@@ -49,6 +49,7 @@ describe('Request change route', () => {
       .set('Authorization', staffToken)
       .send(farmerInput)
       .end(async (err, res) => {
+        console.log(res.body.message);
         res.should.have.status(201);
         res.body.message.should.equal(
           'Your change was created and is ready for admin approval'
