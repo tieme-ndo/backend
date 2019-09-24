@@ -99,7 +99,6 @@ describe('Request change route', () => {
       .get('/api/v1/change-requests/')
       .set('Authorization', token)
       .end((err, res) => {
-        console.log(res.body.changeRequests)
         res.should.have.status(200);
         res.body.message.should.equal('ChangeRequests found');
         res.body.changeRequests.should.be.a('array');
