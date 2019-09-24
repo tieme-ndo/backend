@@ -1,5 +1,5 @@
 const { models } = require('../../models');
-const convertToDotNotationObject = require('./convertToDotNotationObject');
+const convertToDotNotationObject = require('../../helpers/convertToDotNotationObject');
 const {
   createError,
   GENERIC_ERROR,

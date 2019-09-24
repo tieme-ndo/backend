@@ -111,6 +111,25 @@ describe('Request change route', () => {
     res.body.message.should.equal('ChangeRequest approved');
   });
 
+  it('It creates change request if updated by staff', async () => {
+    farmerInput.personalInfo.title = 'Mr';
+    farmerInput.personalInfo.first_name = 'Sara';
+    farmerInput.personalInfo.surname = 'Connor';
+    const farmer = await models.Farmer.findOne().select('_id');
+    id = farmer._id;
+    chai
+      .request(server)
+      .patch(`/api/v1/farmers/${id}/update`)
+      .set('Authorization', staffToken)
+      .send(farmerInput)
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.body.message.should.equal(
+          'Your change was created and is ready for admin approval'
+        );
+      });
+  });
+
   it('It does not accept an update of an archived farmer details', async () => {
     // get farmer
     const farmer = await models.Farmer.findOne().select('_id');

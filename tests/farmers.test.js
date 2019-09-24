@@ -124,25 +124,6 @@ describe('Farmer route', () => {
     res.body.farmer.personalInfo.surname.should.equal('World');
   });
 
-  it('It creates change request if updated by staff', async () => {
-    farmerInput.personalInfo.title = 'Mr';
-    farmerInput.personalInfo.first_name = 'Sara';
-    farmerInput.personalInfo.surname = 'Connor';
-    const farmer = await models.Farmer.findOne().select('_id');
-    id = farmer._id;
-    chai
-      .request(server)
-      .patch(`/api/v1/farmers/${id}/update`)
-      .set('Authorization', staffToken)
-      .send(farmerInput)
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.message.should.equal(
-          'Your change was created and is ready for admin approval'
-        );
-      });
-  });
-
   it('It does not update farmer details if change {} is empty', async () => {
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
@@ -155,6 +136,28 @@ describe('Farmer route', () => {
         res.should.have.status(403);
         res.body.message.should.equal('You can not submit empty updates');
       });
+  });
+
+  it('It does not update if update would lead to duplicate, by admin', async () => {
+    const updateInput = {
+      personalInfo: {
+        title: 'Mrs',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Happy'
+      }
+    };
+    const farmer = await models.Farmer.findOne().select('_id');
+    id = farmer._id;
+    const res = await chai
+      .request(server)
+      .patch(`/api/v1/farmers/${id}/update`)
+      .set('Authorization', token)
+      .send(updateInput);
+    res.should.have.status(201);
+    res.body.farmer.personalInfo.title.should.equal('Mrs');
+    res.body.farmer.personalInfo.first_name.should.equal('Hello');
+    res.body.farmer.personalInfo.surname.should.equal('World');
   });
 
   it('It should return a single farmer', async () => {
