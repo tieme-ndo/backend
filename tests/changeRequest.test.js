@@ -117,17 +117,15 @@ describe('Request change route', () => {
     farmerInput.personalInfo.surname = 'Connor';
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
-    chai
+    const res = await chai
       .request(server)
       .patch(`/api/v1/farmers/${id}/update`)
       .set('Authorization', staffToken)
       .send(farmerInput)
-      .end((err, res) => {
         res.should.have.status(201);
         res.body.message.should.equal(
           'Your change was created and is ready for admin approval'
         );
-      });
   });
 
   it('It does not accept an update of an archived farmer details', async () => {
@@ -143,15 +141,13 @@ describe('Request change route', () => {
 
     const changeReq = await models.ChangeRequest.findOne().select('_id');
     changeRequestId = changeReq._id;
-    chai
+    const res = await chai
       .request(server)
       .post(`/api/v1/change-requests/${changeRequestId}/approve`)
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(403);
-        res.body.message.should.equal(
-          'This Farmer is archived and can not be updated'
-        );
-      });
+      .set('Authorization', token);
+    res.should.have.status(403);
+    res.body.message.should.equal(
+      'This Farmer is archived and can not be updated'
+    );
   });
 });
