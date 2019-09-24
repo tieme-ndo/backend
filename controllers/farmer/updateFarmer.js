@@ -26,9 +26,9 @@ const updateFarmer = async (req, res, next) => {
       farmerDetails.constructor === Object
     ) {
       return next(
-        createError({
-          status: FORBIDDEN,
-          message: 'You can not submit empty updates'
+        createError({         
+          message: 'You can not submit empty updates',
+          status: FORBIDDEN
         })
       );
     }

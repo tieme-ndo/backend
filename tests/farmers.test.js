@@ -127,15 +127,13 @@ describe('Farmer route', () => {
   it('It does not update farmer details if change {} is empty', async () => {
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
-    chai
+    const res = await chai
       .request(server)
       .patch(`/api/v1/farmers/${id}/update`)
       .set('Authorization', staffToken)
       .send({})
-      .end((err, res) => {
         res.should.have.status(403);
         res.body.message.should.equal('You can not submit empty updates');
-      });
   });
 
   it('It does not update if update would lead to duplicate, by admin', async () => {
@@ -147,7 +145,41 @@ describe('Farmer route', () => {
         middle_name: 'Happy'
       }
     };
-    const farmer = await models.Farmer.findOne().select('_id');
+    const farmer = await models.Farmer.findOne();
+
+    farmerInput.personalInfo.first_name = updateInput.personalInfo.first_name;
+    farmerInput.personalInfo.middle_name = updateInput.personalInfo.middle_name;
+    farmerInput.personalInfo.surname = updateInput.personalInfo.surname;
+    await models.Farmer.create({ ...farmerInput, staff: 'test' });
+
+    id = farmer._id;
+    const res = await chai
+      .request(server)
+      .patch(`/api/v1/farmers/${id}/update`)
+      .set('Authorization', token)
+      .send(updateInput);
+    res.should.have.status(409);
+    res.body.errors.message.should.equal(
+      'This update would lead to a farmer duplicate. Please select a unique first, middle and surname combination'
+    );
+  });
+
+  it('It does update if update would not lead to duplicate, by admin', async () => {
+    const updateInput = {
+      personalInfo: {
+        title: 'Mrs',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Happy'
+      }
+    };
+    const farmer = await models.Farmer.findOne();
+
+    farmerInput.personalInfo.first_name = updateInput.personalInfo.first_name;
+    farmerInput.personalInfo.middle_name = '';
+    farmerInput.personalInfo.surname = updateInput.personalInfo.surname;
+    await models.Farmer.create({ ...farmerInput, staff: 'test' });
+
     id = farmer._id;
     const res = await chai
       .request(server)
@@ -155,9 +187,123 @@ describe('Farmer route', () => {
       .set('Authorization', token)
       .send(updateInput);
     res.should.have.status(201);
-    res.body.farmer.personalInfo.title.should.equal('Mrs');
-    res.body.farmer.personalInfo.first_name.should.equal('Hello');
-    res.body.farmer.personalInfo.surname.should.equal('World');
+    res.body.message.should.equal(
+      'Farmer details updated successfully'
+    );
+  });
+
+  it('It does update if duplicate is prevented by same id, by admin', async () => {
+    const updateInput = {
+      personalInfo: {
+        title: 'Mrs',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Happy'
+      }
+    };
+    const farmer = await models.Farmer.findOne();
+    
+    //Updates and saves the same farmer we later try to update with "conflicting" data.
+    farmer.personalInfo.first_name = updateInput.personalInfo.first_name;
+    farmer.personalInfo.middle_name = updateInput.personalInfo.middle_name;
+    farmer.personalInfo.surname = updateInput.personalInfo.surname;
+    await farmer.save();
+
+    id = farmer._id;
+    const res = await chai
+      .request(server)
+      .patch(`/api/v1/farmers/${id}/update`)
+      .set('Authorization', token)
+      .send(updateInput);
+    res.should.have.status(201);
+    res.body.message.should.equal(
+      'Farmer details updated successfully'
+    );
+  });
+
+  it('It does not update if update would lead to duplicate, by staff', async () => {
+    const updateInput = {
+      personalInfo: {
+        title: 'Mrs',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Happy'
+      }
+    };
+    const farmer = await models.Farmer.findOne();
+
+    farmerInput.personalInfo.first_name = updateInput.personalInfo.first_name;
+    farmerInput.personalInfo.middle_name = updateInput.personalInfo.middle_name;
+    farmerInput.personalInfo.surname = updateInput.personalInfo.surname;
+    await models.Farmer.create({ ...farmerInput, staff: 'test' });
+
+    id = farmer._id;
+    const res = await chai
+      .request(server)
+      .patch(`/api/v1/farmers/${id}/update`)
+      .set('Authorization', staffToken)
+      .send(updateInput);
+    res.should.have.status(409);
+    res.body.errors.message.should.equal(
+      'This update would lead to a farmer duplicate. Please select a unique first, middle and surname combination'
+    );
+  });
+
+  it('It does update if update would not lead to duplicate, by staff', async () => {
+    const updateInput = {
+      personalInfo: {
+        title: 'Mrs',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Happy'
+      }
+    };
+    const farmer = await models.Farmer.findOne();
+
+    farmerInput.personalInfo.first_name = updateInput.personalInfo.first_name;
+    farmerInput.personalInfo.middle_name = '';
+    farmerInput.personalInfo.surname = updateInput.personalInfo.surname;
+    await models.Farmer.create({ ...farmerInput, staff: 'test' });
+
+    id = farmer._id;
+    const res = await chai
+      .request(server)
+      .patch(`/api/v1/farmers/${id}/update`)
+      .set('Authorization', staffToken)
+      .send(updateInput);
+    res.should.have.status(201);
+    res.body.message.should.equal(
+      'Your change was created and is ready for admin approval'
+    );
+  });
+
+  it('It does update if duplicate is prevented by same id, by staff', async () => {
+    const updateInput = {
+      personalInfo: {
+        title: 'Mrs',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Happy'
+      }
+    };
+    const farmer = await models.Farmer.findOne();
+    
+    //Updates and saves the same farmer we later try to update with "conflicting" data.
+    farmer.personalInfo.first_name = updateInput.personalInfo.first_name;
+    farmer.personalInfo.middle_name = updateInput.personalInfo.middle_name;
+    farmer.personalInfo.surname = updateInput.personalInfo.surname;
+    await farmer.save();
+
+    id = farmer._id;
+    const res = await chai
+      .request(server)
+      .patch(`/api/v1/farmers/${id}/update`)
+      .set('Authorization', staffToken)
+      .send(updateInput);
+    res.should.have.status(201);
+    res.body.message.should.equal(
+      'Your change was created and is ready for admin approval'
+    );
   });
 
   it('It should return a single farmer', async () => {
