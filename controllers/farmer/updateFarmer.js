@@ -20,19 +20,9 @@ const updateFarmer = async (req, res, next) => {
     const farmerDetails = req.body;
     const { username, isAdmin } = req.user;
 
-    const farmer = await models.Farmer.findOne({ _id: farmerId });
-    if (!farmer) {
-      return next(
-        createError({
-          message: 'Farmer does not exist',
-          status: NOT_FOUND
-        })
-      );
-    }
-
     if (
-      Object.keys(farmerDetails).length === 0
-      && farmerDetails.constructor === Object
+      Object.keys(farmerDetails).length === 0 &&
+      farmerDetails.constructor === Object
     ) {
       return next(
         createError({
@@ -42,11 +32,59 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
-    if (farmer.archived) {
+    const toUpdateFarmer = await models.Farmer.findOne({ _id: farmerId });
+    if (!toUpdateFarmer) {
+      return next(
+        createError({
+          message: 'Farmer does not exist',
+          status: NOT_FOUND
+        })
+      );
+    }
+
+    if (toUpdateFarmer.archived) {
       return next(
         createError({
           message: 'This Farmer is archived and can not be updated',
           status: FORBIDDEN
+        })
+      );
+    }
+
+    //How does archived influence this feature?
+    let { first_name, middle_name, surname } = '';
+
+    if (farmerDetails.personalInfo) {
+      if (farmerDetails.personalInfo.first_name) {
+        first_name = farmerDetails.personalInfo.first_name;
+      } else {
+        first_name = toUpdateFarmer.personalInfo.first_name;
+      }
+      if (farmerDetails.personalInfo.middle_name) {
+        first_name = farmerDetails.personalInfo.middle_name;
+      } else {
+        first_name = toUpdateFarmer.personalInfo.middle_name;
+      }
+      if (farmerDetails.personalInfo.surname) {
+        first_name = farmerDetails.personalInfo.surname;
+      } else {
+        first_name = toUpdateFarmer.personalInfo.surname;
+      }
+    }
+
+    const duplicateExists = await models.Farmer.findOne({
+      'personalInfo.first_name': first_name,
+      'personalInfo.middle_name': middle_name,
+      'personalInfo.surname': surname,
+      archived: false
+    });
+
+    if (duplicateExists && farmerId !== duplicateExists._id) {
+      return next(
+        createError({
+          message:
+            'This update would lead to a duplicate farmer. Please select a unique first, middle and surname combination',
+          status: CONFLICT
         })
       );
     }
