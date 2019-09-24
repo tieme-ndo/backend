@@ -66,7 +66,7 @@ describe('Request change route', () => {
       });
   });
 
-  /* it('DUPLICATE, check error messages: It creates a changeRequest if farmer is updated by staff', async () => {
+  it('DUPLICATE, check error messages: It creates a changeRequest if farmer is updated by staff', async () => {
     const updateInput = {
       personalInfo: {
         title: 'Mrs',
@@ -91,7 +91,7 @@ describe('Request change route', () => {
         chai.expect(changeRequests).to.have.lengthOf(2);	
         changeRequestId = changeRequests[0]._id;
       });
-  }); */
+  });
 
   it('It retrieves a list of change requests', done => {
     chai

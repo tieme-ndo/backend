@@ -103,18 +103,24 @@ describe('Farmer route', () => {
   });
 
   it('It updates farmer details when done by admin', async () => {
-    farmerInput.personalInfo.title = 'Chief';
-    farmerInput.personalInfo.first_name = "Bob";
-    farmerInput.personalInfo.surname = "The Builder";
+    const updateInput = {
+      personalInfo: {
+        title: 'Mrs',
+        surname: 'World',
+        first_name: 'Hello',
+        middle_name: 'Happy'
+      }
+    };
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
     chai
       .request(server)
       .patch(`/api/v1/farmers/${id}/update`)
       .set('Authorization', token)
-      .send(farmerInput)
+      .send(updateInput)
       .end((err, res) => {
         res.should.have.status(201);
+        console.log(res.body)
         res.body.farmer.personalInfo.title.should.equal('Chief');
         res.body.farmer.personalInfo.first_name.should.equal('Bob');
         res.body.farmer.personalInfo.surname.should.equal('The Builder');
