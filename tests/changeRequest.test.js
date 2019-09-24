@@ -121,11 +121,11 @@ describe('Request change route', () => {
       .request(server)
       .patch(`/api/v1/farmers/${id}/update`)
       .set('Authorization', staffToken)
-      .send(farmerInput)
-        res.should.have.status(201);
-        res.body.message.should.equal(
-          'Your change was created and is ready for admin approval'
-        );
+      .send(farmerInput);
+    res.should.have.status(201);
+    res.body.message.should.equal(
+      'Your change was created and is ready for admin approval'
+    );
   });
 
   it('It does not accept an update of an archived farmer details', async () => {

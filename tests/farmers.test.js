@@ -40,38 +40,30 @@ describe('Farmer route', () => {
 
   it('It should return 200 and an empty Array when there are no farmers in the DB as admin', async () => {
     await models.Farmer.deleteMany({});
-    chai
+    const res = await chai
       .request(server)
       .get('/api/v1/farmers')
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal(
-          'Could not find any farmer in the record'
-        );
-        res.body.totalNumberOfFarmers.should.equal(0);
-        res.body.farmers.should.eql([]);
-        res.body.farmers.should.be.a('array');
-        res.body.success.should.equal(true);
-      });
+      .set('Authorization', token);
+    res.should.have.status(200);
+    res.body.message.should.equal('Could not find any farmer in the record');
+    res.body.totalNumberOfFarmers.should.equal(0);
+    res.body.farmers.should.eql([]);
+    res.body.farmers.should.be.a('array');
+    res.body.success.should.equal(true);
   });
 
   it('It should return 200 and an empty Array when there are no farmers in the DB as staff', async () => {
     await models.Farmer.deleteMany({});
-    chai
+    const res = await chai
       .request(server)
       .get('/api/v1/farmers')
-      .set('Authorization', staffToken)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal(
-          'Could not find any farmer in the record'
-        );
-        res.body.totalNumberOfFarmers.should.equal(0);
-        res.body.farmers.should.eql([]);
-        res.body.farmers.should.be.a('array');
-        res.body.success.should.equal(true);
-      });
+      .set('Authorization', staffToken);
+    res.should.have.status(200);
+    res.body.message.should.equal('Could not find any farmer in the record');
+    res.body.totalNumberOfFarmers.should.equal(0);
+    res.body.farmers.should.eql([]);
+    res.body.farmers.should.be.a('array');
+    res.body.success.should.equal(true);
   });
 
   it('It should return 201 when creating new farmer', done => {
@@ -131,9 +123,9 @@ describe('Farmer route', () => {
       .request(server)
       .patch(`/api/v1/farmers/${id}/update`)
       .set('Authorization', staffToken)
-      .send({})
-        res.should.have.status(403);
-        res.body.message.should.equal('You can not submit empty updates');
+      .send({});
+    res.should.have.status(403);
+    res.body.message.should.equal('You can not submit empty updates');
   });
 
   it('It does not update if update would lead to duplicate, by admin', async () => {
@@ -187,9 +179,7 @@ describe('Farmer route', () => {
       .set('Authorization', token)
       .send(updateInput);
     res.should.have.status(201);
-    res.body.message.should.equal(
-      'Farmer details updated successfully'
-    );
+    res.body.message.should.equal('Farmer details updated successfully');
   });
 
   it('It does update if duplicate is prevented by same id, by admin', async () => {
@@ -202,7 +192,7 @@ describe('Farmer route', () => {
       }
     };
     const farmer = await models.Farmer.findOne();
-    
+
     //Updates and saves the same farmer we later try to update with "conflicting" data.
     farmer.personalInfo.first_name = updateInput.personalInfo.first_name;
     farmer.personalInfo.middle_name = updateInput.personalInfo.middle_name;
@@ -216,9 +206,7 @@ describe('Farmer route', () => {
       .set('Authorization', token)
       .send(updateInput);
     res.should.have.status(201);
-    res.body.message.should.equal(
-      'Farmer details updated successfully'
-    );
+    res.body.message.should.equal('Farmer details updated successfully');
   });
 
   it('It does not update if update would lead to duplicate, by staff', async () => {
@@ -287,7 +275,7 @@ describe('Farmer route', () => {
       }
     };
     const farmer = await models.Farmer.findOne();
-    
+
     //Updates and saves the same farmer we later try to update with "conflicting" data.
     farmer.personalInfo.first_name = updateInput.personalInfo.first_name;
     farmer.personalInfo.middle_name = updateInput.personalInfo.middle_name;
@@ -309,28 +297,24 @@ describe('Farmer route', () => {
   it('It should return a single farmer', async () => {
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
-    chai
+    const res = await chai
       .request(server)
       .get(`/api/v1/farmers/${id}`)
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        res.body.message.should.equal('Farmer record found');
-      });
+      .set('Authorization', token);
+    res.should.have.status(200);
+    res.body.should.be.a('object');
+    res.body.message.should.equal('Farmer record found');
   });
 
   it('It deletes farmer details', async () => {
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
-    chai
+    const res = await chai
       .request(server)
       .delete(`/api/v1/farmers/${id}/delete`)
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('Farmer details deleted successfully');
-      });
+      .set('Authorization', token);
+    res.should.have.status(200);
+    res.body.message.should.equal('Farmer details deleted successfully');
   });
 
   it('It does not update archived farmer details when done by admin', async () => {
@@ -345,17 +329,15 @@ describe('Farmer route', () => {
       '_id'
     );
     id = farmer._id;
-    chai
+    const res = await chai
       .request(server)
       .patch(`/api/v1/farmers/${id}/update`)
       .set('Authorization', token)
-      .send(farmerInput)
-      .end((err, res) => {
-        res.should.have.status(403);
-        res.body.message.should.equal(
-          'This Farmer is archived and can not be updated'
-        );
-      });
+      .send(farmerInput);
+    res.should.have.status(403);
+    res.body.message.should.equal(
+      'This Farmer is archived and can not be updated'
+    );
   });
 
   it('It does not update archived farmer details if done by staff', async () => {
@@ -371,30 +353,26 @@ describe('Farmer route', () => {
     );
     id = farmer._id;
 
-    chai
+    const res = await chai
       .request(server)
       .patch(`/api/v1/farmers/${id}/update`)
       .set('Authorization', staffToken)
-      .send(farmerInput)
-      .end((err, res) => {
-        res.should.have.status(403);
-        res.body.message.should.equal(
-          'This Farmer is archived and can not be updated'
-        );
-      });
+      .send(farmerInput);
+    res.should.have.status(403);
+    res.body.message.should.equal(
+      'This Farmer is archived and can not be updated'
+    );
   });
 
   it('It should return 404 if the farmer is not found in DB', async () => {
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
     await models.Farmer.deleteMany({});
-    chai
+    const res = await chai
       .request(server)
       .get(`/api/v1/farmers/${id}/`)
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(404);
-      });
+      .set('Authorization', token);
+    res.should.have.status(404);
   });
 
   it('It should return 409 if farmer record exists already', done => {
