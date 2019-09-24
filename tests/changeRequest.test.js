@@ -15,7 +15,7 @@ describe('Request change route', () => {
   let farmerId = '';
   let changeRequestId = '';
 
-  it('Login admin user responds with 200', (done) => {
+  it('Login admin user responds with 200', done => {
     chai
       .request(server)
       .post('/api/v1/user/login')
@@ -27,7 +27,7 @@ describe('Request change route', () => {
       });
   });
 
-  it('Login staff user responds with 200', (done) => {
+  it('Login staff user responds with 200', done => {
     chai
       .request(server)
       .post('/api/v1/user/login')
@@ -40,27 +40,32 @@ describe('Request change route', () => {
   });
 
   it('It creates a changeRequest if farmer is updated by staff', async () => {
-    farmerInput.personalInfo.first_name = 'Abby';
+    const updateInput = {
+      personalInfo: {
+        first_name: 'Abby',
+        middle_name: '',
+        sur
+      },
+      farmInfo: {
+        number_of_acres: 4
+      }
+    };
     const farmer = await models.Farmer.findOne().select('_id');
     farmerId = farmer._id;
     chai
       .request(server)
       .patch(`/api/v1/farmers/${farmerId}/update`)
       .set('Authorization', staffToken)
-      .send(farmerInput)
-      .end(async (err, res) => {
-        console.log(res.body.message);
+      .send(updateInput)
+      .end((err, res) => {
         res.should.have.status(201);
         res.body.message.should.equal(
           'Your change was created and is ready for admin approval'
         );
-        const changeRequests = await models.ChangeRequest.find();
-        chai.expect(changeRequests).to.have.lengthOf(2);
-        changeRequestId = changeRequests[0]._id;
       });
   });
 
-  it('It retrieves a list of change requests', (done) => {
+  it('It retrieves a list of change requests', done => {
     chai
       .request(server)
       .get('/api/v1/change-requests/')
@@ -108,6 +113,7 @@ describe('Request change route', () => {
       .post(`/api/v1/change-requests/${changeRequestId}/approve`)
       .set('Authorization', token)
       .end((err, res) => {
+        console.log(res.body.message);
         res.should.have.status(200);
         res.body.message.should.equal('ChangeRequest approved');
       });

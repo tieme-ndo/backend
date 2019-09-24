@@ -33,7 +33,9 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
-    const toUpdateFarmer = await models.Farmer.findOne({ _id: farmerId }).lean();;
+    const toUpdateFarmer = await models.Farmer.findOne({
+      _id: farmerId
+    }).lean();
     if (!toUpdateFarmer) {
       return next(
         createError({
@@ -55,9 +57,9 @@ const updateFarmer = async (req, res, next) => {
     //How does archived influence this feature?
     let { first_name, middle_name, surname } = '';
     if (
-      farmerDetails.personalInfo.first_name ||
-      farmerDetails.personalInfo.middle_name ||
-      farmerDetails.personalInfo.surname
+      farmerDetails.personalInfo.first_name !== undefined ||
+      farmerDetails.personalInfo.middle_name !== undefined ||
+      farmerDetails.personalInfo.surname !== undefined
     ) {
       if (farmerDetails.personalInfo.first_name !== undefined) {
         first_name = farmerDetails.personalInfo.first_name;
@@ -82,15 +84,16 @@ const updateFarmer = async (req, res, next) => {
         archived: false
       }).lean();
 
-      duplicateExists._id = duplicateExists._id.toString()
-      if (duplicateExists && !(farmerId === duplicateExists._id)) {
-        return next(
-          createError({
-            message:
-              'This update would lead to a farmer duplicate. Please select a unique first, middle and surname combination',
-            status: CONFLICT
-          })
-        );
+      if (duplicateExists) {
+        if (farmerId !== duplicateExists._id.toString()) {
+          return next(
+            createError({
+              message:
+                'This update would lead to a farmer duplicate. Please select a unique first, middle and surname combination',
+              status: CONFLICT
+            })
+          );
+        }
       }
     }
 

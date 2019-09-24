@@ -103,7 +103,9 @@ describe('Farmer route', () => {
   });
 
   it('It updates farmer details when done by admin', async () => {
-    farmerInput.personalInfo.title = 'Miss';
+    farmerInput.personalInfo.title = 'Chief';
+    farmerInput.personalInfo.first_name = "Bob";
+    farmerInput.personalInfo.surname = "The Builder";
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
     chai
@@ -113,12 +115,16 @@ describe('Farmer route', () => {
       .send(farmerInput)
       .end((err, res) => {
         res.should.have.status(201);
-        res.body.farmer.personalInfo.title.should.equal('Miss');
+        res.body.farmer.personalInfo.title.should.equal('Chief');
+        res.body.farmer.personalInfo.first_name.should.equal('Bob');
+        res.body.farmer.personalInfo.surname.should.equal('The Builder');
       });
   });
 
   it('It does not update farmer details if done by staff', async () => {
     farmerInput.personalInfo.title = 'Mr';
+    farmerInput.personalInfo.first_name = "Sara";
+    farmerInput.personalInfo.surname = "Connor";
     const farmer = await models.Farmer.findOne().select('_id');
     id = farmer._id;
     chai
