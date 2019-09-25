@@ -21,9 +21,9 @@ const login = async (req, res, next) => {
     username = username.toLowerCase();
 
     const user = await models.User.findOne({ username }).lean();
-    delete user.__v;
 
     if (user) {
+      delete user.__v;
       const compare = bcrypt.compareSync(password, user.password);
       delete user.password;
 
