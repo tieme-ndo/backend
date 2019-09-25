@@ -110,10 +110,10 @@ describe('Request change route', () => {
     farmerInput.personalInfo.first_name = 'Sara';
     farmerInput.personalInfo.surname = 'Connor';
     const farmer = await models.Farmer.findOne().select('_id');
-    id = farmer._id;
+    farmerId = farmer._id;
     const res = await chai
       .request(server)
-      .patch(`/api/v1/farmers/${id}/update`)
+      .patch(`/api/v1/farmers/${farmerId}/update`)
       .set('Authorization', staffToken)
       .send(farmerInput);
     res.should.have.status(201);
