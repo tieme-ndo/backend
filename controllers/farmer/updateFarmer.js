@@ -121,7 +121,7 @@ const updateFarmer = async (req, res, next) => {
       change_requested_by: username,
       date: Date.now()
     });
-    farmerEditRequest.toObject({ versionKey: false });
+    farmerEditRequest = farmerEditRequest.toObject({ versionKey: false });
 
     return res.status(201).json({
       success: true,
