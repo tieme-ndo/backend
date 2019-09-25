@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const { models } = require('../../models');
 const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
-const convertToDotNotationObject = require('../farmer/convertToDotNotationObject');
+const convertToDotNotationObject = require('../../helpers/convertToDotNotationObject');
 
 /**
  * @description Get ChangeRequests

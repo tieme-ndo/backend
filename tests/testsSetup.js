@@ -50,7 +50,8 @@ beforeEach(async () => {
     await models.ChangeRequest.create({
       requested_changes: {
         personalInfo: {
-          first_name: 'Joe',
+          first_name: 'Jonny',
+          middle_name: "Thomas",
           title: 'Chief'
         },
         farmInfo: {
