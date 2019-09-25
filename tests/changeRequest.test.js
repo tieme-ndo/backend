@@ -15,28 +15,24 @@ describe('Request change route', () => {
   let farmerId = '';
   let changeRequestId = '';
 
-  it('Login admin user responds with 200', done => {
-    chai
+  it('Login admin user responds with 200', async () => {
+    const res = await chai
       .request(server)
       .post('/api/v1/user/login')
-      .send(seeds.adminUserLogin)
-      .end((err, res) => {
-        token = res.body.token;
-        res.should.have.status(200);
-        done(err);
-      });
+      .send(seeds.adminUserLogin);
+
+    token = res.body.token;
+    res.should.have.status(200);
   });
 
-  it('Login staff user responds with 200', done => {
-    chai
+  it('Login staff user responds with 200', async () => {
+    const res = await chai
       .request(server)
       .post('/api/v1/user/login')
-      .send(seeds.staffUserLogin)
-      .end((err, res) => {
-        staffToken = res.body.token;
-        res.should.have.status(200);
-        done(err);
-      });
+      .send(seeds.staffUserLogin);
+
+    staffToken = res.body.token;
+    res.should.have.status(200);
   });
 
   it('It creates a changeRequest if farmer is updated by staff', async () => {
@@ -64,17 +60,15 @@ describe('Request change route', () => {
     changeRequestId = changeRequests[0]._id;
   });
 
-  it('It retrieves a list of change requests', done => {
-    chai
+  it('It retrieves a list of change requests', async () => {
+    const res = await chai
       .request(server)
       .get('/api/v1/change-requests/')
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('ChangeRequests found');
-        res.body.changeRequests.should.be.a('array');
-        done(err);
-      });
+      .set('Authorization', token);
+
+    res.should.have.status(200);
+    res.body.message.should.equal('ChangeRequests found');
+    res.body.changeRequests.should.be.a('array');
   });
 
   it('It retrieves a change request info', async () => {
@@ -116,10 +110,10 @@ describe('Request change route', () => {
     farmerInput.personalInfo.first_name = 'Sara';
     farmerInput.personalInfo.surname = 'Connor';
     const farmer = await models.Farmer.findOne().select('_id');
-    id = farmer._id;
+    farmerId = farmer._id;
     const res = await chai
       .request(server)
-      .patch(`/api/v1/farmers/${id}/update`)
+      .patch(`/api/v1/farmers/${farmerId}/update`)
       .set('Authorization', staffToken)
       .send(farmerInput);
     res.should.have.status(201);
