@@ -1,4 +1,7 @@
-const { getAllChangeRequests, getChangeRequestById } = require('./getChangeRequests');
+const {
+  getAllChangeRequests,
+  getChangeRequestById
+} = require('./getChangeRequests');
 const approveChangeRequest = require('./approveChangeRequest');
 const declineChangeRequest = require('./declineChangeRequest');
 

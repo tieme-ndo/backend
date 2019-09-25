@@ -17,8 +17,8 @@ const resourceConflict = (err, req, res, next) => {
     success: false,
     errors: {
       message: err.message,
-      status: err.status,
-    },
+      status: err.status
+    }
   });
 };
 

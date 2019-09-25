@@ -51,7 +51,7 @@ beforeEach(async () => {
       requested_changes: {
         personalInfo: {
           first_name: 'Jonny',
-          middle_name: "Thomas",
+          middle_name: 'Thomas',
           title: 'Chief'
         },
         farmInfo: {

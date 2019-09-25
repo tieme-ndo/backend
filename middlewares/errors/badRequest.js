@@ -12,9 +12,9 @@ const badRequest = (err, req, res, next) => {
       errors: [
         {
           message: 'Invalid JSON object check request body',
-          body: err.body,
-        },
-      ],
+          body: err.body
+        }
+      ]
     });
   }
 
@@ -22,8 +22,8 @@ const badRequest = (err, req, res, next) => {
     success: false,
     errors: {
       message: err.message || 'Bad Request',
-      status: err.status,
-    },
+      status: err.status
+    }
   });
 };
 

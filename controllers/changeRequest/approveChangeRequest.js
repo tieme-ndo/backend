@@ -1,6 +1,9 @@
 const { models } = require('../../models');
 const {
-  createError, GENERIC_ERROR, FORBIDDEN, NOT_FOUND
+  createError,
+  GENERIC_ERROR,
+  FORBIDDEN,
+  NOT_FOUND
 } = require('../../helpers/error.js');
 const convertToDotNotationObject = require('../../helpers/convertToDotNotationObject');
 
@@ -23,7 +26,9 @@ const approveChangeRequest = async (req, res, next) => {
         changeRequestEntry.requested_changes
       );
 
-      const farmer = await models.Farmer.findOne({ _id: changeRequestEntry.farmer_id }).lean();
+      const farmer = await models.Farmer.findOne({
+        _id: changeRequestEntry.farmer_id
+      }).lean();
 
       if (!farmer) {
         return next(

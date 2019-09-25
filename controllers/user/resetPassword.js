@@ -34,7 +34,6 @@ const resetPassword = async (req, res, next) => {
       req.body.currentPassword,
       userExist.password
     );
-    delete req.body.currentPassword;
 
     if (!compare) {
       return next(
@@ -49,21 +48,13 @@ const resetPassword = async (req, res, next) => {
 
     req.body.password = bcrypt.hashSync(req.body.password, salt);
 
-    const user = await models.User.findOneAndUpdate(
+    delete req.body.currentPassword;
+    await models.User.findOneAndUpdate(
       { username: req.user.username },
       req.body
     )
       .select(['-password'])
       .lean();
-
-    if (!user) {
-      return next(
-        createError({
-          message: 'Please login, to reset password',
-          status: UNAUTHORIZED
-        })
-      );
-    }
 
     return res.status(200).json({
       success: true,

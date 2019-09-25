@@ -28,18 +28,22 @@ app.use(logger('dev'));
 app.use(helmet());
 connectDB();
 
-app.get('/', (req, res) => res.status(200).json({
-  success: true,
-  message: 'API is alive...'
-}));
+app.get('/', (req, res) =>
+  res.status(200).json({
+    success: true,
+    message: 'API is alive...'
+  })
+);
 
 app.use('/api/v1', router);
 
 // Handle invalid request
-app.all('*', (req, res) => res.status(NOT_FOUND).json({
-  success: false,
-  message: 'Route does not exist...'
-}));
+app.all('*', (req, res) =>
+  res.status(NOT_FOUND).json({
+    success: false,
+    message: 'Route does not exist...'
+  })
+);
 
 // The Sentry error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());

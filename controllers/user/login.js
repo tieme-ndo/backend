@@ -24,7 +24,7 @@ const login = async (req, res, next) => {
 
     if (user) {
       const compare = bcrypt.compareSync(password, user.password);
-      
+
       if (compare) {
         delete user.__v;
         delete user.password;

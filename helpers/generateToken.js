@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
  *
  * @param {*} user
  */
-const generateToken = async (user) => {
+const generateToken = async user => {
   const { username, isAdmin } = user;
 
   try {

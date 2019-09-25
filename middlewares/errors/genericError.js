@@ -9,10 +9,11 @@ const { GENERIC_ERROR } = require('../../helpers/error');
  * @param {object} next
  */
 // eslint-disable-next-line no-unused-vars
-const genericError = (err, req, res, next) => res.status(GENERIC_ERROR).json({
-  ok: false,
-  message: err.message || 'Internal server error',
-  errors: [err],
-});
+const genericError = (err, req, res, next) =>
+  res.status(GENERIC_ERROR).json({
+    ok: false,
+    message: err.message || 'Internal server error',
+    errors: [err]
+  });
 
 module.exports = genericError;

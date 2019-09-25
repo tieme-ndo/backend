@@ -8,7 +8,8 @@ const connectionString = require('../config/config');
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
-const connectDB = () => mongoose.connect(connectionString, { useNewUrlParser: true });
+const connectDB = () =>
+  mongoose.connect(connectionString, { useNewUrlParser: true });
 
 const models = { User, Farmer, ChangeRequest };
 
