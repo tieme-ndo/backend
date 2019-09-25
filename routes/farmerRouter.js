@@ -8,7 +8,7 @@ const farmerRouter = express.Router();
 farmerRouter.get(
   '/farmers/statistic',
   verifyToken,
-  FarmerController.statistics
+  FarmerController.getStatistics
 );
 
 farmerRouter.post(

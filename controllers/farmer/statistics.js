@@ -9,7 +9,7 @@ const calculateAge = require('../../helpers/calculateAge');
  * @param {*} res
  * @param {*} next
  */
-const statistics = async (req, res, next) => {
+const getStatistics = async (req, res, next) => {
   try {
     const allFarmers = await models.Farmer.find({ archived: false });
 
@@ -55,4 +55,4 @@ const statistics = async (req, res, next) => {
   }
 };
 
-module.exports = statistics;
+module.exports = getStatistics;
