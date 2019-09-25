@@ -14,7 +14,6 @@ function convertToDotNotationObject(obj) {
   }
   const dotNotationObject = dotize.convert(obj);
   const arraysObject = {};
-  // eslint-disable-next-line array-callback-return
   Object.keys(dotNotationObject).map(key => {
     if (key.includes('[') && key.includes(']')) {
       const convertedKey = key.split('[')[0];

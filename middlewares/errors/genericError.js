@@ -8,7 +8,6 @@ const { GENERIC_ERROR } = require('../../helpers/error');
  * @param {object} res
  * @param {object} next
  */
-// eslint-disable-next-line no-unused-vars
 const genericError = (err, req, res, next) =>
   res.status(GENERIC_ERROR).json({
     ok: false,

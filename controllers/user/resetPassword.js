@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const bcrypt = require('bcrypt');
 const { models } = require('../../models');
 const {
@@ -60,7 +59,6 @@ const resetPassword = async (req, res, next) => {
       success: true,
       message: 'Password reset successfully'
     });
-    
   } catch (error) {
     return next(
       createError({

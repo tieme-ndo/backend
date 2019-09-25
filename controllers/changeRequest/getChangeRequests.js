@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { models } = require('../../models');
 const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 const convertToDotNotationObject = require('../../helpers/convertToDotNotationObject');
@@ -71,7 +70,7 @@ const getChangeRequestById = async (req, res, next) => {
       selectFilter
     ).lean();
     delete original_data._id;
-    delete original_data.__v
+    delete original_data.__v;
 
     const responseObject = {
       requested_changes,

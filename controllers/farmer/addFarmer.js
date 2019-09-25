@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { models } = require('../../models');
 const { createError, GENERIC_ERROR, CONFLICT } = require('../../helpers/error');
 
@@ -35,7 +34,7 @@ const addFarmer = async (req, res, next) => {
     }
 
     const farmer = await models.Farmer.create(farmerDetails);
-    farmer.toObject({versionKey: false});
+    farmer.toObject({ versionKey: false });
 
     return res.status(201).json({
       success: true,
