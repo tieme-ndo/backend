@@ -28,7 +28,7 @@ const login = async (req, res, next) => {
       if (compare) {
         delete user.__v;
         delete user.password;
-        const token = await generateToken(user);
+        const token = generateToken(user);
 
         return res.status(200).json({
           success: true,
