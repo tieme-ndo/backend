@@ -36,6 +36,7 @@ const updateFarmer = async (req, res, next) => {
     const toUpdateFarmer = await models.Farmer.findOne({
       _id: farmerId
     }).lean();
+
     if (!toUpdateFarmer) {
       return next(
         createError({
@@ -103,6 +104,7 @@ const updateFarmer = async (req, res, next) => {
         convertedObject,
         { new: true, runValidators: true }
       ).lean();
+      delete updateFarmer.__v
 
       return res.status(201).json({
         success: true,
@@ -119,6 +121,7 @@ const updateFarmer = async (req, res, next) => {
       change_requested_by: username,
       date: Date.now()
     });
+    farmerEditRequest.toObject({versionKey: false});
 
     return res.status(201).json({
       success: true,

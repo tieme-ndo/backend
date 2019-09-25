@@ -35,6 +35,7 @@ const addFarmer = async (req, res, next) => {
     }
 
     const farmer = await models.Farmer.create(farmerDetails);
+    farmer.toObject({versionKey: false});
 
     return res.status(201).json({
       success: true,

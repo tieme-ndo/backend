@@ -20,7 +20,7 @@ const register = async (req, res, next) => {
 
     const newUser = await models.User.create(userDetails);
     // convert Mongoose model to plain JS object to remove pw
-    const user = newUser.toObject();
+    const user = newUser.toObject({versionKey: false});
     delete user.password;
 
     return res.status(201).json({
