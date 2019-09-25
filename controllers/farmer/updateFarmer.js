@@ -1,10 +1,11 @@
 const { models } = require('../../models');
-const convertToDotNotationObject = require('./convertToDotNotationObject');
+const convertToDotNotationObject = require('../../helpers/convertToDotNotationObject');
 const {
   createError,
   GENERIC_ERROR,
   NOT_FOUND,
-  FORBIDDEN
+  FORBIDDEN,
+  CONFLICT
 } = require('../../helpers/error');
 
 /**
@@ -20,8 +21,22 @@ const updateFarmer = async (req, res, next) => {
     const farmerDetails = req.body;
     const { username, isAdmin } = req.user;
 
-    const farmer = await models.Farmer.findOne({ _id: farmerId });
-    if (!farmer) {
+    if (
+      Object.keys(farmerDetails).length === 0 &&
+      farmerDetails.constructor === Object
+    ) {
+      return next(
+        createError({         
+          message: 'You can not submit empty updates',
+          status: FORBIDDEN
+        })
+      );
+    }
+
+    const toUpdateFarmer = await models.Farmer.findOne({
+      _id: farmerId
+    }).lean();
+    if (!toUpdateFarmer) {
       return next(
         createError({
           message: 'Farmer does not exist',
@@ -30,19 +45,7 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
-    if (
-      Object.keys(farmerDetails).length === 0
-      && farmerDetails.constructor === Object
-    ) {
-      return next(
-        createError({
-          status: FORBIDDEN,
-          message: 'You can not submit empty updates'
-        })
-      );
-    }
-
-    if (farmer.archived) {
+    if (toUpdateFarmer.archived) {
       return next(
         createError({
           message: 'This Farmer is archived and can not be updated',
@@ -51,13 +54,55 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
+    let { first_name, middle_name, surname } = '';
+    if (
+      farmerDetails.personalInfo.first_name !== undefined ||
+      farmerDetails.personalInfo.middle_name !== undefined ||
+      farmerDetails.personalInfo.surname !== undefined
+    ) {
+      if (farmerDetails.personalInfo.first_name !== undefined) {
+        first_name = farmerDetails.personalInfo.first_name;
+      } else {
+        first_name = toUpdateFarmer.personalInfo.first_name;
+      }
+      if (farmerDetails.personalInfo.middle_name !== undefined) {
+        middle_name = farmerDetails.personalInfo.middle_name;
+      } else {
+        middle_name = toUpdateFarmer.personalInfo.middle_name;
+      }
+      if (farmerDetails.personalInfo.surname !== undefined) {
+        surname = farmerDetails.personalInfo.surname;
+      } else {
+        surname = toUpdateFarmer.personalInfo.surname;
+      }
+
+      const duplicateExists = await models.Farmer.findOne({
+        'personalInfo.first_name': first_name,
+        'personalInfo.middle_name': middle_name,
+        'personalInfo.surname': surname,
+        archived: false
+      }).lean();
+
+      if (duplicateExists) {
+        if (farmerId !== duplicateExists._id.toString()) {
+          return next(
+            createError({
+              message:
+                'This update would lead to a farmer duplicate. Please select a unique first, middle and surname combination',
+              status: CONFLICT
+            })
+          );
+        }
+      }
+    }
+
     if (isAdmin) {
       const convertedObject = convertToDotNotationObject(farmerDetails);
       const updatedFarmer = await models.Farmer.findOneAndUpdate(
         { _id: farmerId },
         convertedObject,
         { new: true, runValidators: true }
-      );
+      ).lean();
 
       return res.status(201).json({
         success: true,
@@ -67,10 +112,10 @@ const updateFarmer = async (req, res, next) => {
     }
     /* This is implemented in RC3
       if (farmer.staff === username) { */
-    const farmerEditRequest = await models.ChangeRequest.create({
+    let farmerEditRequest = await models.ChangeRequest.create({
       requested_changes: farmerDetails,
       farmer_id: farmerId,
-      farmer_name: `${farmer.personalInfo.first_name} ${farmer.personalInfo.surname}`,
+      farmer_name: `${toUpdateFarmer.personalInfo.first_name} ${toUpdateFarmer.personalInfo.surname}`,
       change_requested_by: username,
       date: Date.now()
     });
