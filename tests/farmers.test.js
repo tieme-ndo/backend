@@ -14,28 +14,24 @@ describe('Farmer route', () => {
   let staffToken = '';
   let id = '';
 
-  it('Login admin user responds with 200', done => {
-    chai
+  it('Login admin user responds with 200', async () => {
+    const res = await chai
       .request(server)
       .post('/api/v1/user/login')
-      .send(seeds.adminUserLogin)
-      .end((err, res) => {
-        token = res.body.token;
-        res.should.have.status(200);
-        done(err);
-      });
+      .send(seeds.adminUserLogin);
+
+    token = res.body.token;
+    res.should.have.status(200);
   });
 
-  it('Login staff user responds with 200', done => {
-    chai
+  it('Login staff user responds with 200', async () => {
+    const res = await chai
       .request(server)
       .post('/api/v1/user/login')
-      .send(seeds.staffUserLogin)
-      .end((err, res) => {
-        staffToken = res.body.token;
-        res.should.have.status(200);
-        done(err);
-      });
+      .send(seeds.staffUserLogin);
+
+    staffToken = res.body.token;
+    res.should.have.status(200);
   });
 
   it('It should return 200 and an empty Array when there are no farmers in the DB as admin', async () => {
@@ -66,32 +62,28 @@ describe('Farmer route', () => {
     res.body.success.should.equal(true);
   });
 
-  it('It should return 201 when creating new farmer', done => {
+  it('It should return 201 when creating new farmer', async () => {
     // reasign first name to make it 'unique'
     farmerInput.personalInfo.first_name = 'createdByAdmin';
-    chai
+    const res = await chai
       .request(server)
       .post('/api/v1/farmers/create')
       .set('Authorization', token)
-      .send(farmerInput)
-      .end((err, res) => {
-        res.should.have.status(201);
-        done(err);
-      });
+      .send(farmerInput);
+
+    res.should.have.status(201);
   });
 
-  it('It should return 201 when creating new farmer by staff user', done => {
+  it('It should return 201 when creating new farmer by staff user', async () => {
     // reasign first name to make it 'unique'
     farmerInput.personalInfo.first_name = 'createdByStaff';
-    chai
+    const res = await chai
       .request(server)
       .post('/api/v1/farmers/create')
       .set('Authorization', staffToken)
-      .send(farmerInput)
-      .end((err, res) => {
-        res.should.have.status(201);
-        done(err);
-      });
+      .send(farmerInput);
+
+    res.should.have.status(201);
   });
 
   it('It updates farmer details when done by admin', async () => {
@@ -193,7 +185,7 @@ describe('Farmer route', () => {
     };
     const farmer = await models.Farmer.findOne();
 
-    //Updates and saves the same farmer we later try to update with "conflicting" data.
+    // Updates and saves the same farmer we later try to update with "conflicting" data.
     farmer.personalInfo.first_name = updateInput.personalInfo.first_name;
     farmer.personalInfo.middle_name = updateInput.personalInfo.middle_name;
     farmer.personalInfo.surname = updateInput.personalInfo.surname;
@@ -276,7 +268,7 @@ describe('Farmer route', () => {
     };
     const farmer = await models.Farmer.findOne();
 
-    //Updates and saves the same farmer we later try to update with "conflicting" data.
+    // Updates and saves the same farmer we later try to update with "conflicting" data.
     farmer.personalInfo.first_name = updateInput.personalInfo.first_name;
     farmer.personalInfo.middle_name = updateInput.personalInfo.middle_name;
     farmer.personalInfo.surname = updateInput.personalInfo.surname;
@@ -375,120 +367,101 @@ describe('Farmer route', () => {
     res.should.have.status(404);
   });
 
-  it('It should return 409 if farmer record exists already', done => {
-    chai
+  it('It should return 409 if farmer record exists already', async () => {
+    const res = await chai
       .request(server)
       .post('/api/v1/farmers/create')
       .set('Authorization', token)
-      .send(farmerInput)
-      .end((err, res) => {
-        res.should.have.status(409);
-        done(err);
-      });
+      .send(farmerInput);
+
+    res.should.have.status(409);
   });
 
-  it('It should return an array of farmers', done => {
-    chai
+  it('It should return an array of farmers', async () => {
+    const res = await chai
       .request(server)
       .get('/api/v1/farmers')
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.farmers.should.be.a('array');
-        res.body.message.should.equal('Farmers records found');
-        done(err);
-      });
+      .set('Authorization', token);
+
+    res.should.have.status(200);
+    res.body.farmers.should.be.a('array');
+    res.body.message.should.equal('Farmers records found');
   });
 
-  it('It should 200 on GET farmer statistics', done => {
-    chai
+  it('It should 200 on GET farmer statistics', async () => {
+    const res = await chai
       .request(server)
       .get('/api/v1/farmers/statistic')
-      .set('Authorization', token)
-      .end((err, res) => {
-        res.should.have.status(200);
-        done(err);
-      });
+      .set('Authorization', token);
+
+    res.should.have.status(200);
   });
 
-  it('It should return num of M/F/O farmers that add up to total number of farmers', done => {
-    chai
+  it('It should return num of M/F/O farmers that add up to total number of farmers', async () => {
+    const res = await chai
       .request(server)
       .get('/api/v1/farmers/statistic')
-      .set('Authorization', token)
-      .end((err, res) => {
-        const {
-          totalNumOfFarmers,
-          totalNumOfMaleFarmers,
-          totalNumOfFemaleFarmers,
-          totalNumOfOtherFarmers
-        } = res.body;
+      .set('Authorization', token);
 
-        totalNumOfFarmers.should.equal(
-          totalNumOfMaleFarmers +
-            totalNumOfFemaleFarmers +
-            totalNumOfOtherFarmers
-        );
-        done(err);
-      });
+    const {
+      totalNumOfFarmers,
+      totalNumOfMaleFarmers,
+      totalNumOfFemaleFarmers,
+      totalNumOfOtherFarmers
+    } = res.body;
+
+    totalNumOfFarmers.should.equal(
+      totalNumOfMaleFarmers + totalNumOfFemaleFarmers + totalNumOfOtherFarmers
+    );
   });
 
-  it('It should return num of <35/>35 y/o farmers that add up to total number of farmers', done => {
-    chai
+  it('It should return num of <35/>35 y/o farmers that add up to total number of farmers', async () => {
+    const res = await chai
       .request(server)
       .get('/api/v1/farmers/statistic')
-      .set('Authorization', token)
-      .end((err, res) => {
-        const {
-          totalNumOfFarmers,
-          farmersAgeGreaterThanOrEqualThirtyFive,
-          farmersAgeLesserThanThirtyFive
-        } = res.body;
+      .set('Authorization', token);
 
-        totalNumOfFarmers.should.equal(
-          farmersAgeGreaterThanOrEqualThirtyFive +
-            farmersAgeLesserThanThirtyFive
-        );
-        done(err);
-      });
+    const {
+      totalNumOfFarmers,
+      farmersAgeGreaterThanOrEqualThirtyFive,
+      farmersAgeLesserThanThirtyFive
+    } = res.body;
+
+    totalNumOfFarmers.should.equal(
+      farmersAgeGreaterThanOrEqualThirtyFive + farmersAgeLesserThanThirtyFive
+    );
   });
 
-  it('It should return 400 bad request and "Not a valid ID" message on bad farmer ID', done => {
-    chai
+  it('It should return 400 bad request and "Not a valid ID" message on bad farmer ID', async () => {
+    const res = await chai
       .request(server)
       .patch('/api/v1/farmers/thisIsReallyBadId/update')
       .set('Authorization', token)
-      .send(farmerInput)
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.errors.message.should.equal('Not a valid ID');
-        done(err);
-      });
+      .send(farmerInput);
+
+    res.should.have.status(400);
+    res.body.errors.message.should.equal('Not a valid ID');
   });
 
-  it('It should return 400 on failed data validation', done => {
+  it('It should return 400 on failed data validation', async () => {
     const invalidFarmer = JSON.parse(JSON.stringify(farmerInput));
     invalidFarmer.personalInfo.title = 'Mrzz';
-    chai
+    const res = await chai
       .request(server)
       .post('/api/v1/farmers/create')
       .set('Authorization', token)
-      .send(invalidFarmer)
-      .end((err, res) => {
-        res.should.have.status(400);
-        done(err);
-      });
+      .send(invalidFarmer);
+
+    res.should.have.status(400);
   });
 
-  it('It should return 401 when missing token', done => {
-    chai
+  it('It should return 401 when missing token', async () => {
+    const res = await chai
       .request(server)
       .post('/api/v1/farmers/create')
-      .send(farmerInput)
-      .end((err, res) => {
-        token = res.body.token;
-        res.should.have.status(401);
-        done(err);
-      });
+      .send(farmerInput);
+
+    token = res.body.token;
+    res.should.have.status(401);
   });
 });
