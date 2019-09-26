@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { models } = require('../../models');
 const { createError, GENERIC_ERROR } = require('../../helpers/error.js');
 const convertToDotNotationObject = require('../../helpers/convertToDotNotationObject');
