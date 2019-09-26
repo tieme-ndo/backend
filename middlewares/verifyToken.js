@@ -15,12 +15,13 @@ const verifyToken = async (req, res, next) => {
 
   try {
     if (!token) {
-      return next(createError({
-        message: 'No token provided, must be set on the Authorization Header',
-        status: UNAUTHORIZED,
-      }));
+      return next(
+        createError({
+          message: 'No token provided, must be set on the Authorization Header',
+          status: UNAUTHORIZED
+        })
+      );
     }
-
 
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
@@ -28,7 +29,12 @@ const verifyToken = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    return next(createError({ message: 'Unable to verify token, Pls provide a valid token', status: UNAUTHORIZED }));
+    return next(
+      createError({
+        message: 'Unable to verify token, Pls provide a valid token',
+        status: UNAUTHORIZED
+      })
+    );
   }
 };
 

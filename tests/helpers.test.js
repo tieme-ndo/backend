@@ -9,8 +9,9 @@ describe('Helpers tests', () => {
     isAdmin: true,
     password: '123456'
   };
+
   it('Should create a token and return it', async () => {
-    const token = await generateToken(user);
+    const token = generateToken(user);
     token.should.be.a('string');
   });
 });

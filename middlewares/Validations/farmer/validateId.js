@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const { createError, BAD_REQUEST } = require('../../../helpers/error');
 
 const validateId = (req, res, next) => {
-  const id = mongoose.Types.ObjectId.isValid(req.params.id);
-  if (id) {
+  const isValid = mongoose.Types.ObjectId.isValid(req.params.id);
+  if (isValid) {
     return next();
   }
   return next(

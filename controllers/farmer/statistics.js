@@ -9,30 +9,30 @@ const calculateAge = require('../../helpers/calculateAge');
  * @param {*} res
  * @param {*} next
  */
-const statistics = async (req, res, next) => {
+const getStatistics = async (req, res, next) => {
   try {
     const allFarmers = await models.Farmer.find({ archived: false });
 
     const totalNumOfFarmers = allFarmers.length;
 
     const totalNumOfFemaleFarmers = allFarmers.filter(
-      (farmer) => farmer.personalInfo.gender.toLowerCase() === 'female'
+      farmer => farmer.personalInfo.gender.toLowerCase() === 'female'
     ).length;
 
     const totalNumOfMaleFarmers = allFarmers.filter(
-      (farmer) => farmer.personalInfo.gender.toLowerCase() === 'male'
+      farmer => farmer.personalInfo.gender.toLowerCase() === 'male'
     ).length;
 
     const totalNumOfOtherFarmers = allFarmers.filter(
-      (farmer) => farmer.personalInfo.gender.toLowerCase() === 'others'
+      farmer => farmer.personalInfo.gender.toLowerCase() === 'others'
     ).length;
 
     const farmersAgeGreaterThanOrEqualThirtyFive = allFarmers.filter(
-      (farmer) => calculateAge(farmer.personalInfo.date_of_birth) >= 35
+      farmer => calculateAge(farmer.personalInfo.date_of_birth) >= 35
     ).length;
 
     const farmersAgeLesserThanThirtyFive = allFarmers.filter(
-      (farmer) => calculateAge(farmer.personalInfo.date_of_birth) < 35
+      farmer => calculateAge(farmer.personalInfo.date_of_birth) < 35
     ).length;
 
     const farmerStatisticsInNumbers = {
@@ -55,4 +55,4 @@ const statistics = async (req, res, next) => {
   }
 };
 
-module.exports = statistics;
+module.exports = getStatistics;

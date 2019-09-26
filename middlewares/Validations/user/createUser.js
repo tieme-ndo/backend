@@ -11,7 +11,7 @@ const userSchema = Joi.object().keys({
     .trim()
     .regex(/^\S+$/)
     .required()
-    .error((errors) => {
+    .error(errors => {
       if (errors[0].type === 'string.regex.base') {
         return {
           message: 'username should not have space in between'

@@ -16,6 +16,7 @@ changeRequestRouter.get(
 changeRequestRouter.get(
   '/change-requests/:id',
   verifyToken,
+  validate.validateId,
   isAuthorized,
   changeRequestController.getChangeRequestById
 );

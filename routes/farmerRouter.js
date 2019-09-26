@@ -8,7 +8,7 @@ const farmerRouter = express.Router();
 farmerRouter.get(
   '/farmers/statistic',
   verifyToken,
-  FarmerController.statistics
+  FarmerController.getStatistics
 );
 
 farmerRouter.post(
@@ -19,7 +19,12 @@ farmerRouter.post(
 );
 
 farmerRouter.get('/farmers', verifyToken, FarmerController.getAllFarmers);
-farmerRouter.get('/farmers/:id', verifyToken, validate.validateId, FarmerController.getFarmerById);
+farmerRouter.get(
+  '/farmers/:id',
+  verifyToken,
+  validate.validateId,
+  FarmerController.getFarmerById
+);
 
 farmerRouter.patch(
   '/farmers/:id/update',

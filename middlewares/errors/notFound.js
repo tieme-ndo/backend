@@ -16,7 +16,7 @@ const notFound = (err, req, res, next) => {
   return res.status(NOT_FOUND).json({
     success: false,
     message: err.message || 'Resource not found',
-    errors: [err],
+    errors: [err]
   });
 };
 

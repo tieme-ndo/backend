@@ -71,6 +71,7 @@ const getChangeRequestById = async (req, res, next) => {
       selectFilter
     ).lean();
     delete original_data._id;
+    delete original_data.__v;
 
     const responseObject = {
       requested_changes,

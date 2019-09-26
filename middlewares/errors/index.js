@@ -14,13 +14,14 @@ const errorsObject = {
   resourceConflict,
   forbidden,
   unauthorized,
-  genericError,
+  genericError
 };
 
 /**
  * Export all error middleware as an array
  *
  */
-const allErrorHandler = () => Object.keys(errorsObject).map((key) => errorsObject[key]);
+const allErrorHandler = () =>
+  Object.keys(errorsObject).map(key => errorsObject[key]);
 
 module.exports = allErrorHandler;
