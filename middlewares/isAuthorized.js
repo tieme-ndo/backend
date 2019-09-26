@@ -11,7 +11,7 @@ const isAuthorized = (req, res, next) => {
   if (!req.user.isAdmin) {
     return next(
       createError({
-        message: "Forbidden, you don't have access!",
+        message: 'Forbidden, you do not have access!',
         status: FORBIDDEN
       })
     );
