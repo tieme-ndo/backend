@@ -10,7 +10,7 @@
 **[Production Deployment](https://t-ndo.herokuapp.com)** <br/>
 **[Staging Deployment](https://tndo-temp-staging.herokuapp.com/)**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/8e8b2f1b31dc35bab2ff)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.getpostman.com/collections/8e8b2f1b31dc35bab2ff)
 
 ## Getting started
 
