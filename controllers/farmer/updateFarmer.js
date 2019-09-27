@@ -55,44 +55,46 @@ const updateFarmer = async (req, res, next) => {
       );
     }
 
-    let { first_name, middle_name, surname } = '';
-    if (
-      farmerDetails.personalInfo.first_name !== undefined ||
-      farmerDetails.personalInfo.middle_name !== undefined ||
-      farmerDetails.personalInfo.surname !== undefined
-    ) {
-      if (farmerDetails.personalInfo.first_name !== undefined) {
-        first_name = farmerDetails.personalInfo.first_name;
-      } else {
-        first_name = toUpdateFarmer.personalInfo.first_name;
-      }
-      if (farmerDetails.personalInfo.middle_name !== undefined) {
-        middle_name = farmerDetails.personalInfo.middle_name;
-      } else {
-        middle_name = toUpdateFarmer.personalInfo.middle_name;
-      }
-      if (farmerDetails.personalInfo.surname !== undefined) {
-        surname = farmerDetails.personalInfo.surname;
-      } else {
-        surname = toUpdateFarmer.personalInfo.surname;
-      }
+    if (farmerDetails.personalInfo) {
+      let { first_name, middle_name, surname } = '';
+      if (
+        farmerDetails.personalInfo.first_name !== undefined ||
+        farmerDetails.personalInfo.middle_name !== undefined ||
+        farmerDetails.personalInfo.surname !== undefined
+      ) {
+        if (farmerDetails.personalInfo.first_name !== undefined) {
+          first_name = farmerDetails.personalInfo.first_name;
+        } else {
+          first_name = toUpdateFarmer.personalInfo.first_name;
+        }
+        if (farmerDetails.personalInfo.middle_name !== undefined) {
+          middle_name = farmerDetails.personalInfo.middle_name;
+        } else {
+          middle_name = toUpdateFarmer.personalInfo.middle_name;
+        }
+        if (farmerDetails.personalInfo.surname !== undefined) {
+          surname = farmerDetails.personalInfo.surname;
+        } else {
+          surname = toUpdateFarmer.personalInfo.surname;
+        }
 
-      const duplicateExists = await models.Farmer.findOne({
-        'personalInfo.first_name': first_name,
-        'personalInfo.middle_name': middle_name,
-        'personalInfo.surname': surname,
-        archived: false
-      }).lean();
+        const duplicateExists = await models.Farmer.findOne({
+          'personalInfo.first_name': first_name,
+          'personalInfo.middle_name': middle_name,
+          'personalInfo.surname': surname,
+          archived: false
+        }).lean();
 
-      if (duplicateExists) {
-        if (farmerId !== duplicateExists._id.toString()) {
-          return next(
-            createError({
-              message:
-                'This update would lead to a farmer duplicate. Please select a unique first, middle and surname combination',
-              status: CONFLICT
-            })
-          );
+        if (duplicateExists) {
+          if (farmerId !== duplicateExists._id.toString()) {
+            return next(
+              createError({
+                message:
+                  'This update would lead to a farmer duplicate. Please select a unique first, middle and surname combination',
+                status: CONFLICT
+              })
+            );
+          }
         }
       }
     }
