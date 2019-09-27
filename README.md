@@ -68,7 +68,7 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-**[View API Reference Here]https://documenter.getpostman.com/view/8821479/SVmwxJyf?version=latest**
+**[View API Reference Here](https://documenter.getpostman.com/view/8821479/SVn3saXt?version=latest)**
 
 # Data Model
 
