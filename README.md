@@ -257,6 +257,20 @@ Tests are setup as independently as possible (they do not rely on other tests to
 Before each test, all collections in the database are deleted and new seed documents are entered.
 After all tests are done, collections are deleted and then dropped.
 
+To run the tests when developing, run:
+
+```
+npm run dev-test
+```
+
+It will run tests in "watch" mode and stops running tests on first failed test (`-b`).
+
+To run tests as in CI and with coverage, run:
+
+```
+npm run test
+```
+
 ## Contributing
 
 ### Issue/Bug Request
