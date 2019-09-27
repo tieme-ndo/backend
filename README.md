@@ -10,7 +10,7 @@
 **[Production Deployment](https://t-ndo.herokuapp.com)** <br/>
 **[Staging Deployment](https://tndo-temp-staging.herokuapp.com/)**
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/f66b25b7b5a7ee547964)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/8e8b2f1b31dc35bab2ff)
 
 ## Getting started
 
@@ -68,7 +68,7 @@ JWT_SECRET=<generated string>
 
 ## Endpoints
 
-**[View API Reference Here]https://documenter.getpostman.com/view/8821479/SVmwxJyf?version=latest**
+**[View API Reference Here](https://documenter.getpostman.com/view/8821479/SVn3saXt?version=latest)**
 
 # Data Model
 
@@ -256,6 +256,20 @@ Tests are setup as independently as possible (they do not rely on other tests to
 
 Before each test, all collections in the database are deleted and new seed documents are entered.
 After all tests are done, collections are deleted and then dropped.
+
+To run the tests when developing, run:
+
+```
+npm run dev-test
+```
+
+It will run tests in "watch" mode and stops running tests on first failed test (`-b`).
+
+To run tests as in CI and with coverage, run:
+
+```
+npm run test
+```
 
 ## Contributing
 
